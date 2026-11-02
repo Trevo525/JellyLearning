@@ -15,8 +15,9 @@ Targets **Jellyfin 12.2** (.NET 10). Requires the
    image fetchers for **Shows** and **Seasons** enable **E-Learning first lecture**.
 3. Dashboard → Plugins → E-Learning → tick the library under *Course libraries*, save, then
    scan the library (Dashboard → Libraries → Scan all libraries).
-4. Dashboard → Playback → Resume → *Max resume percentage* = 100 (the plugin decides when a
-   lecture is complete).
+4. Optional: Dashboard → Playback → Resume → *Max resume percentage* = 100. The plugin enforces
+   its own completion rule for course lectures regardless (settings page: "Lecture completion");
+   this only avoids a brief "watched" flicker while a lecture plays.
 
 ## Development
 
@@ -30,6 +31,7 @@ dotnet test                                      # parser/index unit + snapshot 
 First-run setup of the dev instance is in [dev/README.md](dev/README.md).
 
 With `JELLYFIN_API_KEY` in `dev/.env` (`set -a; . dev/.env; set +a`):
-`dev/verify-library.py` checks every course in Jellyfin against the parser (run it after each
+`dev/verify-library.py` checks every course in Jellyfin against the parser and
+`dev/test-progress.py` checks the completion rule with simulated playback (run both after each
 change and after server upgrades); `dev/ui-view.py` prints courses as jellyfin-web lists them;
 `dev/library-report.sh` dumps the raw database view.

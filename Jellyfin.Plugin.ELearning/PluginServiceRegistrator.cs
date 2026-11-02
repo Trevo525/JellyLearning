@@ -1,5 +1,6 @@
 using Jellyfin.Plugin.ELearning.Courses;
 using Jellyfin.Plugin.ELearning.Library;
+using Jellyfin.Plugin.ELearning.Progress;
 using MediaBrowser.Controller;
 using MediaBrowser.Controller.Plugins;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,5 +18,6 @@ public class PluginServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddSingleton<CourseIndex>();
         serviceCollection.AddSingleton<CourseLibraries>();
         serviceCollection.AddSingleton<CourseCatalog>();
+        serviceCollection.AddHostedService<ProgressGuard>();
     }
 }

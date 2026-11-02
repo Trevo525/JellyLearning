@@ -111,13 +111,8 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 Jellyfin marks an item played once position passes `MaxResumePct` (server-wide, default 90 %)
 and **resets the position to 0**. Plan:
 
-1. On the dedicated instance set Dashboard → Playback → Resume → *Max resume percentage* = 99 or 100
-   (documented in README; the plugin can optionally do this on first run).
-2. `ProgressGuard` subscribes to `ISessionManager.PlaybackStopped` for items in course libraries:
-   - stop position ≥ runtime − threshold → mark played.
-   - otherwise → force `Played = false`, restore `PlaybackPositionTicks` from the event.
-3. Unit tests for the threshold logic. Integration check: stopping at 92 % of a lecture keeps
-   the resume point.
+Implemented in Phase 4 (see there): `ProgressGuard` re-applies the course rule after
+Jellyfin's own on every progress report and stop, for items in course libraries only.
 
 ### API (`/ELearning`, all `[Authorize]`)
 
@@ -245,9 +240,24 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
   course; passes for 13 series / 825 lectures (real sources + fixtures) including subtitles and
   artwork, also on a from-scratch first scan. A non-course library on the same instance keeps
   plain-12.2 behaviour (checked).
-### Phase 4 — ProgressGuard
-- Completion threshold config (seconds + percent, per course library).
-- Tests + manual verification on fixtures.
+### Phase 4 — ProgressGuard — DONE
+- [x] `Progress/CompletionRule.cs` (pure, unit-tested): complete when stopped within
+  `CompletionSecondsFromEnd` (10) of the end **or** at `CompletionPercent` (98) — position then
+  resets to 0; otherwise the exact position is kept (positions < 5 s → 0). A lecture that was
+  already complete stays complete when rewatched, but its resume position is remembered.
+- [x] `Progress/ProgressGuard.cs` (hosted service): Jellyfin applies its movie rules and saves
+  *first*, then raises the playback events, so the guard re-saves the corrected state on every
+  progress report and on stop. Played-before is snapshotted from the synchronous
+  `UserDataSaved(PlaybackStart)` — `ISessionManager.PlaybackStart` is raised asynchronously and
+  can arrive after the first progress report.
+- Found in 12.2's `UserDataManager.UpdatePlayState`: besides `MaxResumePct`, **`MinResumeDurationSeconds`
+  (300) marks every video shorter than 5 minutes as played once 5 % are watched**, and
+  `MinResumePct` (5) drops early positions. The guard overrides all three, so the server
+  settings no longer matter for course libraries (MaxResumePct = 100 only avoids a brief
+  "watched" flicker for other clients while a lecture plays).
+- [x] `dev/test-progress.py`: plays lectures as a test user via the web client's session
+  endpoints; 6/6 scenarios pass with Jellyfin's default MaxResumePct = 90.
+- Thresholds are global (plugin settings), not per library — enough for one dedicated instance.
 
 ### Phase 5 — API
 - Controller endpoints above, auth, safe file serving, Markdown rendering.
