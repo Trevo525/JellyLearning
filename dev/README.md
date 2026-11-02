@@ -16,7 +16,9 @@ docker compose -f dev/docker-compose.yml down      # stop
    `https://www.iamparadox.dev/jellyfin/plugins/manifest.json`
 3. Catalog → install **File Transformation** (3.0.3.0 has a 12.2.0.0 build) → restart the server.
 4. Dashboard → Playback → Resume → *Max resume percentage* = 100 (see PLAN.md, progress tracking).
-5. Add a **Shows** library pointing at `/data/courses` (host: `dev/jellyfin/courses/`).
+5. Add a **Shows** library pointing at `/data/courses` (generated fixtures, host: `dev/jellyfin/courses/`)
+   and/or `/data/elearning` (real exports, mounted read-only; host path defaults to
+   `/path/to/courses`, override with `ELEARNING_SOURCE=...` in `dev/.env`).
 
 ## Version pin
 
