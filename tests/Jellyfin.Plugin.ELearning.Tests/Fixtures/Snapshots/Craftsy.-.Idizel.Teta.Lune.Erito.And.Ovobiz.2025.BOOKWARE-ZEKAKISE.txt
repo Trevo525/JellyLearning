@@ -1,0 +1,11 @@
+COURSE "Idizel Teta Lune Erito And Ovobiz"  studio=Craftsy  year=2025  artwork=-
+  resource  Pdf      "Course Guidebook Idizel Teta Lune Erito And Ovobiz Mikozof.pdf"  <- Guidebook/000-course_guidebook_idizel_teta_lune_erito_and_ovobiz_mikozof.pdf
+
+S1  #-  "Lectures"  <- (course folder)
+  E1   #1    Video    "Sukuz Two-Funi Erito"  <- 001-sukuz_two-funi_erito.mkv
+  E2   #2    Video    "Inulam And Idizel A Zokik Duda"  <- 002-inulam_and_idizel_a_zokik_duda.mkv
+  E3   #3    Video    "Kavitofa And Dinasere A Zokik Duda"  <- 003-kavitofa_and_dinasere_a_zokik_duda.mkv
+  E4   #4    Video    "Mize Efogo Subaseruza"  <- 004-mize_efogo_subaseruza.mkv
+  E5   #5    Video    "Ubut-Dito Efogo Subaseruza"  <- 005-ubut-dito_efogo_subaseruza.mkv
+  E6   #6    Video    "Tiketo-Efogo Oli Subaseruza"  <- 006-tiketo-efogo_oli_subaseruza.mkv
+  E7   #7    Video    "Pevisi-Efogo Oli Subaseruza"  <- 007-pevisi-efogo_oli_subaseruza.mkv

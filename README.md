@@ -12,6 +12,8 @@ Targets **Jellyfin 12.2** (.NET 10). Requires the
 ```bash
 docker compose -f dev/docker-compose.yml up -d   # dev Jellyfin at http://localhost:8096
 ./dev/deploy.sh                                  # build, install into dev instance, restart
+dotnet test                                      # parser/index unit + snapshot tests
+./dev/make-fixtures.sh                           # tiny test courses -> /data/courses
 ```
 
 First-run setup of the dev instance is in [dev/README.md](dev/README.md).

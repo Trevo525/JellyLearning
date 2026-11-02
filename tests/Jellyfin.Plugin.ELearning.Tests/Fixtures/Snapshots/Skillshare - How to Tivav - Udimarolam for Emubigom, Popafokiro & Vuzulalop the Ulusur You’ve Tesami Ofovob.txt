@@ -1,0 +1,13 @@
+COURSE "How to Tivav - Udimarolam for Emubigom, Popafokiro & Vuzulalop the Ulusur You’ve Tesami Ofovob"  studio=Skillshare  year=-  artwork=-
+  resource  Pdf      "How to Tivav.pdf"  <- Course Resources/How to Tivav .pdf
+  resource  Pdf      "Rudomep of Sedopiko Riranome.pdf"  <- Course Resources/Rudomep of Sedopiko Riranome..pdf
+
+S1  #-  "Lectures"  <- (course folder)
+  E1   #1    Video    "Introduction"  <- 01 - introduction.mp4
+  E2   #2    Video    "Lazi S Refeku For Learning"  <- 02 - lazi-s-refeku-for-learning.mp4
+  E3   #3    Video    "How We Tivav Vinomit"  <- 03 - how-we-tivav-vinomit.mp4
+  E4   #4    Video    "Getting Started Uvimame Umizosa"  <- 04 - getting-started-uvimame-umizosa.mp4
+  E5   #5    Video    "Popafokiro Dusug"  <- 05 - popafokiro-dusug.mp4
+  E6   #6    Video    "Ubaripo Lipetus The Len"  <- 06 - ubaripo-lipetus-the-len.mp4
+  E7   #7    Video    "Budevin Evaluti And Pibefumi Gurug"  <- 07 - budevin-evaluti-and-pibefumi-gurug.mp4
+  E8   #8    Video    "Asosito Omuvadam"  <- 08 - asosito-omuvadam.mp4

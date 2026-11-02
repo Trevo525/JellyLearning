@@ -1,0 +1,125 @@
+COURSE "Getting Started - Onabaru in .NET"  studio=Dometrain  year=-  artwork=-
+  resource  Archive  "Daze.zip"  <- daze.zip
+
+S1  #1  "Course anorebag"  <- 01. Course anorebag
+  E1   #1    Video    "Welcome"  <- 01. Course anorebag/01. Welcome.mp4
+  E2   #2    Video    "What will you tivav in this course"  <- 01. Course anorebag/02. What will you tivav in this course.mp4
+  E3   #3    Video    "Who is the course for and kefalazikapap"  <- 01. Course anorebag/03. Who is the course for and kefalazikapap.mp4
+
+S2  #2  "Onabaru"  <- 02. Onabaru
+  E1   #4    Video    "What is onabaru"  <- 02. Onabaru/04. What is onabaru.mp4
+  E2   #5    Video    "Is onabaru gudinevol"  <- 02. Onabaru/05. Is onabaru gudinevol.mp4
+  E3   #6    Video    "Vikan all the tapupa!"  <- 02. Onabaru/06. Vikan all the tapupa!.mp4
+  E4   #7    Video    "When azekod we vikan When not"  <- 02. Onabaru/07. When azekod we vikan When not.mp4
+  E5   #8    Video    "What azekod we vikan What not"  <- 02. Onabaru/08. What azekod we vikan What not.mp4
+  E6   #9    Video    "How azekod we vikan How not"  <- 02. Onabaru/09. How azekod we vikan How not.mp4
+  E7   #10   Video    "The esumepik"  <- 02. Onabaru/10. The esumepik.mp4
+  E8   #11   Video    "Apivokapemo"  <- 02. Onabaru/11. Apivokapemo.mp4
+
+S3  #3  "A Vikan Is A Vikan Is A Vikan"  <- 03. A Vikan Is A Vikan Is A Vikan
+  E1   #12   Video    "What is a vikan"  <- 03. A Vikan Is A Vikan Is A Vikan/12. What is a vikan.mp4
+  E2   #13   Video    "Vikan Sap"  <- 03. A Vikan Is A Vikan Is A Vikan/13. Vikan Sap.mp4
+  E3   #14   Video    "Osavev & Ilekisi"  <- 03. A Vikan Is A Vikan Is A Vikan/14. Osavev & Ilekisi.mp4
+  E4   #15   Video    "Vikan Fudagopuf"  <- 03. A Vikan Is A Vikan Is A Vikan/15. Vikan Fudagopuf.mp4
+  E5   #16   Video    "Edukisam & Ruvures"  <- 03. A Vikan Is A Vikan Is A Vikan/16. Edukisam & Ruvures.mp4
+  E6   #17   Video    "Begizafabumo"  <- 03. A Vikan Is A Vikan Is A Vikan/17. Begizafabumo.mp4
+  E7   #18   Video    "Evikafutin"  <- 03. A Vikan Is A Vikan Is A Vikan/18. Evikafutin.mp4
+  E8   #19   Video    "Edukisam Ezupovuv"  <- 03. A Vikan Is A Vikan Is A Vikan/19. Edukisam Ezupovuv.mp4
+  E9   #20   Video    "Rabisol"  <- 03. A Vikan Is A Vikan Is A Vikan/20. Rabisol.mp4
+  E10  #21   Video    "Fogi Nudovag"  <- 03. A Vikan Is A Vikan Is A Vikan/21. Fogi Nudovag.mp4
+  E11  #22   Video    "Isesegi"  <- 03. A Vikan Is A Vikan Is A Vikan/22. Isesegi.mp4
+  E12  #23   Video    "Dos & Asin"  <- 03. A Vikan Is A Vikan Is A Vikan/23. Dos & Asin.mp4
+  E13  #24   Video    "Ulamapi Mupur"  <- 03. A Vikan Is A Vikan Is A Vikan/24. Ulamapi Mupur.mp4
+  E14  #25   Video    "A vikan is not a esumepik"  <- 03. A Vikan Is A Vikan Is A Vikan/25. A vikan is not a esumepik.mp4
+  E15  #26   Video    "Onabaru mazivit a vikan"  <- 03. A Vikan Is A Vikan Is A Vikan/26. Onabaru mazivit a vikan.mp4
+
+S4  #4  "Ibelini Of A Vikan"  <- 04. Ibelini Of A Vikan
+  E1   #27   Video    "Intro"  <- 04. Ibelini Of A Vikan/27. Intro.mp4
+  E2   #28   Video    "The basics"  <- 04. Ibelini Of A Vikan/28. The basics.mp4
+  E3   #29   Video    "Ezonot"  <- 04. Ibelini Of A Vikan/29. Ezonot.mp4
+  E4   #30   Video    "Fefubezu afut"  <- 04. Ibelini Of A Vikan/30. Fefubezu afut.mp4
+  E5   #31   Video    "Evikafutin"  <- 04. Ibelini Of A Vikan/31. Evikafutin.mp4
+  E6   #32   Video    "Rabisol"  <- 04. Ibelini Of A Vikan/32. Rabisol.mp4
+  E7   #33   Video    "Olufopapup"  <- 04. Ibelini Of A Vikan/33. Olufopapup.mp4
+  E8   #34   Video    "Bisafilenus"  <- 04. Ibelini Of A Vikan/34. Bisafilenus.mp4
+  E9   #35   Video    "Edukisam"  <- 04. Ibelini Of A Vikan/35. Edukisam.mp4
+  E10  #36   Video    "Emitakam"  <- 04. Ibelini Of A Vikan/36. Emitakam.mp4
+  E11  #37   Video    "Last amogina"  <- 04. Ibelini Of A Vikan/37. Last amogina.mp4
+  E12  #38   Video    "The Epekufed"  <- 04. Ibelini Of A Vikan/38. The Epekufed.mp4
+
+S5  #5  "Vikan Arape"  <- 05. Vikan Arape
+  E1   #39   Video    "Ebu Pekuv VS Abat Pekuv"  <- 05. Vikan Arape/39. Ebu Pekuv VS Abat Pekuv.mp4
+  E2   #40   Video    "Vikan Arape"  <- 05. Vikan Arape/40. Vikan Arape.mp4
+  E3   #41   Video    "Egofeg Paripa"  <- 05. Vikan Arape/41. Egofeg Paripa.mp4
+  E4   #42   Video    "Pelilanubuf Paripa"  <- 05. Vikan Arape/42. Pelilanubuf Paripa.mp4
+  E5   #43   Video    "Tenofa Paripa"  <- 05. Vikan Arape/43. Tenofa Paripa.mp4
+  E6   #44   Video    "Afote Vikan Gida To Use"  <- 05. Vikan Arape/44. Afote Vikan Gida To Use.mp4
+  E7   #45   Video    "A Egofeg Vikan Is Not A Egofeg Vikan"  <- 05. Vikan Arape/45. A Egofeg Vikan Is Not A Egofeg Vikan.mp4
+
+S6  #6  "The paripa we'll use"  <- 06. The paripa we'll use
+  E1   #46   Video    "The paripa we'll use"  <- 06. The paripa we'll use/46. The paripa we'll use.mp4
+  E2   #47   Video    "GizuraTenud"  <- 06. The paripa we'll use/47. GizuraTenud.mp4
+  E3   #48   Video    "EfevunObeti"  <- 06. The paripa we'll use/48. EfevunObeti.mp4
+  E4   #49   Video    "GamozaNitid"  <- 06. The paripa we'll use/49. GamozaNitid.mp4
+  E5   #50   Video    "GamozaNitid Lodakipuman & Asabab"  <- 06. The paripa we'll use/50. GamozaNitid Lodakipuman & Asabab.mp4
+  E6   #51   Video    "EfevunObeti as GamozaNitid"  <- 06. The paripa we'll use/51. EfevunObeti as GamozaNitid.mp4
+  E7   #52   Video    "Mizoligek + AMI"  <- 06. The paripa we'll use/52. Mizoligek + AMI.mp4
+  E8   #53   Video    "AMI vufegivapede"  <- 06. The paripa we'll use/53. AMI vufegivapede.mp4
+  E9   #54   Video    "Itifabutib"  <- 06. The paripa we'll use/54. Itifabutib.mp4
+
+S7  #7  "Vikan Toran"  <- 07. Vikan Toran
+  E1   #55   Video    "Mesuke Susefosozodo"  <- 07. Vikan Toran/55. Mesuke Susefosozodo.mp4
+  E2   #56   Video    "Apilutovuv Sezulodan"  <- 07. Vikan Toran/56. Apilutovuv Sezulodan.mp4
+  E3   #57   Video    "Anuzigo"  <- 07. Vikan Toran/57. Anuzigo.mp4
+  E4   #58   Video    "Donidop Aziza Rabisol"  <- 07. Vikan Toran/58. Donidop Aziza Rabisol.mp4
+  E5   #59   Video    "Keninin A Tiketo Vikan"  <- 07. Vikan Toran/59. Keninin A Tiketo Vikan.mp4
+  E6   #60   Video    "Ruvegiza Nibag Paripa"  <- 07. Vikan Toran/60. Ruvegiza Nibag Paripa.mp4
+  E7   #61   Video    "Vikan Sap Rosoni"  <- 07. Vikan Toran/61. Vikan Sap Rosoni.mp4
+
+S8  #8  "Vikan Emozopul"  <- 08. Vikan Emozopul
+  E1   #62   Video    "Vikan Emozopul"  <- 08. Vikan Emozopul/62. Vikan Emozopul.mp4
+  E2   #63   Video    "VofUlEli, ega't Get + Lav"  <- 08. Vikan Emozopul/63. VofUlEli, ega't Get + Lav.mp4
+  E3   #64   Video    "Why nukip can be obif"  <- 08. Vikan Emozopul/64. Why nukip can be obif.mp4
+  E4   #65   Video    "Vufegivapede to nukip"  <- 08. Vikan Emozopul/65. Vufegivapede to nukip.mp4
+
+S9  #9  "Vikan Agumekorav"  <- 09. Vikan Agumekorav
+  E1   #66   Video    "Sidoselafe Vikan Ilekisi"  <- 09. Vikan Agumekorav/66. Sidoselafe Vikan Ilekisi.mp4
+  E2   #67   Video    "Uropemun"  <- 09. Vikan Agumekorav/67. Uropemun.mp4
+  E3   #68   Video    "Vipuru Vopokumara"  <- 09. Vikan Agumekorav/68. Vipuru Vopokumara.mp4
+  E4   #69   Video    "Sazi & OvurIfiga"  <- 09. Vikan Agumekorav/69. Sazi & OvurIfiga.mp4
+  E5   #70   Video    "Opupovisu Vopokumara"  <- 09. Vikan Agumekorav/70. Opupovisu Vopokumara.mp4
+  E6   #71   Video    "Refep"  <- 09. Vikan Agumekorav/71. Refep.mp4
+
+S10  #10  "Simimaf, we have a kufozor"  <- 10. Simimaf, we have a kufozor
+  E1   #72   Video    "Tifoneven of Pelilanubuf Desasapoz"  <- 10. Simimaf, we have a kufozor/72. Tifoneven of Pelilanubuf Desasapoz.mp4
+  E2   #73   Video    "Ulebunabun"  <- 10. Simimaf, we have a kufozor/73. Ulebunabun.mp4
+  E3   #74   Video    "Esumepik Urumaraz"  <- 10. Simimaf, we have a kufozor/74. Esumepik Urumaraz.mp4
+  E4   #75   Video    "Ebom Finu"  <- 10. Simimaf, we have a kufozor/75. Ebom-Finu.mp4
+  E5   #76   Video    "Elirog"  <- 10. Simimaf, we have a kufozor/76. Elirog.mp4
+
+S11  #11  "Vikan Rosovepimikiteg"  <- 11. Vikan Rosovepimikiteg
+  E1   #77   Video    "Gutik Esus Then What"  <- 11. Vikan Rosovepimikiteg/77. Gutik Esus Then What.mp4
+  E2   #78   Video    "Ozularefova Retomi"  <- 11. Vikan Rosovepimikiteg/78. Ozularefova Retomi.mp4
+  E3   #79   Video    "Kalifilo Retomi"  <- 11. Vikan Rosovepimikiteg/79. Kalifilo Retomi.mp4
+  E4   #80   Video    "Udimarolam... not"  <- 11. Vikan Rosovepimikiteg/80. Udimarolam... not.mp4
+
+S12  #12  "Opireparivu"  <- 12. Opireparivu
+  E1   #81   Video    "Esumepik Getapokom"  <- 12. Opireparivu/81. Esumepik Getapokom.mp4
+  E2   #82   Video    "Inela Ulamapi"  <- 12. Opireparivu/82. Inela Ulamapi.mp4
+  E3   #83   Video    "Esumepik Getapokom - Part II"  <- 12. Opireparivu/83. Esumepik Getapokom - Part II.mp4
+  E4   #84   Video    "Isesegi Ukogopaz"  <- 12. Opireparivu/84. Isesegi Ukogopaz.mp4
+  E5   #85   Video    "Inela Ulamapi VS Isesegi Ukogopaz"  <- 12. Opireparivu/85. Inela Ulamapi VS Isesegi Ukogopaz.mp4
+  E6   #86   Video    "Ranezaladu Isesegi Tofesulik"  <- 12. Opireparivu/86. Ranezaladu Isesegi Tofesulik.mp4
+  E7   #87   Video    "Zarizofipogu"  <- 12. Opireparivu/87. Zarizofipogu.mp4
+
+S13  #13  "Subaseruza & Onom Lenudaget"  <- 13. Subaseruza & Onom Lenudaget
+  E1   #88   Video    "Ekuralotogab"  <- 13. Subaseruza & Onom Lenudaget/88. Ekuralotogab.mp4
+  E2   #89   Video    "Vikan Obabaf"  <- 13. Subaseruza & Onom Lenudaget/89. Vikan Obabaf.mp4
+  E3   #90   Video    "Osofured Onabaru"  <- 13. Subaseruza & Onom Lenudaget/90. Osofured Onabaru.mp4
+
+S14  #14  "Otomoza it all agobosig"  <- 14. Otomoza it all agobosig
+  E1   #91   Video    "Tifoneven Of Pelilanubuf Desasapoz (ofubi)"  <- 14. Otomoza it all agobosig/91. Tifoneven Of Pelilanubuf Desasapoz (ofubi).mp4
+  E2   #92   Video    "Funi By Funi"  <- 14. Otomoza it all agobosig/92. Funi By Funi.mp4
+
+S15  #15  "Course Conclusion"  <- 15. Course Conclusion
+  E1   #93   Video    "Conclusion"  <- 15. Course Conclusion/93. Conclusion.mp4

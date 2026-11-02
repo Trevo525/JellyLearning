@@ -147,8 +147,8 @@ and **resets the position to 0**. Plan:
   `net10.0`, `Jellyfin.Controller`/`Jellyfin.Model` **12.2.0**, targetAbi `12.2.0.0`. Loads as Active.
 - [x] `dev/docker-compose.yml`: 12.2 instance (pinned) + File Transformation 3.0.3.0 (verified 12.2
   build), real sources mounted read-only at `/data/elearning`; `dev/deploy.sh` builds + installs.
-- [ ] `dev/make-fixtures.sh`: rebuild the 6 sample layouts above with tiny ffmpeg-generated videos
-  and dummy docs (for unit/integration tests; real sources stay the manual test set).
+- [x] `dev/make-fixtures.sh`: rebuilds all fixture layouts as tiny courses (30 s ffmpeg clips,
+  placeholder docs) in `dev/jellyfin/courses/` = `/data/courses` (done in Phase 2).
 
 ### Phase 1 — Spike: library mapping (the biggest risk) — DONE
 - Point a Shows library at the fixtures **without** the plugin; record how 12.2 mis-parses them
@@ -195,9 +195,32 @@ Carry into Phases 2–3:
   or a post-scan step that registers them. Investigate in Phase 3.
 - Verify "play next episode" crosses section boundaries (Phase 6 check, numbering looks right).
 
-### Phase 2 — CourseParser + CourseIndex
-- Pure parser with xUnit tests per fixture and per rule above.
-- Index persisted in plugin data dir; rebuilt by post-scan task.
+### Phase 2 — CourseParser + CourseIndex — DONE
+- [x] Pure parser (`Courses/CourseParser.cs`, `CourseNaming.cs`) working on relative paths only.
+- [x] Fixtures = file listings of the 7 layouts (`tests/.../Fixtures/Listings/`, 5 exported from the
+  real sources, Skillshare/Craftsy from the interview). **Snapshot tests** pin the full outline of
+  each (`Fixtures/Snapshots/`) — a snapshot diff means numbering changed; review before accepting
+  (`UPDATE_SNAPSHOTS=1 dotnet test`). Plus per-rule unit tests (76 tests total).
+- [x] `CourseIndex`: persisted at `<DataPath>/elearning/course-index.json` (dev host:
+  `dev/jellyfin/config/data/data/elearning/`), rebuilt by `CourseIndexTask` (`ILibraryPostScanTask`)
+  for the libraries ticked in the plugin settings. Files resolve **by ID only** (SHA-256 of course
+  folder + relative path, 24 hex chars). Dev check: 5 courses / 534 lectures indexed.
+
+Rules settled while implementing (in addition to "Parsing rules" above):
+- A document-only folder is a section only if the **folder is numbered** and holds numbered
+  documents; so `Guidebook/000-guide.pdf` stays a course resource, `02-QUIZ_1_…/7-….html` is a section.
+- Numbered non-video file with the same number as a video: **attachment** if it is not a lecture
+  type (zip, xlsx, Kpart, …) or its title extends the video's (`03 Setup - slides.pdf`);
+  otherwise it is its own lecture (Udemy `002 Isokatotola.html` after `001 … .mp4`).
+- Lecture order within a section: number, then videos before documents, then natural title.
+- Loose videos next to section folders form an implicit first section "Lectures".
+- Subtitles: `<video>{.|_|-| }<lang>[.<flag>].<ext>`, matched to the longest video name;
+  unmatched subtitles become section resources.
+- Cover: `poster|cover|folder.<image>` in the course folder.
+- Known limitation: slugs lose apostrophes ("Lazi S Refeku For Learning"); fix via the later
+  `course.json` override if it matters.
+- **For Phase 3**: library scans run metadata providers *before* post-scan tasks, so providers
+  must parse the course themselves (`CourseScanner.Scan`, cached per scan), not read the index.
 
 ### Phase 3 — Metadata
 - Replace the spike with the real `IItemResolver` + `ICustomMetadataProvider<Series|Season|Episode>`

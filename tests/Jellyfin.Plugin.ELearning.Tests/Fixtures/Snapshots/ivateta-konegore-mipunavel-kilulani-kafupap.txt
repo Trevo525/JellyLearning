@@ -1,0 +1,137 @@
+COURSE "Ivateta Konegore Mipunavel Kilulani Kafupap"  studio=-  year=-  artwork=-
+
+S1  #1  "Introduction to Course"  <- 01 - Introduction to Course
+  --   #1    Html     "GUDINEVOL! EFAS FIRST IF YOU ARE USING THE AZAFO KAFUPAP 1.1.x"  <- 01 - Introduction to Course/001 GUDINEVOL!  EFAS FIRST IF YOU ARE USING THE AZAFO KAFUPAP 1.1.x.html
+  --   #2    Html     "Introduction"  <- 01 - Introduction to Course/002 Introduction.html
+  E1   #3    Video    "Introduction"  <- 01 - Introduction to Course/003 Introduction.mp4
+         subtitle  srt lang=en  <- 01 - Introduction to Course/003 Introduction_en.srt
+         subtitle  vtt lang=en  <- 01 - Introduction to Course/003 Introduction_en.vtt
+  E2   #4    Video    "Abopaninotog and ufifedigefo"  <- 01 - Introduction to Course/004 Abopaninotog and ufifedigefo.mp4
+         subtitle  srt lang=en  <- 01 - Introduction to Course/004 Abopaninotog and ufifedigefo_en.srt
+         subtitle  vtt lang=en  <- 01 - Introduction to Course/004 Abopaninotog and ufifedigefo_en.vtt
+  --   #5    Html     "First uvala to get started in ivatETA"  <- 01 - Introduction to Course/005 First uvala to get started in ivatETA.html
+
+S2  #2  "Getting to opib the etedovese"  <- 02 - Getting to opib the etedovese
+  E1   #1    Video    "Ivateta's Isokatotola"  <- 02 - Getting to opib the etedovese/001 Ivateta's Isokatotola.mp4
+         subtitle  srt lang=en  <- 02 - Getting to opib the etedovese/001 Ivateta's Isokatotola_en.srt
+         subtitle  vtt lang=en  <- 02 - Getting to opib the etedovese/001 Ivateta's Isokatotola_en.vtt
+  --   #2    Html     "Isokatotola"  <- 02 - Getting to opib the etedovese/002 Isokatotola.html
+  E2   #3    Video    "Asakuvupivu the etedovese"  <- 02 - Getting to opib the etedovese/003 Asakuvupivu the etedovese.mp4
+         subtitle  srt lang=en  <- 02 - Getting to opib the etedovese/003 Asakuvupivu the etedovese_en.srt
+         subtitle  vtt lang=en  <- 02 - Getting to opib the etedovese/003 Asakuvupivu the etedovese_en.vtt
+  --   #4    Html     "Etedovese"  <- 02 - Getting to opib the etedovese/004 Etedovese.html
+  E3   #5    Video    "Arosugibur the 3D Ubam"  <- 02 - Getting to opib the etedovese/005 Arosugibur the 3D Ubam.mp4
+         subtitle  srt lang=en  <- 02 - Getting to opib the etedovese/005 Arosugibur the 3D Ubam_en.srt
+         subtitle  vtt lang=en  <- 02 - Getting to opib the etedovese/005 Arosugibur the 3D Ubam_en.vtt
+  --   #6    Html     "Aludepakif"  <- 02 - Getting to opib the etedovese/006 Aludepakif.html
+
+S3  #3  "Kavitofa your first etiret part The fano"  <- 03 - Kavitofa your first etiret part The fano
+  E1   #1    Video    "Rusigupe your first part"  <- 03 - Kavitofa your first etiret part The fano/001 Rusigupe your first part.mp4
+         subtitle  srt lang=en  <- 03 - Kavitofa your first etiret part The fano/001 Rusigupe your first part_en.srt
+         subtitle  vtt lang=en  <- 03 - Kavitofa your first etiret part The fano/001 Rusigupe your first part_en.vtt
+  --   #2    Html     "Larupa your first part"  <- 03 - Kavitofa your first etiret part The fano/002 Larupa your first part.html
+  E2   #3    Video    "Usitumana the fano linefega"  <- 03 - Kavitofa your first etiret part The fano/003 Usitumana the fano linefega.mp4
+         subtitle  srt lang=en  <- 03 - Kavitofa your first etiret part The fano/003 Usitumana the fano linefega_en.srt
+         subtitle  vtt lang=en  <- 03 - Kavitofa your first etiret part The fano/003 Usitumana the fano linefega_en.vtt
+  --   #4    Html     "Usitumana the fano linefega"  <- 03 - Kavitofa your first etiret part The fano/004 Usitumana the fano linefega.html
+  E3   #5    Video    "Runedon the sasiku"  <- 03 - Kavitofa your first etiret part The fano/005 Runedon the sasiku.mp4
+         subtitle  srt lang=en  <- 03 - Kavitofa your first etiret part The fano/005 Runedon the sasiku_en.srt
+         subtitle  vtt lang=en  <- 03 - Kavitofa your first etiret part The fano/005 Runedon the sasiku_en.vtt
+  --   #6    Html     "Runedon the sasiku"  <- 03 - Kavitofa your first etiret part The fano/006 Runedon the sasiku.html
+  E4   #7    Video    "Rireve Vifesu"  <- 03 - Kavitofa your first etiret part The fano/007 Rireve Vifesu.mp4
+         subtitle  srt lang=en  <- 03 - Kavitofa your first etiret part The fano/007 Rireve Vifesu_en.srt
+         subtitle  vtt lang=en  <- 03 - Kavitofa your first etiret part The fano/007 Rireve Vifesu_en.vtt
+  --   #8    Html     "Rireve Vifesu"  <- 03 - Kavitofa your first etiret part The fano/008 Rireve Vifesu.html
+  E5   #9    Video    "Uregebir Vifesu"  <- 03 - Kavitofa your first etiret part The fano/009 Uregebir Vifesu.mp4
+         subtitle  srt lang=en  <- 03 - Kavitofa your first etiret part The fano/009 Uregebir Vifesu_en.srt
+         subtitle  vtt lang=en  <- 03 - Kavitofa your first etiret part The fano/009 Uregebir Vifesu_en.vtt
+  --   #10   Html     "Uregebir vifesu"  <- 03 - Kavitofa your first etiret part The fano/010 Uregebir vifesu.html
+  E6   #11   Video    "Ukoko kipefiz"  <- 03 - Kavitofa your first etiret part The fano/011 Ukoko kipefiz.mp4
+         subtitle  srt lang=en  <- 03 - Kavitofa your first etiret part The fano/011 Ukoko kipefiz_en.srt
+         subtitle  vtt lang=en  <- 03 - Kavitofa your first etiret part The fano/011 Ukoko kipefiz_en.vtt
+  --   #12   Html     "Ukoko Kipefiz"  <- 03 - Kavitofa your first etiret part The fano/012 Ukoko Kipefiz.html
+  E7   #13   Video    "Alipanigi"  <- 03 - Kavitofa your first etiret part The fano/013 Alipanigi.mp4
+         subtitle  srt lang=en  <- 03 - Kavitofa your first etiret part The fano/013 Alipanigi_en.srt
+         subtitle  vtt lang=en  <- 03 - Kavitofa your first etiret part The fano/013 Alipanigi_en.vtt
+  --   #14   Html     "Alipanigi"  <- 03 - Kavitofa your first etiret part The fano/014 Alipanigi.html
+
+S4  #4  "Kavitofa your ubosub etiret part The basagap"  <- 04 - Kavitofa your ubosub etiret part The basagap
+  E1   #1    Video    "Kavitofa the basagap"  <- 04 - Kavitofa your ubosub etiret part The basagap/001 Kavitofa the basagap.mp4
+         subtitle  srt lang=en  <- 04 - Kavitofa your ubosub etiret part The basagap/001 Kavitofa the basagap_en.srt
+         subtitle  vtt lang=en  <- 04 - Kavitofa your ubosub etiret part The basagap/001 Kavitofa the basagap_en.vtt
+  --   #2    Html     "Kavitofa the basagap"  <- 04 - Kavitofa your ubosub etiret part The basagap/002 Kavitofa the basagap.html
+  E2   #3    Video    "Sin a kalemu"  <- 04 - Kavitofa your ubosub etiret part The basagap/003 Sin a kalemu.mp4
+         subtitle  srt lang=en  <- 04 - Kavitofa your ubosub etiret part The basagap/003 Sin a kalemu_en.srt
+         subtitle  vtt lang=en  <- 04 - Kavitofa your ubosub etiret part The basagap/003 Sin a kalemu_en.vtt
+  --   #4    Html     "Sin a kalemu"  <- 04 - Kavitofa your ubosub etiret part The basagap/004 Sin a kalemu.html
+  E3   #5    Video    "Ukomogoveda kalemu"  <- 04 - Kavitofa your ubosub etiret part The basagap/005 Ukomogoveda kalemu.mp4
+         subtitle  srt lang=en  <- 04 - Kavitofa your ubosub etiret part The basagap/005 Ukomogoveda kalemu_en.srt
+         subtitle  vtt lang=en  <- 04 - Kavitofa your ubosub etiret part The basagap/005 Ukomogoveda kalemu_en.vtt
+  --   #6    Html     "Ukomogoveda Kalemu"  <- 04 - Kavitofa your ubosub etiret part The basagap/006 Ukomogoveda Kalemu.html
+
+S5  #5  "Onotutipob"  <- 05 - Onotutipob
+  E1   #1    Video    "Efodepeb the umudomileb"  <- 05 - Onotutipob/001 Efodepeb the umudomileb.mp4
+         subtitle  srt lang=en  <- 05 - Onotutipob/001 Efodepeb the umudomileb_en.srt
+         subtitle  vtt lang=en  <- 05 - Onotutipob/001 Efodepeb the umudomileb_en.vtt
+  --   #2    Html     "Efodepeb the umudomileb"  <- 05 - Onotutipob/002 Efodepeb the umudomileb.html
+  E2   #3    Video    "Introduction to esavaf esasume"  <- 05 - Onotutipob/003 Introduction to esavaf esasume.mp4
+         subtitle  srt lang=en  <- 05 - Onotutipob/003 Introduction to esavaf esasume_en.srt
+         subtitle  vtt lang=en  <- 05 - Onotutipob/003 Introduction to esavaf esasume_en.vtt
+  E3   #4    Video    "Bozafivep your bezom for 3D kozenopi and keninin"  <- 05 - Onotutipob/004 Bozafivep your bezom for 3D kozenopi and keninin.mp4
+         subtitle  srt lang=en  <- 05 - Onotutipob/004 Bozafivep your bezom for 3D kozenopi and keninin_en.srt
+         subtitle  vtt lang=en  <- 05 - Onotutipob/004 Bozafivep your bezom for 3D kozenopi and keninin_en.vtt
+  --   #5    Html     "Bozafivep You Bezom"  <- 05 - Onotutipob/005 Bozafivep You Bezom.html
+
+S6  #6  "Kavitofa your first esezeles part The erekase"  <- 06 - Kavitofa your first esezeles part The erekase
+  E1   #1    Video    "Esusatosu the erekase"  <- 06 - Kavitofa your first esezeles part The erekase/001 Esusatosu the erekase.mp4
+         subtitle  srt lang=en  <- 06 - Kavitofa your first esezeles part The erekase/001 Esusatosu the erekase_en.srt
+         subtitle  vtt lang=en  <- 06 - Kavitofa your first esezeles part The erekase/001 Esusatosu the erekase_en.vtt
+  --   #2    Html     "Esusatosu the erekase"  <- 06 - Kavitofa your first esezeles part The erekase/002 Esusatosu the erekase.html
+
+S7  #7  "Kavitofa your ubosub esezeles part The kugo"  <- 07 - Kavitofa your ubosub esezeles part The kugo
+  E1   #1    Video    "Esusatosu the kugo"  <- 07 - Kavitofa your ubosub esezeles part The kugo/001 Esusatosu the kugo.mp4
+         subtitle  srt lang=en  <- 07 - Kavitofa your ubosub esezeles part The kugo/001 Esusatosu the kugo_en.srt
+         subtitle  vtt lang=en  <- 07 - Kavitofa your ubosub esezeles part The kugo/001 Esusatosu the kugo_en.vtt
+  --   #2    Html     "Esusatosu the kugo"  <- 07 - Kavitofa your ubosub esezeles part The kugo/002 Esusatosu the kugo.html
+
+S8  #8  "Kavitofa your rufup esezeles part The mutume"  <- 08 - Kavitofa your rufup esezeles part The mutume
+  E1   #1    Video    "Esusatosu the mutume"  <- 08 - Kavitofa your rufup esezeles part The mutume/001 Esusatosu the mutume.mp4
+         subtitle  srt lang=en  <- 08 - Kavitofa your rufup esezeles part The mutume/001 Esusatosu the mutume_en.srt
+         subtitle  vtt lang=en  <- 08 - Kavitofa your rufup esezeles part The mutume/001 Esusatosu the mutume_en.vtt
+  --   #2    Html     "Esusatosu the mutume"  <- 08 - Kavitofa your rufup esezeles part The mutume/002 Esusatosu the mutume.html
+
+S9  #9  "Rusigupe Apekirosir"  <- 09 - Rusigupe Apekirosir
+  E1   #1    Video    "Larupa your first isebipud"  <- 09 - Rusigupe Apekirosir/001 Larupa your first isebipud.mp4
+         subtitle  srt lang=en  <- 09 - Rusigupe Apekirosir/001 Larupa your first isebipud_en.srt
+         subtitle  vtt lang=en  <- 09 - Rusigupe Apekirosir/001 Larupa your first isebipud_en.vtt
+  E2   #2    Video    "Rireve and obabob ifeze"  <- 09 - Rusigupe Apekirosir/002 Rireve and obabob ifeze.mp4
+         subtitle  srt lang=en  <- 09 - Rusigupe Apekirosir/002 Rireve and obabob ifeze_en.srt
+         subtitle  vtt lang=en  <- 09 - Rusigupe Apekirosir/002 Rireve and obabob ifeze_en.vtt
+  E3   #3    Video    "Rusigupe ozuzog"  <- 09 - Rusigupe Apekirosir/003 Rusigupe ozuzog.mp4
+         subtitle  srt lang=en  <- 09 - Rusigupe Apekirosir/003 Rusigupe ozuzog_en.srt
+         subtitle  vtt lang=en  <- 09 - Rusigupe Apekirosir/003 Rusigupe ozuzog_en.vtt
+  E4   #4    Video    "Rireve a dogopurik part"  <- 09 - Rusigupe Apekirosir/004 Rireve a dogopurik part.mp4
+         subtitle  srt lang=en  <- 09 - Rusigupe Apekirosir/004 Rireve a dogopurik part_en.srt
+         subtitle  vtt lang=en  <- 09 - Rusigupe Apekirosir/004 Rireve a dogopurik part_en.vtt
+  E5   #5    Video    "Gosorapav the isebipud"  <- 09 - Rusigupe Apekirosir/005 Gosorapav the isebipud.mp4
+         subtitle  srt lang=en  <- 09 - Rusigupe Apekirosir/005 Gosorapav the isebipud_en.srt
+         subtitle  vtt lang=en  <- 09 - Rusigupe Apekirosir/005 Gosorapav the isebipud_en.vtt
+  --   #6    Html     "Abupezase Tavub"  <- 09 - Rusigupe Apekirosir/006 Abupezase Tavub.html
+  E6   #7    Video    "Using vud apekirosir"  <- 09 - Rusigupe Apekirosir/007 Using vud apekirosir.mp4
+         subtitle  srt lang=en  <- 09 - Rusigupe Apekirosir/007 Using vud apekirosir_en.srt
+         subtitle  vtt lang=en  <- 09 - Rusigupe Apekirosir/007 Using vud apekirosir_en.vtt
+  E7   #8    Video    "Vud isebipud Pusololib tazevif ifeze"  <- 09 - Rusigupe Apekirosir/008 Vud isebipud Pusololib tazevif ifeze.mp4
+         subtitle  srt lang=en  <- 09 - Rusigupe Apekirosir/008 Vud isebipud Pusololib tazevif ifeze_en.srt
+         subtitle  vtt lang=en  <- 09 - Rusigupe Apekirosir/008 Vud isebipud Pusololib tazevif ifeze_en.vtt
+  E8   #9    Video    "Vud isebipud Urosoke tazevif ifeze"  <- 09 - Rusigupe Apekirosir/009 Vud isebipud Urosoke tazevif ifeze.mp4
+         subtitle  srt lang=en  <- 09 - Rusigupe Apekirosir/009 Vud isebipud Urosoke tazevif ifeze_en.srt
+         subtitle  vtt lang=en  <- 09 - Rusigupe Apekirosir/009 Vud isebipud Urosoke tazevif ifeze_en.vtt
+  E9   #10   Video    "Nuzedibokav the Mutume Orililivuno into the Ilaz Isebipud"  <- 09 - Rusigupe Apekirosir/010 Nuzedibokav the Mutume Orililivuno into the Ilaz Isebipud.mp4
+         subtitle  srt lang=en  <- 09 - Rusigupe Apekirosir/010 Nuzedibokav the Mutume Orililivuno into the Ilaz Isebipud_en.srt
+         subtitle  vtt lang=en  <- 09 - Rusigupe Apekirosir/010 Nuzedibokav the Mutume Orililivuno into the Ilaz Isebipud_en.vtt
+  --   #11   Html     "Abupezase Tavub"  <- 09 - Rusigupe Apekirosir/011 Abupezase Tavub.html
+
+S10  #10  "Mivif"  <- 10 - Mivif
+  E1   #1    Video    "Mivif Lecture"  <- 10 - Mivif/001 Mivif Lecture.mp4
+         subtitle  srt lang=en  <- 10 - Mivif/001 Mivif Lecture_en.srt
+         subtitle  vtt lang=en  <- 10 - Mivif/001 Mivif Lecture_en.vtt

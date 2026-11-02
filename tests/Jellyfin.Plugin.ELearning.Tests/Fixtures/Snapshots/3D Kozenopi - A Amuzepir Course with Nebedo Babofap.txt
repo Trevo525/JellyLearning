@@ -1,0 +1,29 @@
+COURSE "3D Kozenopi - A Amuzepir Course with Nebedo Babofap"  studio=-  year=-  artwork=-
+  resource  Document "Lusu Pabi AVUGIM - Nebedo.xlsx"  <- Lusu Pabi AVUGIM - Nebedo.xlsx
+  resource  Pdf      "egubak Lusu Pabi.pdf"  <- egubak Lusu Pabi .pdf.pdf
+
+S1  #-  "Lectures"  <- (course folder)
+  E1   #1    Video    "Introduction"  <- 1 Introduction.mp4
+  E2   #2    Video    "About Me"  <- 2 About Me.mp4
+  E3   #3    Video    "Olugi Izikamu"  <- 3 Olugi Izikamu.mp4
+  E4   #4    Video    "Arape Of 3D Kozenopi"  <- 4 Arape Of 3D Kozenopi.mp4
+  E5   #5    Video    "Erotimovume Lusu"  <- 5 Erotimovume Lusu.mp4
+  E6   #6    Video    "Azu Atupat Ogalopi Tavub"  <- 6 Azu Atupat Ogalopi Tavub.mp4
+  E7   #7    Video    "Where to get files"  <- 7 Where to get files.mp4
+  E8   #8    Video    "Vavel Ogebunobo Pt1"  <- 8 Vavel Ogebunobo Pt1.mp4
+  E9   #9    Video    "Vavel Ogebunobo Pt 2"  <- 9 Vavel Ogebunobo Pt 2.mp4
+  E10  #10   Video    "Ninib Okarez Pt1"  <- 10 Ninib Okarez Pt1.mp4
+  E11  #11   Video    "Ninib Okarez Pt 2"  <- 11 Ninib Okarez Pt 2.mp4
+  E12  #12   Video    "Izoriri Tidirego Ipelevale"  <- 12 Izoriri Tidirego Ipelevale.mp4
+  E13  #13   Video    "Rig Uzopiluba"  <- 13 Rig Uzopiluba.mp4
+  E14  #14   Video    "EKO Kozenopi"  <- 14 EKO Kozenopi.mp4
+  E15  #15   Video    "Tidirego for Ezad kozenopi"  <- 15 Tidirego for Ezad kozenopi.mp4
+  E16  #16   Video    "Evaluti for ezad kozenopi pt2"  <- 16 Evaluti for ezad kozenopi pt2.mp4
+  E17  #17   Video    "Nosafog Egodutakuro"  <- 17 Nosafog Egodutakuro.mp4
+  E18  #18   Video    "Are Efipofuve Rukoledu ubotu the epog"  <- 18 Are Efipofuve Rukoledu ubotu the epog..mp4
+  E19  #19   Video    "Amog Fibofa"  <- 19 Amog Fibofa.mp4
+  E20  #20   Video    "Avif Fibofa"  <- 20 Avif Fibofa.mp4
+  E21  #21   Video    "Momi Your 3D Ivefat"  <- 21 Momi Your 3D Ivefat.mp4
+  E22  #22   Video    "Eresu Omuvadam"  <- 22 Eresu Omuvadam.mp4
+  E23  #23   Video    "Conclusion"  <- 23 Conclusion.mp4
+  E24  #24   Video    "Peru Opalo 1"  <-  24 Peru Opalo 1.mp4
