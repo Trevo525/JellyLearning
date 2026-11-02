@@ -8,7 +8,7 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 
 | Topic | Decision |
 |---|---|
-| Server | Dedicated Jellyfin **12.2** instance, `lscr.io/linuxserver/jellyfin:latest` (Docker) |
+| Server | Dedicated Jellyfin **12.2** instance, `lscr.io/linuxserver/jellyfin` (Docker). Pin the image tag (`version-12.2ubu2604`): `:latest` is already 12.4 and plugin packages must match the server |
 | Clients | Web browser (jellyfin-web) only |
 | Users | Multiple users; all progress is per-user |
 | Library type | **Shows** library: Course = Series, Section = Season, Lecture = Episode |
@@ -65,8 +65,8 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
   (`.YEAR.TAG-GROUP`); pull out `YEAR` → ProductionYear; leading `Provider - ` → Studio + tag.
 - **Doubled extensions** (`.pdf.pdf`) normalized for display only; files are never renamed.
 - Video extensions: mp4, mkv, webm, m4v, mov, avi. Subtitles: sidecar `.srt/.vtt/.ass` with the
-  same base name. Jellyfin handles these natively — **verify in the spike** that `X_en.srt`
-  (underscore before the language) is picked up and tagged English; if not, the plugin must map it.
+  same base name. Jellyfin handles `X.en.srt` natively, but the Udemy-style **`X_en.srt` is not
+  detected at all** (Phase 1), so the plugin must surface those itself.
 - *(from layouts 5–6)* **Section detection, revised**: a numbered subfolder containing ≥1 video
   **or ≥1 numbered lecture document** (`.html/.md/.pdf`) is a section. So `02-QUIZ_1_…` is a section
   with one non-video lecture, not a resource folder. Quiz-only sections have no Jellyfin Season
@@ -94,8 +94,8 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 │                                                                              │
 │  ELearning plugin (.NET 10, Jellyfin.Controller 12.2.x)                     │
 │   ├─ CourseParser          pure, unit-tested folder → Course model           │
-│   ├─ Resolver / Ignore rule  keep resource folders & docs out of Seasons     │
-│   ├─ Metadata providers    Series/Season/Episode names, index numbers,       │
+│   ├─ Season resolver     IItemResolver: video folder under a course = Season │
+│   ├─ Custom providers    ICustomMetadataProvider: names, index numbers,      │
 │   │                         studio, year, artwork                             │
 │   ├─ CourseIndex           cached outline incl. non-video items + attachments│
 │   │                         rebuilt on library scan (ILibraryPostScanTask)    │
@@ -200,8 +200,12 @@ Carry into Phases 2–3:
 - Index persisted in plugin data dir; rebuilt by post-scan task.
 
 ### Phase 3 — Metadata
-- Series/Season/Episode providers: titles, index numbers, studio/year, artwork rules.
-- Ignore rule so resource folders and documents don't create empty seasons or junk items.
+- Replace the spike with the real `IItemResolver` + `ICustomMetadataProvider<Series|Season|Episode>`
+  (mechanism fixed in Phase 1), driven by CourseParser and scoped to course libraries:
+  titles, index numbers, studio/year, "Lectures" for flat courses, artwork rules.
+- Resource folders/documents already stay out of Seasons (plain Folder items, no videos); confirm
+  nothing junk shows in the UI, otherwise add an ignore rule.
+- `_<lang>` subtitle sidecars (see Phase 1 results).
 
 ### Phase 4 — ProgressGuard
 - Completion threshold config (seconds + percent, per course library).
@@ -224,10 +228,16 @@ Carry into Phases 2–3:
 - Course-level "Continue where you left off" button.
 
 ## Open risks
-- **File Transformation compatibility with 12.2**: verify in Phase 0. Fallback: serve the bundle
-  from the plugin and load it through a generic custom-JS plugin.
+- ~~File Transformation compatibility with 12.2~~: resolved — 3.0.3.0 has a 12.2.0.0 build and
+  loads in the dev instance. (Fallback if it ever lags a server upgrade: serve the bundle from the
+  plugin and load it through a generic custom-JS plugin.)
 - **jellyfin-web DOM changes** between releases can break injected UI. Keep selectors isolated
   in one module.
 - **MKV in browser** may force transcoding; check the dedicated instance's hardware acceleration.
-- **Exact 12.2 extension APIs** (resolver/provider interfaces, event args) to be verified against
-  the 12.2 `Jellyfin.Controller` package during the spike.
+  The Screen Grabber also failed on a few Udemy `.mkv` files during the Phase 1 scan; check
+  whether those files play and fall back to the course cover for their thumbnails.
+- **12.2 extension APIs**: resolver/provider interfaces verified in Phase 1 (v12.2 source +
+  running spike). Still to verify: `ISessionManager.PlaybackStopped` args (Phase 4).
+- **Server upgrades**: plugin is built per server version; bump image tag, packages and
+  `targetAbi` together, and re-run `dev/ui-view.py` against the real sources to catch
+  resolver/provider behaviour changes.

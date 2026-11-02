@@ -19,6 +19,11 @@ docker compose -f dev/docker-compose.yml down      # stop
 5. Add a **Shows** library pointing at `/data/courses` (generated fixtures, host: `dev/jellyfin/courses/`)
    and/or `/data/elearning` (real exports, mounted read-only; host path defaults to
    `/path/to/courses`, override with `ELEARNING_SOURCE=...` in `dev/.env`).
+   Turn **off** every internet metadata and image fetcher (TheMovieDb, OMDb) and the NFO saver,
+   otherwise courses get matched to random TV shows. Keep Embedded Image Extractor + Screen
+   Grabber for episodes.
+6. Dashboard → API Keys → create one and save it as `JELLYFIN_API_KEY=...` in `dev/.env`
+   (used by `dev/ui-view.py`).
 
 ## Version pin
 
@@ -28,7 +33,6 @@ Don't downgrade an existing config folder; newer servers migrate the database ir
 
 ## Inspecting the library
 
-- `JELLYFIN_API_KEY=...` in `dev/.env` (Dashboard → API Keys).
 - `set -a; . dev/.env; set +a; dev/ui-view.py [name]` — courses as the web client lists them.
 - `dev/library-report.sh [path]` — raw Series/Season/Episode rows from the database.
 - The "Courses" library on `/data/elearning` was created with all internet metadata/image
