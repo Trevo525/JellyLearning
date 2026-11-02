@@ -1,3 +1,8 @@
 # Dev Jellyfin runtime state (config, database, plugins, course fixtures)
 dev/jellyfin/
 dev/.env
+bin/
+obj/
+.vs/
+.idea/
+artifacts

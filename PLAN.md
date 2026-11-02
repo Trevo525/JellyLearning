@@ -19,7 +19,7 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 | Non-video lectures | HTML, Markdown/text, PDF-as-lecture shown in the course outline |
 | Auto-play | Next **video** lecture (non-video items are skipped; Jellyfin's native "play next episode") |
 | Artwork | `poster/cover/folder.jpg/png` if present, else Jellyfin frame grab of first lecture |
-| Quizzes | **Deferred** until a real sample file exists |
+| Quizzes | Exports contain self-contained **HTML quizzes** → shown as non-video lectures in a script-enabled sandboxed iframe; score tracking deferred |
 | Repo / CI | `<forgejo-host>/trevo525/jellyfin-plugin-elearning`, Forgejo Actions builds release zip + `manifest.json` plugin repository |
 
 ## Observed export layouts (parser test fixtures)
@@ -34,6 +34,18 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
    `02. Onabaru/04. What is onabaru.mp4` (lecture numbers continue across sections), root `code.zip`.
 4. **Scene-release folder name, mkv** — `Craftsy.-.Idizel.Teta.Lune.Erito.And.Ovobiz.2025.BOOKWARE-ZEKAKISE/`
    `001-sukuz_two-funi_erito.mkv`, `Guidebook/000-course_guidebook_….pdf`.
+
+5. **Udemy export, sectioned, HTML lectures + `_en` subtitles** — `ivateta-konegore-mipunavel-kilulani-kafupap/`
+   (lowercase slug course name) `01 - Introduction to Course/003 Introduction.mp4`,
+   `003 Introduction_en.srt`/`.vtt`, and HTML lectures interleaved by number
+   (`002 Introduction.html`, `005 First steps….html`). Some HTML lectures are **interactive
+   quizzes** (self-contained JS: timer, live score).
+6. **Udemy scene release, mkv, quiz sections, per-lecture resource folders** —
+   `UDEMY.Ufibato.Usinavaki.Zimoruk.Ilab.2026.BOOKWARE-UpAbE/`, `UDEMY.Amuzepir.IvatETA.Mastery…2026.BOOKWARE-UpAbE/`
+   `01-Evaluti_Up/2-Erenorugat_UbimubeD_Ukekadi.mkv` (underscore titles); `01-Setting_Up/2-Resources/Download.html`
+   (resources for lecture 2; many are `<meta http-equiv="refresh">` **link stubs**); `69-Resources/*.Kpart|Xmod|pdf|jpg`;
+   **quiz-only sections** `02-QUIZ_1_IvatETA_Emememezigif/7-Asakuvupivu_meninebon_-_Quiz.html` (no video);
+   release junk at the course root: `*.rar`, `*.r00`–`*.r48`, `*.sfv`, `*.nfo`.
 
 ### Parsing rules derived from these
 
@@ -53,7 +65,26 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
   (`.YEAR.TAG-GROUP`); pull out `YEAR` → ProductionYear; leading `Provider - ` → Studio + tag.
 - **Doubled extensions** (`.pdf.pdf`) normalized for display only; files are never renamed.
 - Video extensions: mp4, mkv, webm, m4v, mov, avi. Subtitles: sidecar `.srt/.vtt/.ass` with the
-  same base name. Jellyfin handles these natively.
+  same base name. Jellyfin handles these natively — **verify in the spike** that `X_en.srt`
+  (underscore before the language) is picked up and tagged English; if not, the plugin must map it.
+- *(from layouts 5–6)* **Section detection, revised**: a numbered subfolder containing ≥1 video
+  **or ≥1 numbered lecture document** (`.html/.md/.pdf`) is a section. So `02-QUIZ_1_…` is a section
+  with one non-video lecture, not a resource folder. Quiz-only sections have no Jellyfin Season
+  (no episodes) and exist only in the plugin's outline.
+- **Lecture resource folders**: `N-Resources/` (also `N - Resources`, `Resources N`) inside a section
+  → attachments of lecture N in that section.
+- **Numbered documents interleaved with videos** (`002 Introduction.html` between `001`/`003`
+  videos) are **non-video lectures** in the outline, not attachments. An attachment needs a name
+  match to a lecture (same number + similar title, or `… - slides` suffix).
+- **Link stubs**: an HTML file that is only a `meta refresh` / single link → shown as an external
+  link (open in new tab) instead of an inline viewer.
+- **HTML quizzes** need JS → sandboxed iframe with `allow-scripts` but **without**
+  `allow-same-origin`, served from the plugin with a CSP. Quiz score tracking stays deferred;
+  "completed" is set manually or on open.
+- **Release junk ignored**: `*.rar`, `*.r[0-9][0-9]`, `*.sfv`, `*.nfo` (and `*.par2`) are hidden
+  everywhere; the `.nfo` is never used as course metadata.
+- **Course name**: `UDEMY.` / `SKILLSHARE.` etc. leading scene token → Studio. Lowercase slug
+  names (`ivateta-konegore-mipunavel-kilulani-kafupap`) → humanized title.
 
 ## Architecture
 
@@ -111,14 +142,13 @@ and **resets the position to 0**. Plan:
 ## Phases
 
 ### Phase 0 — Setup
-- New standalone git repo (this folder currently sits inside the dotfiles repo; add it to the
-  dotfiles `.gitignore` or move it).
-- Scaffold from `jellyfin/jellyfin-plugin-template`; rename to `Jellyfin.Plugin.ELearning`;
-  target .NET 10 and Jellyfin 12.2 packages (verify exact versions on NuGet).
-- `dev/docker-compose.yml`: throwaway 12.2 instance + File Transformation plugin, plugin output
-  mounted into `/config/data/plugins`.
-- `dev/make-fixtures.sh`: rebuild the 4 sample layouts above with tiny ffmpeg-generated videos
-  and dummy docs.
+- [x] Standalone git repo (dotfiles ignores it via its `*` rule). Remote on Forgejo pending.
+- [x] Scaffold from `jellyfin/jellyfin-plugin-template` → `Jellyfin.Plugin.ELearning`,
+  `net10.0`, `Jellyfin.Controller`/`Jellyfin.Model` **12.2.0**, targetAbi `12.2.0.0`. Loads as Active.
+- [x] `dev/docker-compose.yml`: 12.2 instance (pinned) + File Transformation 3.0.3.0 (verified 12.2
+  build), real sources mounted read-only at `/data/elearning`; `dev/deploy.sh` builds + installs.
+- [ ] `dev/make-fixtures.sh`: rebuild the 6 sample layouts above with tiny ffmpeg-generated videos
+  and dummy docs (for unit/integration tests; real sources stay the manual test set).
 
 ### Phase 1 — Spike: library mapping (the biggest risk)
 - Point a Shows library at the fixtures **without** the plugin; record how 12.2 mis-parses them
@@ -150,7 +180,7 @@ and **resets the position to 0**. Plan:
 - Add repo URL in Jellyfin → install/update from there. README with install + server settings.
 
 ### Later
-- Quizzes (once a real export sample exists).
+- Quiz score tracking (read results from the HTML quiz via postMessage).
 - Optional per-course `course.json` override (titles/order/description).
 - Course-level "Continue where you left off" button.
 
