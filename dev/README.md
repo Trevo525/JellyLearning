@@ -25,3 +25,11 @@ docker compose -f dev/docker-compose.yml down      # stop
 The image is pinned to `version-12.2ubu2604` because `:latest` is already 12.4 and the plugin's
 Jellyfin.Controller/Model package versions must match the server. Bump both together.
 Don't downgrade an existing config folder; newer servers migrate the database irreversibly.
+
+## Inspecting the library
+
+- `JELLYFIN_API_KEY=...` in `dev/.env` (Dashboard → API Keys).
+- `set -a; . dev/.env; set +a; dev/ui-view.py [name]` — courses as the web client lists them.
+- `dev/library-report.sh [path]` — raw Series/Season/Episode rows from the database.
+- The "Courses" library on `/data/elearning` was created with all internet metadata/image
+  fetchers off (only Embedded Image Extractor + Screen Grabber for episodes).

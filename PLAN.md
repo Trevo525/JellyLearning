@@ -150,11 +150,50 @@ and **resets the position to 0**. Plan:
 - [ ] `dev/make-fixtures.sh`: rebuild the 6 sample layouts above with tiny ffmpeg-generated videos
   and dummy docs (for unit/integration tests; real sources stay the manual test set).
 
-### Phase 1 — Spike: library mapping (the biggest risk)
+### Phase 1 — Spike: library mapping (the biggest risk) — DONE
 - Point a Shows library at the fixtures **without** the plugin; record how 12.2 mis-parses them
   (seasons from `02. Onabaru`, episode numbers from `04.`, flat folders, resource folders).
 - Prove the chosen mechanism (resolver vs. metadata provider vs. both) produces correct
   Series/Season/Episode numbering and order for all 4 fixtures. Pick the approach before Phase 2.
+
+#### Phase 1 results (2026-11-02, real sources, 405 videos in 5 courses)
+
+Baseline — plain 12.2, internet metadata off (`dev/ui-view.py` = what jellyfin-web lists):
+- **Section folders never get a season number** (`S?`), raw names (`01. Course anorebag`).
+- **Episode numbers are guessed from titles**: `4 Arape Of 3D Kozenopi` → E3 *and* the title is
+  cut to "4 Types Of"; `9 Vavel Ogebunobo Pt 2` → E2; `001 X` inside section folders → **S0
+  "Specials"**, so episodes show twice (Specials + their folder); `100-Foo.mkv` → S1E0.
+- **Flat course** → "Season Unknown", alphabetical order (1, 10, 12, …, 2, 20 …).
+- **`15-3D_Simarabo…` is not a season**: 12.2's SeasonResolver rejects folder names that parse
+  as an episode code (S15E3), so its lectures land loose in the series.
+- Course names: `Onabaru in .MOM` → "Onabaru in  MOM"; scene names kept verbatim; no studio.
+  Year from scene names (2026) works.
+- **`X_en.srt` / `X_en.vtt` sidecars are not detected at all** (0 external subtitle streams).
+- `N-Resources/` folders become plain Folder items (hidden from the show UI); docs ignored.
+
+**Mechanism chosen** (proven by the spike in `Jellyfin.Plugin.ELearning/Spike/`):
+1. **`IItemResolver`, priority `Plugin`**: a direct subfolder of a course that contains videos
+   is always a `Season`. Needed to override the episode-code rejection above.
+2. **`ICustomMetadataProvider<Series|Season|Episode>`** set `Name`, `IndexNumber`,
+   `ParentIndexNumber`. Custom providers run after the local/remote merge and write straight to
+   the item. *Local* providers can't be used: `MetadataService` pre-seeds
+   `ParentIndexNumber` from the item and merges local results with `replaceData = false`.
+3. Season number = position among video-containing section folders (contiguous, so quiz-only
+   sections don't leave gaps); episode number = position within the section; flat courses use
+   Jellyfin's auto-created path-less season 1 (to be named "Lectures").
+
+Spike result: all 405 videos in exactly one correct season, in course order, clean titles,
+no Specials/duplicate seasons. Jellyfin's own `RemoveObsoleteSeasons` cleaned up the
+baseline's virtual seasons, and a normal library scan keeps the values.
+
+Carry into Phases 2–3:
+- Scope the resolver/providers to configured course libraries (spike applies to all).
+- **Numbering must be stable**: episode user-data keys include series key + S/E numbers, so
+  renumbering after users have progress may orphan their resume points. Freeze the rules
+  before real use; add a test that pins numbering for every fixture.
+- Subtitles: plugin must surface `_<lang>` sidecars — candidate: a local `ISubtitleProvider`
+  or a post-scan step that registers them. Investigate in Phase 3.
+- Verify "play next episode" crosses section boundaries (Phase 6 check, numbering looks right).
 
 ### Phase 2 — CourseParser + CourseIndex
 - Pure parser with xUnit tests per fixture and per rule above.

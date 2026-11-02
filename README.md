@@ -15,3 +15,6 @@ docker compose -f dev/docker-compose.yml up -d   # dev Jellyfin at http://localh
 ```
 
 First-run setup of the dev instance is in [dev/README.md](dev/README.md).
+
+`dev/ui-view.py` prints every course as jellyfin-web lists it (needs `JELLYFIN_API_KEY` in
+`dev/.env`); `dev/library-report.sh` dumps the raw database view.
