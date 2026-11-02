@@ -1,4 +1,5 @@
 using Jellyfin.Plugin.ELearning.Courses;
+using Jellyfin.Plugin.ELearning.Library;
 using MediaBrowser.Controller;
 using MediaBrowser.Controller.Plugins;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,5 +15,7 @@ public class PluginServiceRegistrator : IPluginServiceRegistrator
     public void RegisterServices(IServiceCollection serviceCollection, IServerApplicationHost applicationHost)
     {
         serviceCollection.AddSingleton<CourseIndex>();
+        serviceCollection.AddSingleton<CourseLibraries>();
+        serviceCollection.AddSingleton<CourseCatalog>();
     }
 }

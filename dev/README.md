@@ -21,7 +21,9 @@ docker compose -f dev/docker-compose.yml down      # stop
    `/path/to/courses`, override with `ELEARNING_SOURCE=...` in `dev/.env`).
    Turn **off** every internet metadata and image fetcher (TheMovieDb, OMDb) and the NFO saver,
    otherwise courses get matched to random TV shows. Keep Embedded Image Extractor + Screen
-   Grabber for episodes.
+   Grabber for episodes; enable **E-Learning first lecture** for Shows and Seasons.
+   The dev instance has two course libraries: "Courses" (`/data/elearning`, real exports) and
+   "Course Fixtures" (`/data/courses`).
 6. Dashboard → Plugins → E-Learning → tick the library under **Course libraries**, save.
 7. Dashboard → API Keys → create one and save it as `JELLYFIN_API_KEY=...` in `dev/.env`
    (used by `dev/ui-view.py`).
@@ -36,7 +38,6 @@ Don't downgrade an existing config folder; newer servers migrate the database ir
 
 - `set -a; . dev/.env; set +a; dev/ui-view.py [name]` — courses as the web client lists them.
 - `dev/library-report.sh [path]` — raw Series/Season/Episode rows from the database.
-- The "Courses" library on `/data/elearning` was created with all internet metadata/image
-  fetchers off (only Embedded Image Extractor + Screen Grabber for episodes).
+- `dev/verify-library.py` — every course in Jellyfin vs. the parser (exit 1 on mismatch).
 - Course index written by the plugin after each scan:
   `dev/jellyfin/config/data/data/elearning/course-index.json`.

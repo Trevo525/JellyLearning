@@ -187,12 +187,12 @@ no Specials/duplicate seasons. Jellyfin's own `RemoveObsoleteSeasons` cleaned up
 baseline's virtual seasons, and a normal library scan keeps the values.
 
 Carry into Phases 2–3:
-- Scope the resolver/providers to configured course libraries (spike applies to all).
+- Scope the resolver/providers to configured course libraries — done in Phase 3.
 - **Numbering must be stable**: episode user-data keys include series key + S/E numbers, so
   renumbering after users have progress may orphan their resume points. Freeze the rules
   before real use; add a test that pins numbering for every fixture.
-- Subtitles: plugin must surface `_<lang>` sidecars — candidate: a local `ISubtitleProvider`
-  or a post-scan step that registers them. Investigate in Phase 3.
+- Subtitles: plugin must surface `_<lang>` sidecars — done in Phase 3 (copy into the internal
+  metadata folder under Jellyfin's naming).
 - Verify "play next episode" crosses section boundaries (Phase 6 check, numbering looks right).
 
 ### Phase 2 — CourseParser + CourseIndex — DONE
@@ -222,14 +222,29 @@ Rules settled while implementing (in addition to "Parsing rules" above):
 - **For Phase 3**: library scans run metadata providers *before* post-scan tasks, so providers
   must parse the course themselves (`CourseScanner.Scan`, cached per scan), not read the index.
 
-### Phase 3 — Metadata
-- Replace the spike with the real `IItemResolver` + `ICustomMetadataProvider<Series|Season|Episode>`
-  (mechanism fixed in Phase 1), driven by CourseParser and scoped to course libraries:
-  titles, index numbers, studio/year, "Lectures" for flat courses, artwork rules.
-- Resource folders/documents already stay out of Seasons (plain Folder items, no videos); confirm
-  nothing junk shows in the UI, otherwise add an ignore rule.
-- `_<lang>` subtitle sidecars (see Phase 1 results).
-
+### Phase 3 — Metadata — DONE
+All in `Jellyfin.Plugin.ELearning/Library/`, everything scoped to the libraries ticked in the
+plugin settings (`CourseLibraries`); courses are parsed on demand by `CourseCatalog` (30 s cache)
+because providers run before the post-scan index rebuild. The Phase 1 spike is removed.
+- [x] `SectionResolver` (`IItemResolver`, priority Plugin): video section folder → Season.
+- [x] `CourseIgnoreRule` (`IResolverIgnoreRule`): Jellyfin only sees video section folders and
+  video lectures; resource folders, `N-Resources/`, quiz-only sections and stray videos are hidden
+  (served later by the plugin API).
+- [x] `CourseProvider` / `SectionProvider` / `LectureProvider` (`ICustomMetadataProvider`): course
+  title, studio, year; section number + title (flat courses: "Lectures"); lecture S/E numbers +
+  title. Fields the user locked in the metadata editor are left alone.
+- [x] `SubtitleSidecarProvider` (pre-refresh, order 10 < probe's 100): copies `X_en.srt` into the
+  item's internal metadata folder as `X.en.srt`, where 12.2's external-subtitle scan looks too.
+  Course folders are never written to. Result: "English - SUBRIP/WEBVTT - External" tracks.
+- [x] `FirstLectureImageProvider` (`IDynamicImageProvider`, "E-Learning first lecture"): course
+  and section artwork = frame of the first video lecture, unless a `poster/cover/folder` image
+  exists. **Must be enabled per library** (Shows + Seasons image fetchers).
+  `CourseArtworkTask` (post-scan) fills images that were missing on a course's first scan
+  (sections are refreshed before their videos are probed).
+- [x] `dev/verify-library.py`: compares jellyfin-web's view with the course index for every
+  course; passes for 13 series / 825 lectures (real sources + fixtures) including subtitles and
+  artwork, also on a from-scratch first scan. A non-course library on the same instance keeps
+  plain-12.2 behaviour (checked).
 ### Phase 4 — ProgressGuard
 - Completion threshold config (seconds + percent, per course library).
 - Tests + manual verification on fixtures.
