@@ -133,6 +133,7 @@
 
     let outline = null;
     let current = null; // { lecture, section, index }
+    let viewingFile = null; // a resource shown in the stage instead of the current lecture
     const openSections = new Set(); // section indices
 
     function entries() {
@@ -541,6 +542,7 @@
         objectUrls.splice(0).forEach(URL.revokeObjectURL);
 
         current = entry;
+        viewingFile = null;
         openSections.add(entry.sectionIndex);
         history.replaceState(null, '', '#' + outline.SeriesId + '/' + entry.lecture.Id);
         document.title = entry.lecture.Title + ' – ' + outline.Title;
@@ -637,7 +639,8 @@
         const stage = $('stage');
         stage.className = 'stage document';
         stage.replaceChildren(message('Loading…', file.Name));
-        renderLectureBar(file);
+        viewingFile = file;
+        renderLectureBar();
         try {
             await renderFileInto(stage, file);
         } catch (err) {
@@ -648,7 +651,18 @@
         }
     }
 
-    function renderLectureBar(file) {
+    // What a resource belongs to, for the lecture bar ("resource of Ilab Basics 1").
+    function ownerOf(file) {
+        const lecture = entries().map(function (e) { return e.lecture; }).find(function (l) { return l.Attachments.some(function (a) { return a.Id === file.Id; }); });
+        if (lecture) {
+            return lecture.Title;
+        }
+        const section = outline.Sections.find(function (sec) { return sec.Resources.some(function (a) { return a.Id === file.Id; }); });
+        return section ? 'section ' + section.Title : 'the course';
+    }
+
+    function renderLectureBar() {
+        const file = viewingFile;
         const bar = $('lecture-bar');
         if (!current) {
             bar.hidden = true;
@@ -661,7 +675,7 @@
         const lecture = current.lecture;
         bar.replaceChildren(...[
             h('button', { type: 'button', class: 'icon-button', title: 'Previous lecture', 'aria-label': 'Previous lecture', disabled: !previous, onclick: function () { go(previous); } }, icon('previous')),
-            h('div', { class: 'lecture-bar-title', text: file ? file.Name + ' – resource of ' + lecture.Title : (current.index + 1) + '. ' + lecture.Title }),
+            h('div', { class: 'lecture-bar-title', text: file ? file.Name + ' \u2013 resource of ' + ownerOf(file) : (current.index + 1) + '. ' + lecture.Title }),
             file ? h('button', { type: 'button', class: 'button', onclick: function () { go(current); } }, icon('back'), 'Back to lecture') : null,
             file ? h('a', { class: 'button', href: downloadUrl(file.Id) }, icon('download'), 'Download') : null,
             !file && lecture.Kind !== 'Video' ? h('a', { class: 'button', href: downloadUrl(lecture.Id) }, icon('download'), 'Download') : null,
