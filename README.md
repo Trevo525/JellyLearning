@@ -7,9 +7,22 @@ and viewable/downloadable resources. See [PLAN.md](PLAN.md) for the design and r
 Targets **Jellyfin 12.2** (.NET 10). Requires the
 [File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation) plugin.
 
+## Install
+
+Jellyfin **12.2** only (the plugin is built against 12.2's packages).
+
+1. Install **File Transformation** (3.0.3.0 or later for 12.2) from its plugin repository
+   `https://www.iamparadox.dev/jellyfin/plugins/manifest.json` (Dashboard → Plugins →
+   Repositories). It adds the course UI to the web client.
+2. Download `E-Learning_<version>.zip` from a release of this repository, or build it with
+   `build/package.sh <version>`, and unzip it into Jellyfin's plugins folder, so you get
+   `<config>/data/plugins/E-Learning_<version>/` (linuxserver image: `/config/data/plugins/`;
+   Debian packages: `/var/lib/jellyfin/plugins/`).
+3. Restart Jellyfin. To update, delete the old `E-Learning_*` folder, unzip the new one, restart.
+
 ## Server setup
 
-1. Install the File Transformation plugin and this plugin, restart.
+1. Install File Transformation and this plugin (see Install), restart.
 2. Create a **Shows** library for the courses (one folder per course). In its settings turn off
    all internet metadata/image fetchers (TheMovieDb, OMDb) and the NFO saver, and under the
    image fetchers for **Shows** and **Seasons** enable **E-Learning first lecture**.
@@ -29,7 +42,12 @@ docker compose -f dev/docker-compose.yml up -d   # dev Jellyfin at http://localh
 ./dev/deploy.sh                                  # build, install into dev instance, restart
 dotnet test                                      # unit + snapshot tests
 ./dev/make-fixtures.sh                           # tiny test courses -> /data/courses
+build/package.sh 0.1.0                           # release zip -> artifacts/release/
 ```
+
+Releases: push a tag `vX.Y.Z`; the Forgejo workflow (`.forgejo/workflows/build.yml`) runs the
+tests, builds the zip with `build/package.sh` and attaches it to a release. Every push runs the
+tests. Bump `version` and `changelog` in `build.yaml` with each release.
 
 First-run setup of the dev instance is in [dev/README.md](dev/README.md).
 

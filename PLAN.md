@@ -8,7 +8,7 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 
 - **Done:** Phases 0–5 (scaffold + dev env, mapping spike, parser + index, metadata/subtitles/
   artwork, completion rule, API). Phase 4 also confirmed manually in the browser by the user.
-- **Next:** Phase 7 — packaging (needs the Forgejo repo).
+- **Next:** first tagged release (`v0.1.0`) once the Forgejo runner is confirmed; then "Later".
 - **Repo:** `ssh://git@<forgejo-host>/trevo525/jellylearning.git` (`origin`, `main`
   pushed 2026-11-03).
 - **Dev loop:** `docker compose -f dev/docker-compose.yml up -d` → http://localhost:8096;
@@ -386,9 +386,20 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
   sidebar, deliberately **not** tracked as done (user decision). Exported HTML keeps its own
   (light) styling; a dark reading mode was offered, not requested.
 
-### Phase 7 — Packaging & distribution
-- Forgejo Actions: build, test, zip, generate/update `manifest.json`, publish release.
-- Add repo URL in Jellyfin → install/update from there. README with install + server settings.
+### Phase 7 — Packaging & distribution — DONE (workflow untested until the runner picks it up)
+- **No plugin repository** (user decision, 2026-11-03): Forgejo requires sign-in for everything,
+  so Jellyfin couldn't fetch a `manifest.json` from it. Install is manual: unzip a release zip
+  into `<config>/data/plugins/` and restart (README, "Install").
+- [x] `build/package.sh [version]`: Release publish with the version stamped into the assembly,
+  copies the `build.yaml` artifacts (plugin dll, Markdig.dll), writes `meta.json` from
+  `build.yaml`, zips `E-Learning_<version>/` + a `.sha256`. Verified on the dev server: unzipped
+  0.1.0.0 loads as Active and `dev/test-api.py` passes 33/33.
+- [x] `.forgejo/workflows/build.yml`: tests on every push/PR; on `v*` tags also packages and
+  `build/publish-release.py` creates the release and attaches the zip (Forgejo API, automatic
+  token). Assumes a runner with the `docker` label and the default actions mirror
+  (`actions/checkout`, `actions/setup-dotnet`).
+- `dev/deploy.sh` now removes every installed `E-Learning_*` folder first (Jellyfin loads the
+  highest version, so a leftover release would shadow dev builds).
 
 ### Later
 - Quiz score tracking (read results from the HTML quiz via postMessage).

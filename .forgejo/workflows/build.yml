@@ -1,0 +1,35 @@
+# Tests every push; a tag like v0.1.0 also builds the plugin zip and attaches it to a release.
+# Install from a release: unzip into Jellyfin's plugins folder (see README, "Install").
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet test --nologo
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: test
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Package
+        run: build/package.sh "${GITHUB_REF_NAME}"
+      - name: Publish release
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: build/publish-release.py "${GITHUB_REF_NAME}" artifacts/release

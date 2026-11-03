@@ -9,7 +9,8 @@ dotnet publish "$root/Jellyfin.Plugin.ELearning/Jellyfin.Plugin.ELearning.csproj
   -c Debug -o "$root/artifacts/dev" --nologo -v quiet
 
 [ -d "$plugins" ] || { echo "No $plugins - start the dev server first (see dev/README.md)." >&2; exit 1; }
-rm -rf "$dest" && mkdir -p "$dest"
+# Remove every installed version (a release zip too): Jellyfin would load the highest one.
+rm -rf "$plugins"/E-Learning_* && mkdir -p "$dest"
 cp "$root/artifacts/dev/Jellyfin.Plugin.ELearning."{dll,pdb} "$root/artifacts/dev/Markdig.dll" "$dest/"
 
 docker compose -f "$root/dev/docker-compose.yml" restart jellyfin

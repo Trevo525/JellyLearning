@@ -15,4 +15,5 @@ artifacts:
 - "Jellyfin.Plugin.ELearning.dll"
 - "Markdig.dll"
 changelog: >
-  Initial scaffold.
+  First release: course libraries (sections, lectures, subtitles, artwork), course completion
+  rule, /ELearning API, course panels in jellyfin-web and the Udemy-style course player.
