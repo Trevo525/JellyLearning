@@ -1,0 +1,5 @@
+01 Getting started/01 Welcome.mp4
+01 Getting started/02 Reading notes.md
+01 Getting started/03 Cheat sheet.txt
+02 Next steps/04 Wrap up.mp4
+README.md

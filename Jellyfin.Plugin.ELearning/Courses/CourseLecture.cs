@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 
 namespace Jellyfin.Plugin.ELearning.Courses;
 
@@ -21,4 +22,11 @@ public sealed record CourseLecture(
     string RelativePath,
     int? EpisodeNumber,
     IReadOnlyList<CourseFile> Attachments,
-    IReadOnlyList<SubtitleTrack> Subtitles);
+    IReadOnlyList<SubtitleTrack> Subtitles)
+{
+    /// <summary>
+    /// Gets the lecture's main file as a <see cref="CourseFile"/>.
+    /// </summary>
+    /// <returns>The main file.</returns>
+    public CourseFile ToFile() => new(Id, RelativePath, CourseNaming.DisplayName(Path.GetFileName(RelativePath)), Kind);
+}

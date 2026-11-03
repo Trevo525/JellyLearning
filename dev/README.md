@@ -41,5 +41,9 @@ Don't downgrade an existing config folder; newer servers migrate the database ir
 - `dev/verify-library.py` — every course in Jellyfin vs. the parser (exit 1 on mismatch).
 - `dev/test-progress.py` — completion rule end to end, as the test user
   `JELLYFIN_TEST_USER` / `JELLYFIN_TEST_PASSWORD` from `dev/.env` (created if missing).
+- `dev/test-api.py` — the `/ELearning` API end to end (outlines vs. index, files, rendering,
+  security headers, completion, refusals); also creates `<test user>-outsider` without library
+  access to check access control.
+- Document-lecture progress: `dev/jellyfin/config/data/data/elearning/progress/<user>.json`.
 - Course index written by the plugin after each scan:
   `dev/jellyfin/config/data/data/elearning/course-index.json`.

@@ -1,3 +1,4 @@
+using Jellyfin.Plugin.ELearning.Api;
 using Jellyfin.Plugin.ELearning.Courses;
 using Jellyfin.Plugin.ELearning.Library;
 using Jellyfin.Plugin.ELearning.Progress;
@@ -18,6 +19,8 @@ public class PluginServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddSingleton<CourseIndex>();
         serviceCollection.AddSingleton<CourseLibraries>();
         serviceCollection.AddSingleton<CourseCatalog>();
+        serviceCollection.AddSingleton<ProgressStore>();
+        serviceCollection.AddSingleton<FileFactsCache>();
         serviceCollection.AddHostedService<ProgressGuard>();
     }
 }

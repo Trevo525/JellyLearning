@@ -27,7 +27,7 @@ public static class CourseScanner
         ArgumentException.ThrowIfNullOrEmpty(coursePath);
         var files = Directory.EnumerateFiles(coursePath, "*", _recursive)
             .Select(f => Path.GetRelativePath(coursePath, f));
-        return new IndexedCourse(coursePath, CourseParser.Parse(Path.GetFileName(coursePath), files));
+        return new IndexedCourse(coursePath, CourseParser.Parse(Path.GetFileName(coursePath), files, Path.TrimEndingDirectorySeparator(coursePath)));
     }
 
     /// <summary>

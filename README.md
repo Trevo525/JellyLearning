@@ -24,7 +24,7 @@ Targets **Jellyfin 12.2** (.NET 10). Requires the
 ```bash
 docker compose -f dev/docker-compose.yml up -d   # dev Jellyfin at http://localhost:8096
 ./dev/deploy.sh                                  # build, install into dev instance, restart
-dotnet test                                      # parser/index unit + snapshot tests
+dotnet test                                      # unit + snapshot tests
 ./dev/make-fixtures.sh                           # tiny test courses -> /data/courses
 ```
 
@@ -32,6 +32,7 @@ First-run setup of the dev instance is in [dev/README.md](dev/README.md).
 
 With `JELLYFIN_API_KEY` in `dev/.env` (`set -a; . dev/.env; set +a`):
 `dev/verify-library.py` checks every course in Jellyfin against the parser and
-`dev/test-progress.py` checks the completion rule with simulated playback (run both after each
-change and after server upgrades); `dev/ui-view.py` prints courses as jellyfin-web lists them;
+`dev/test-progress.py` checks the completion rule with simulated playback and
+`dev/test-api.py` checks the `/ELearning` API (run all three after each change and after server
+upgrades); `dev/ui-view.py` prints courses as jellyfin-web lists them;
 `dev/library-report.sh` dumps the raw database view.

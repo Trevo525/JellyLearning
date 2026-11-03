@@ -19,8 +19,10 @@ public static class CourseParser
     /// </summary>
     /// <param name="folderName">Name of the course folder.</param>
     /// <param name="relativeFilePaths">All files below the course folder, relative to it ('/' or '\' separators).</param>
+    /// <param name="idScope">What file IDs are unique within (default: the folder name). The scanner passes the
+    /// absolute course path, so the same course in two libraries gets distinct IDs.</param>
     /// <returns>The course.</returns>
-    public static Course Parse(string folderName, IEnumerable<string> relativeFilePaths)
+    public static Course Parse(string folderName, IEnumerable<string> relativeFilePaths, string? idScope = null)
     {
         ArgumentNullException.ThrowIfNull(folderName);
         ArgumentNullException.ThrowIfNull(relativeFilePaths);
@@ -37,7 +39,7 @@ public static class CourseParser
             .GroupBy(p => p[..p.IndexOf('/', StringComparison.Ordinal)], StringComparer.Ordinal)
             .ToDictionary(g => g.Key, g => g.Select(p => p[(g.Key.Length + 1)..]).ToList(), StringComparer.Ordinal);
 
-        var ctx = new Context(folderName);
+        var ctx = new Context(idScope ?? folderName);
         var artwork = rootFiles.Where(CourseNaming.IsArtwork).Order(NaturalComparer.Instance).FirstOrDefault();
         if (artwork is not null)
         {
@@ -208,9 +210,9 @@ public static class CourseParser
     private static string Normalize(string title)
         => new string(title.Where(char.IsLetterOrDigit).Select(char.ToUpperInvariant).ToArray());
 
-    private sealed class Context(string folderName)
+    private sealed class Context(string idScope)
     {
-        public string Id(string relativePath) => CourseNaming.FileId(folderName, relativePath);
+        public string Id(string relativePath) => CourseNaming.FileId(idScope, relativePath);
 
         public CourseFile File(string relativePath)
             => new(Id(relativePath), relativePath, CourseNaming.DisplayName(Path.GetFileName(relativePath)), CourseNaming.GetKind(relativePath));

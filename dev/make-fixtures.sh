@@ -18,7 +18,8 @@ printf '1\n00:00:01,000 --> 00:00:05,000\nFixture subtitle\n' > "$work/sub.srt"
 printf 'WEBVTT\n\n00:00:01.000 --> 00:00:05.000\nFixture subtitle\n' > "$work/sub.vtt"
 printf '%%PDF-1.1\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj 3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 200 100]>>endobj\ntrailer<</Root 1 0 R>>\n%%%%EOF\n' > "$work/doc.pdf"
 
-rm -rf "$out"; mkdir -p "$out"
+# Empty in place: deleting the folder itself would detach a running container's bind mount.
+mkdir -p "$out"; find "$out" -mindepth 1 -delete
 for listing in "$listings"/*.txt; do
   course="$out/$(basename "$listing" .txt)"
   while IFS= read -r rel; do

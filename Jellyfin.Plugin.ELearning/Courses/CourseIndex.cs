@@ -69,14 +69,24 @@ public sealed class CourseIndex
         => Current.ByPath.GetValueOrDefault(Path.TrimEndingDirectorySeparator(coursePath));
 
     /// <summary>
-    /// Resolves a file ID to the absolute path of the file and its course.
+    /// Resolves a file ID to the file, its course and its absolute path.
     /// </summary>
     /// <param name="fileId">The file ID.</param>
-    /// <returns>The course and absolute file path, or null when the ID is unknown.</returns>
-    public (IndexedCourse Course, string AbsolutePath)? GetFile(string fileId)
-        => Current.Files.TryGetValue(fileId, out var entry)
-            ? (entry.Course, Path.Combine(entry.Course.Path, entry.RelativePath))
+    /// <returns>The file, or null when the ID is unknown or its path would leave the course folder.</returns>
+    public IndexedFile? GetFile(string fileId)
+    {
+        if (fileId is null || !Current.Files.TryGetValue(fileId, out var entry))
+        {
+            return null;
+        }
+
+        // The index file is plain JSON on disk: never trust its relative paths to stay inside the course.
+        var root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(entry.Course.Path)) + Path.DirectorySeparatorChar;
+        var absolute = Path.GetFullPath(Path.Combine(root, entry.File.RelativePath));
+        return absolute.StartsWith(root, StringComparison.Ordinal) && absolute.Length > root.Length
+            ? new IndexedFile(entry.Course, entry.File, entry.Lecture, absolute)
             : null;
+    }
 
     /// <summary>
     /// Replaces the whole index and saves it.
@@ -115,7 +125,7 @@ public sealed class CourseIndex
         }
     }
 
-    private sealed record FileEntry(IndexedCourse Course, string RelativePath);
+    private sealed record FileEntry(IndexedCourse Course, CourseFile File, CourseLecture? Lecture);
 
     private sealed record Snapshot(FrozenDictionary<string, IndexedCourse> ByPath, FrozenDictionary<string, FileEntry> Files)
     {
@@ -125,14 +135,15 @@ public sealed class CourseIndex
             foreach (var indexed in courses)
             {
                 var course = indexed.Course;
+                var lectures = course.Sections.SelectMany(s => s.Lectures).ToList();
                 var all = course.Resources
                     .Concat(course.Sections.SelectMany(s => s.Resources))
-                    .Concat(course.Sections.SelectMany(s => s.Lectures).SelectMany(l => l.Attachments))
-                    .Select(f => (f.Id, f.RelativePath))
-                    .Concat(course.Sections.SelectMany(s => s.Lectures).Select(l => (l.Id, l.RelativePath)));
-                foreach (var (id, relativePath) in all)
+                    .Concat(lectures.SelectMany(l => l.Attachments))
+                    .Select(f => new FileEntry(indexed, f, null))
+                    .Concat(lectures.Select(l => new FileEntry(indexed, l.ToFile(), l)));
+                foreach (var entry in all)
                 {
-                    files[id] = new FileEntry(indexed, relativePath);
+                    files[entry.File.Id] = entry;
                 }
             }
 

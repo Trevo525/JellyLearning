@@ -10,7 +10,7 @@ dotnet publish "$root/Jellyfin.Plugin.ELearning/Jellyfin.Plugin.ELearning.csproj
 
 [ -d "$plugins" ] || { echo "No $plugins - start the dev server first (see dev/README.md)." >&2; exit 1; }
 rm -rf "$dest" && mkdir -p "$dest"
-cp "$root/artifacts/dev/Jellyfin.Plugin.ELearning."{dll,pdb} "$dest/"
+cp "$root/artifacts/dev/Jellyfin.Plugin.ELearning."{dll,pdb} "$root/artifacts/dev/Markdig.dll" "$dest/"
 
 docker compose -f "$root/dev/docker-compose.yml" restart jellyfin
 echo "Deployed to $dest"

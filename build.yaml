@@ -13,5 +13,6 @@ category: "General"
 owner: "trevo525"
 artifacts:
 - "Jellyfin.Plugin.ELearning.dll"
+- "Markdig.dll"
 changelog: >
   Initial scaffold.

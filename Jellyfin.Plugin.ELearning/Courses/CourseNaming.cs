@@ -311,14 +311,14 @@ public static partial class CourseNaming
     }
 
     /// <summary>
-    /// Builds the stable file ID used by the API from the course folder name and relative path.
+    /// Builds a stable ID from a scope (course path or folder name) and a path relative to the course.
     /// </summary>
-    /// <param name="courseFolderName">The course folder name.</param>
+    /// <param name="scope">The scope the ID is unique within.</param>
     /// <param name="relativePath">Path relative to the course folder.</param>
     /// <returns>A 24-character lower-case hex ID.</returns>
-    public static string FileId(string courseFolderName, string relativePath)
+    public static string FileId(string scope, string relativePath)
     {
-        var hash = SHA256.HashData(Encoding.UTF8.GetBytes(courseFolderName + "\n" + relativePath));
+        var hash = SHA256.HashData(Encoding.UTF8.GetBytes(scope + "\n" + relativePath));
 #pragma warning disable CA1308 // IDs are lower-case by convention, not compared culture-sensitively.
         return Convert.ToHexString(hash, 0, 12).ToLowerInvariant();
 #pragma warning restore CA1308

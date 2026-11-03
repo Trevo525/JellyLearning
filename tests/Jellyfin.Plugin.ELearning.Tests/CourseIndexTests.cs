@@ -27,8 +27,8 @@ public sealed class CourseIndexTests : IDisposable
         Assert.Same(indexed, reloaded.GetCourse(course + Path.DirectorySeparatorChar));
 
         var lecture = indexed.Course.Sections[1].Lectures[0];
-        Assert.Equal(Path.Combine(course, "02. Onabaru", "04. What is onabaru.mp4"), reloaded.GetFile(lecture.Id)!.Value.AbsolutePath);
-        Assert.Equal(Path.Combine(course, "code.zip"), reloaded.GetFile(indexed.Course.Resources[0].Id)!.Value.AbsolutePath);
+        Assert.Equal(Path.Combine(course, "02. Onabaru", "04. What is onabaru.mp4"), reloaded.GetFile(lecture.Id)!.AbsolutePath);
+        Assert.Equal(Path.Combine(course, "code.zip"), reloaded.GetFile(indexed.Course.Resources[0].Id)!.AbsolutePath);
     }
 
     [Fact]

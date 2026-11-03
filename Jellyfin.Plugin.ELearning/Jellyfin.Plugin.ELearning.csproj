@@ -9,6 +9,10 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
   <!-- Must match the server version exactly (see dev/README.md, "Version pin"). -->
   <ItemGroup>
     <PackageReference Include="Jellyfin.Controller" Version="12.2.0">
@@ -17,6 +21,7 @@
     <PackageReference Include="Jellyfin.Model" Version="12.2.0">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="Markdig" Version="1.5.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,10 @@
+COURSE "Sample - Markdown Notes"  studio=-  year=-  artwork=-
+  resource  Markdown "README.md"  <- README.md
+
+S1  #1  "Getting started"  <- 01 Getting started
+  E1   #1    Video    "Welcome"  <- 01 Getting started/01 Welcome.mp4
+  --   #2    Markdown "Reading notes"  <- 01 Getting started/02 Reading notes.md
+  --   #3    Text     "Cheat sheet"  <- 01 Getting started/03 Cheat sheet.txt
+
+S2  #2  "Next steps"  <- 02 Next steps
+  E1   #4    Video    "Wrap up"  <- 02 Next steps/04 Wrap up.mp4
