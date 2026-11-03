@@ -15,7 +15,9 @@ Targets **Jellyfin 12.2** (.NET 10). Requires the
    image fetchers for **Shows** and **Seasons** enable **E-Learning first lecture**.
 3. Dashboard → Plugins → E-Learning → tick the library under *Course libraries*, save, then
    scan the library (Dashboard → Libraries → Scan all libraries).
-4. Optional: Dashboard → Playback → Resume → *Max resume percentage* = 100. The plugin enforces
+4. Reload the web client once (the course UI is injected into it by File Transformation):
+   course, section and lecture pages then show progress, the full outline and resources.
+5. Optional: Dashboard → Playback → Resume → *Max resume percentage* = 100. The plugin enforces
    its own completion rule for course lectures regardless (settings page: "Lecture completion");
    this only avoids a brief "watched" flicker while a lecture plays.
 

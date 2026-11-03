@@ -58,7 +58,7 @@ public static class Documents
     private static string Page(string title, string body)
         => "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
             + "<base target=\"_blank\"><title>" + WebUtility.HtmlEncode(title) + "</title><style>"
-            + ":root{color-scheme:light dark}body{font-family:system-ui,sans-serif;line-height:1.6;max-width:50em;margin:2em auto;padding:0 1em}"
+            + ":root{color-scheme:light}body{background:#fff;color:#1d1d1f;font-family:system-ui,sans-serif;line-height:1.6;max-width:50em;margin:2em auto;padding:0 1em}"
             + "img{max-width:100%}pre{white-space:pre-wrap;word-break:break-word}code,pre{font-family:ui-monospace,monospace}"
             + "table{border-collapse:collapse}td,th{border:1px solid #8888;padding:.3em .6em}a{word-break:break-all}"
             + "</style></head><body>" + body + "</body></html>";

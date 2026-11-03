@@ -13,6 +13,7 @@ using Jellyfin.Plugin.ELearning.Api.Models;
 using Jellyfin.Plugin.ELearning.Courses;
 using Jellyfin.Plugin.ELearning.Library;
 using Jellyfin.Plugin.ELearning.Progress;
+using Jellyfin.Plugin.ELearning.Web;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Entities.TV;
 using MediaBrowser.Controller.Library;
@@ -263,6 +264,21 @@ public sealed class ELearningController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ActionResult> MarkIncomplete([FromRoute, Required] string lectureId, [FromQuery] Guid? userId)
         => SetComplete(lectureId, userId, false);
+
+    /// <summary>
+    /// Gets the course UI script that File Transformation injects into jellyfin-web.
+    /// </summary>
+    /// <response code="200">Script returned.</response>
+    /// <returns>The script.</returns>
+    [HttpGet("Web/elearning.js")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public FileContentResult GetWebBundle()
+    {
+        // Requested with ?v=<content hash>, so it can be cached for good.
+        Response.Headers.CacheControl = "public, max-age=31536000, immutable";
+        return File(WebBundle.Content.ToArray(), "text/javascript; charset=utf-8");
+    }
 
     private static string Relative(IndexedCourse course, string path)
         => Path.GetRelativePath(course.Path, path).Replace('\\', '/');

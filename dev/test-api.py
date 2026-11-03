@@ -163,5 +163,14 @@ for name, p in {"outline": f"/ELearning/Courses/{o['SeriesId']}/Outline", "file"
 status, _, _ = request("POST", path, outsider_token)
 check("user without library access: complete -> 404", status == 404, status)
 
+# 6. Web UI injection (File Transformation).
+status, _, page = request("GET", "/web/index.html", auth=False)
+import re
+tag = re.search(rb'src="\.\./ELearning/Web/elearning\.js\?v=([0-9a-f]+)"', page)
+check("index.html loads the course UI script", status == 200 and tag is not None)
+if tag:
+    status, headers, script = request("GET", f"/ELearning/Web/elearning.js?v={tag.group(1).decode()}", auth=False)
+    check("script served without login, cacheable", status == 200 and b"viewshow" in script and "immutable" in headers.get("Cache-Control", ""))
+
 print(f"{sum(results)}/{len(results)} passed")
 sys.exit(0 if all(results) else 1)

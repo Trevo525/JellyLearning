@@ -2,6 +2,7 @@ using Jellyfin.Plugin.ELearning.Api;
 using Jellyfin.Plugin.ELearning.Courses;
 using Jellyfin.Plugin.ELearning.Library;
 using Jellyfin.Plugin.ELearning.Progress;
+using Jellyfin.Plugin.ELearning.Web;
 using MediaBrowser.Controller;
 using MediaBrowser.Controller.Plugins;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,5 +23,6 @@ public class PluginServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddSingleton<ProgressStore>();
         serviceCollection.AddSingleton<FileFactsCache>();
         serviceCollection.AddHostedService<ProgressGuard>();
+        serviceCollection.AddHostedService<WebInjection>();
     }
 }

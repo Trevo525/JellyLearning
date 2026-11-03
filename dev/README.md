@@ -44,6 +44,9 @@ Don't downgrade an existing config folder; newer servers migrate the database ir
 - `dev/test-api.py` — the `/ELearning` API end to end (outlines vs. index, files, rendering,
   security headers, completion, refusals); also creates `<test user>-outsider` without library
   access to check access control.
+- Course UI script: `Jellyfin.Plugin.ELearning/Web/elearning.js`; after `./dev/deploy.sh` reload the
+  browser tab (the script URL carries a content hash, so no cache clearing is needed). Its
+  console messages start with `[E-Learning]`.
 - Document-lecture progress: `dev/jellyfin/config/data/data/elearning/progress/<user>.json`.
 - Course index written by the plugin after each scan:
   `dev/jellyfin/config/data/data/elearning/course-index.json`.

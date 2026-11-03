@@ -8,7 +8,8 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 
 - **Done:** Phases 0–5 (scaffold + dev env, mapping spike, parser + index, metadata/subtitles/
   artwork, completion rule, API). Phase 4 also confirmed manually in the browser by the user.
-- **Next:** Phase 6 — web UI (see below; read the "Rules for the UI" in Phase 5 first).
+- **Next:** browser test of Phase 6 by the user (checklist in Phase 6), then Phase 7 —
+  packaging.
 - **Not pushed yet:** the Forgejo repo `trevo525/jellyfin-plugin-elearning` must be created
   (empty, no README) before `git push -u origin main`; push-to-create is disabled on the server.
 - **Dev loop:** `docker compose -f dev/docker-compose.yml up -d` → http://localhost:8096;
@@ -329,9 +330,34 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
 - Mark document lectures complete via `Lectures/{id}/Complete` (on open, plus a toggle);
   videos complete through playback only (400 otherwise).
 
-### Phase 6 — Web UI injection
-- Register bundle with File Transformation; course/section/lecture panels, outline, viewer,
-  progress bar. Confirm native "play next episode" handles auto-play across sections.
+### Phase 6 — Web UI injection — IMPLEMENTED, awaiting browser test
+- [x] `Web/WebInjection.cs` (hosted service) registers an `index.html` transformation with File
+  Transformation 3.0.3.0 by reflection (`PluginInterface.RegisterTransformation(JObject)`, the
+  JObject built via the parameter's own type, callback = static `WebInjection.TransformIndex`).
+  Without File Transformation it logs a warning and the rest of the plugin still works.
+- [x] The callback adds `<script defer src="../ELearning/Web/elearning.js?v=<hash>">` before
+  `</body>`; the script is an embedded resource served anonymously and cached as immutable
+  (the content hash changes with every build).
+- [x] `Web/elearning.js` (vanilla JS, no build step): on every `viewshow` of `#itemDetailPage`
+  (the event bubbles; 12.2's details page is still the legacy controller) it fetches the
+  outline for the item in the URL; 404 = not a course → nothing happens (remembered per item).
+  All jellyfin-web specifics are in its `web` object (`window.ApiClient`, the page id, the mount
+  point `.detailPageSecondaryContainer`, `#/details?id=` links).
+  - **Course page**: progress bar, Continue/Start button (resume position first, else first
+    open lecture), course resources, collapsible outline (section with the next lecture open)
+    including quiz-only sections and document lectures, with done/resume state.
+  - **Section page**: section progress, resources, all lectures with their attachments.
+  - **Lecture page**: breadcrumb + position, lecture resources, the next 3 lectures in the
+    course (so readings/quizzes between videos aren't missed when auto-play skips them).
+  - **Viewer** (full-screen overlay, Esc closes): HTML/Markdown/text via `Render` + `srcdoc` in a
+    sandboxed iframe, PDF/images via blob URLs, download button; opening a document lecture
+    marks it complete, with a toggle to undo. Link stubs open in a new tab.
+- Native auto-play: jellyfin-web's `playbackManager.getEpisodes` queues up to 100 episodes of
+  the *series* from the started one, so it continues across sections (to confirm in the browser).
+- Rendered Markdown/text pages are light-only (like the exports' HTML lectures) so they read the
+  same on Jellyfin's dark theme.
+- Tests: `WebBundleTests` (injection once, before `</body>`; callback payload; embedded bundle);
+  `dev/test-api.py` checks index.html carries the tag and the script is served (30/30).
 
 ### Phase 7 — Packaging & distribution
 - Forgejo Actions: build, test, zip, generate/update `manifest.json`, publish release.
