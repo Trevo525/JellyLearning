@@ -94,7 +94,7 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 - **Numbered documents interleaved with videos** (`002 Introduction.html` between `001`/`003`
   videos) are **non-video lectures** in the outline, not attachments. An attachment needs a name
   match to a lecture (same number + similar title, or `… - slides` suffix).
-- **Link stubs**: an HTML file that is only a `meta refresh` / single link → shown as an external
+- **Link stubs**: an HTML file that only `meta refresh`es to an external URL → shown as an external
   link (open in new tab) instead of an inline viewer.
 - **HTML quizzes** need JS → sandboxed iframe with `allow-scripts` but **without**
   `allow-same-origin`, served from the plugin with a CSP. Quiz score tracking stays deferred;
@@ -118,7 +118,7 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 │   ├─ CourseIndex           cached outline incl. non-video items + attachments│
 │   │                         rebuilt on library scan (ILibraryPostScanTask)    │
 │   ├─ ProgressGuard         PlaybackStopped hook → enforce completion rule    │
-│   ├─ ProgressStore         per-user state for non-video lectures (JSON/SQLite)│
+│   ├─ ProgressStore         per-user state for non-video lectures (JSON)      │
 │   ├─ ElearningController   /ELearning/... REST API (auth required)           │
 │   └─ Web bundle            JS/CSS registered with File Transformation        │
 └──────────────────────────────────────────────────────────────────────────────┘
