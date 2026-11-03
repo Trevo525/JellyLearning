@@ -121,3 +121,8 @@ svg.icon { width: 1.25em; height: 1.25em; fill: currentColor; flex-shrink: 0; ve
     #close-sidebar, .topbar-button { display: none; }
     .stage.document { height: 70vh; }
 }
+
+.up-next-hint { display: flex; align-items: center; justify-content: center; gap: .4rem; flex-wrap: wrap; margin: 1rem 0 0; color: var(--muted); font-size: .9rem; }
+.link-button { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; }
+.chip { display: inline-flex; align-items: center; gap: .2rem; padding: 0 .4rem; border-radius: .25rem; background: var(--accent-soft); color: var(--text); }
+.up-next-card .actions { flex-wrap: wrap; }

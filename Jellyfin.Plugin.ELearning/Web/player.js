@@ -160,6 +160,11 @@
         return /\bquiz\b/i.test(lecture.Title || lecture.Name || '');
     }
 
+    // Quizzes exported as lecture resources (Udemy "N-Resources/... - Quiz.html").
+    function quizzesOf(lecture) {
+        return lecture.Attachments.filter(function (f) { return f.Kind === 'Html' && !f.ExternalUrl && isQuiz(f); });
+    }
+
     function kindIcon(item) {
         if (item.ExternalUrl) {
             return 'link';
@@ -463,9 +468,28 @@
     function showUpNext(entry) {
         const next = entries()[entry.index + 1];
         const stage = $('stage');
+        const quizzes = quizzesOf(entry.lecture);
+        const others = entry.lecture.Attachments.length - quizzes.length;
+
+        // A quiz belonging to the lecture: offer it first and don't move on by ourselves.
+        if (quizzes.length) {
+            const overlay = h('div', { class: 'up-next' }, h('div', { class: 'up-next-card' },
+                h('div', { class: 'label', text: 'Before you move on' }),
+                h('div', { class: 'title', text: quizzes.length === 1 ? 'This lecture has a quiz' : 'This lecture has ' + quizzes.length + ' quizzes' }),
+                h('div', { class: 'actions' },
+                    ...quizzes.map(function (quiz) {
+                        return h('button', { type: 'button', class: 'button primary', onclick: function () { overlay.remove(); openFileInStage(quiz); } },
+                            icon('quiz'), quizzes.length === 1 ? 'Take the quiz' : quiz.Name.replace(/\.html?$/i, ''));
+                    }),
+                    next ? h('button', { type: 'button', class: 'button', onclick: function () { overlay.remove(); go(next); } }, 'Skip to next lecture', icon('next')) : null),
+                others ? resourcesHint(others, function () { overlay.remove(); }) : null));
+            stage.append(overlay);
+            return;
+        }
+
         if (!next) {
             stage.append(h('div', { class: 'up-next' }, h('div', { class: 'up-next-card' },
-                h('div', { class: 'title', text: 'You’ve reached the end of the course' }),
+                h('div', { class: 'title', text: 'You\u2019ve reached the end of the course' }),
                 h('div', { class: 'actions' }, h('a', { class: 'button', href: webUrl(outline.SeriesId) }, 'Back to the course page')))));
             return;
         }
@@ -481,7 +505,8 @@
             h('div', { class: 'title', text: next.lecture.Title }),
             h('div', { class: 'actions' },
                 h('button', { type: 'button', class: 'button', onclick: cancel }, 'Cancel'),
-                h('button', { type: 'button', class: 'button primary', onclick: function () { cancel(); go(next); } }, icon('next'), 'Play now'))));
+                h('button', { type: 'button', class: 'button primary', onclick: function () { cancel(); go(next); } }, icon('next'), 'Play now')),
+            others ? resourcesHint(others, cancel) : null));
         stage.append(overlay);
         upNextTimer = setInterval(function () {
             seconds--;
@@ -491,6 +516,17 @@
                 go(next);
             }
         }, 1000);
+    }
+
+    // "This lecture has N resources" with a link to the Resources tab (stops the countdown).
+    function resourcesHint(count, close) {
+        return h('p', { class: 'up-next-hint' },
+            icon('folder'), (count === 1 ? 'This lecture has 1 resource. ' : 'This lecture has ' + count + ' resources. '),
+            h('button', { type: 'button', class: 'link-button', onclick: function () {
+                close();
+                selectTab('resources');
+                $('tabs').scrollIntoView({ behavior: 'smooth' });
+            } }, 'View resources'));
     }
 
     async function go(entry) {
@@ -623,13 +659,14 @@
         const previous = all[current.index - 1];
         const next = all[current.index + 1];
         const lecture = current.lecture;
-        bar.replaceChildren(
+        bar.replaceChildren(...[
             h('button', { type: 'button', class: 'icon-button', title: 'Previous lecture', 'aria-label': 'Previous lecture', disabled: !previous, onclick: function () { go(previous); } }, icon('previous')),
             h('div', { class: 'lecture-bar-title', text: file ? file.Name + ' – resource of ' + lecture.Title : (current.index + 1) + '. ' + lecture.Title }),
             file ? h('button', { type: 'button', class: 'button', onclick: function () { go(current); } }, icon('back'), 'Back to lecture') : null,
             file ? h('a', { class: 'button', href: downloadUrl(file.Id) }, icon('download'), 'Download') : null,
             !file && lecture.Kind !== 'Video' ? h('a', { class: 'button', href: downloadUrl(lecture.Id) }, icon('download'), 'Download') : null,
-            h('button', { type: 'button', class: 'button' + (next ? ' primary' : ''), disabled: !next, onclick: function () { go(next); } }, 'Next', icon('next')));
+            h('button', { type: 'button', class: 'button' + (next ? ' primary' : ''), disabled: !next, onclick: function () { go(next); } }, 'Next', icon('next'))
+        ].filter(Boolean));
     }
 
     function renderSidebar() {
@@ -698,7 +735,9 @@
         check,
         h('div', { class: 'lecture-body' },
             h('div', { class: 'lecture-title', text: number + '. ' + lecture.Title }),
-            h('div', { class: 'lecture-meta' }, icon(kindIcon(lecture)), h('span', { text: kindLabel(lecture) }), toggle),
+            h('div', { class: 'lecture-meta' }, icon(kindIcon(lecture)), h('span', { text: kindLabel(lecture) }),
+                quizzesOf(lecture).length ? h('span', { class: 'chip', title: 'This lecture has a quiz in its resources' }, icon('quiz'), 'Quiz') : null,
+                toggle),
             resume,
             menu));
     }
@@ -707,13 +746,14 @@
         const all = entries();
         const videos = all.filter(function (e) { return e.lecture.Kind === 'Video'; });
         const documents = all.length - videos.length;
-        const quizzes = all.filter(function (e) { return e.lecture.Kind !== 'Video' && isQuiz(e.lecture); }).length;
+        const quizLectures = all.filter(function (e) { return e.lecture.Kind !== 'Video' && isQuiz(e.lecture); }).length;
+        const quizzes = quizLectures + all.reduce(function (n, e) { return n + quizzesOf(e.lecture).length; }, 0);
         const panel = $('tab-overview');
         const facts = [
             ['Sections', outline.Sections.length],
             ['Lectures', all.length],
             ['Video', formatMinutes(videoTicks(videos.map(function (e) { return e.lecture; }))) || '–'],
-            ['Readings', documents - quizzes],
+            ['Readings', documents - quizLectures],
             ['Quizzes', quizzes],
             ['Resources', all.reduce(function (n, e) { return n + e.lecture.Attachments.length; }, 0) + outline.Resources.length + outline.Sections.reduce(function (n, s) { return n + s.Resources.length; }, 0)]
         ];
@@ -751,15 +791,17 @@
         panel.replaceChildren(...(blocks.length ? blocks : [h('p', { class: 'muted', text: 'No resources for this lecture.' })]));
     }
 
+    function selectTab(name) {
+        document.querySelectorAll('.tab').forEach(function (t) {
+            const selected = t.dataset.tab === name;
+            t.setAttribute('aria-selected', String(selected));
+            $('tab-' + t.dataset.tab).hidden = !selected;
+        });
+    }
+
     function setupChrome() {
         document.querySelectorAll('.tab').forEach(function (tab) {
-            tab.addEventListener('click', function () {
-                document.querySelectorAll('.tab').forEach(function (t) {
-                    const selected = t === tab;
-                    t.setAttribute('aria-selected', String(selected));
-                    $('tab-' + t.dataset.tab).hidden = !selected;
-                });
-            });
+            tab.addEventListener('click', function () { selectTab(tab.dataset.tab); });
         });
         $('close-sidebar').append(icon('close'));
         $('close-sidebar').addEventListener('click', function () {
