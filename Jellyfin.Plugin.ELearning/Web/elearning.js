@@ -19,9 +19,20 @@
         detailPage: function (target) {
             return target && target.id === 'itemDetailPage' ? target : null;
         },
-        // Where the panel goes: above the seasons/episodes list, full width.
-        mount: function (page) {
-            return page.querySelector('.detailPageSecondaryContainer') || page.querySelector('.detailPageWrapperContainer');
+        // Where the panel goes: in the content column under the overview, above "Next Up" and the
+        // seasons/episodes list. Falls back to the top of the full-width area.
+        mount: function (page, panel) {
+            const nextUp = page.querySelector('.detailPagePrimaryContent .nextUpSection');
+            if (nextUp && nextUp.parentNode) {
+                nextUp.parentNode.insertBefore(panel, nextUp);
+                return true;
+            }
+            const fallback = page.querySelector('.detailPageSecondaryContainer');
+            if (fallback) {
+                fallback.prepend(panel);
+                return true;
+            }
+            return false;
         },
         itemIdFromUrl: function () {
             const query = (window.location.hash.split('?')[1] || window.location.search.slice(1) || '');
@@ -366,8 +377,22 @@
             ? h('div', { class: 'el-resume' }, h('div', { class: 'el-progress-fill', style: 'width:' + Math.min(100, 100 * lecture.PositionTicks / lecture.RunTimeTicks).toFixed(1) + '%' }))
             : null;
 
-        const attachments = options.showAttachments && lecture.Attachments.length
-            ? h('ul', { class: 'el-files el-attachments' }, ...lecture.Attachments.map(function (f) { return fileRow(f, refresh); }))
+        // Attachments stay folded behind a paperclip toggle so long sections remain scannable.
+        const attachments = lecture.Attachments.length
+            ? h('ul', { class: 'el-files el-attachments', hidden: true }, ...lecture.Attachments.map(function (f) { return fileRow(f, refresh); }))
+            : null;
+        const attachmentToggle = attachments
+            ? h('button', {
+                type: 'button',
+                class: 'el-meta el-attach-toggle',
+                title: 'Show ' + lecture.Attachments.length + ' resource(s)',
+                'aria-expanded': 'false',
+                onclick: function () {
+                    attachments.hidden = !attachments.hidden;
+                    this.setAttribute('aria-expanded', String(!attachments.hidden));
+                    this.title = (attachments.hidden ? 'Show ' : 'Hide ') + lecture.Attachments.length + ' resource(s)';
+                }
+            }, icon('attach_file'), String(lecture.Attachments.length))
             : null;
 
         return h('li', { class: 'el-lecture' + (options.current ? ' el-current' : '') + (lecture.Completed ? ' el-completed' : ''), 'aria-current': options.current ? 'true' : null },
@@ -375,14 +400,14 @@
                 status,
                 icon(kindIcon(lecture.Kind, lecture.Title, lecture.ExternalUrl), 'el-kind'),
                 h('div', { class: 'el-lecture-main' }, title, resume),
-                lecture.Attachments.length && !options.showAttachments ? h('span', { class: 'el-meta', title: lecture.Attachments.length + ' attachment(s)' }, icon('attach_file'), String(lecture.Attachments.length)) : null,
+                attachmentToggle,
                 h('span', { class: 'el-meta', text: meta })),
             attachments);
     }
 
     function sectionBlock(section, options) {
         const lectures = h('ol', { class: 'el-lectures' }, ...section.Lectures.map(function (lecture) {
-            return lectureRow(lecture, { refresh: options.refresh, showAttachments: options.showAttachments, current: lecture.ItemId && lecture.ItemId === options.currentItemId });
+            return lectureRow(lecture, { refresh: options.refresh, current: lecture.ItemId && lecture.ItemId === options.currentItemId });
         }));
         const resources = fileList('Section resources', section.Resources, options.refresh);
         const summary = h('summary', { class: 'el-section-summary' },
@@ -405,7 +430,7 @@
             h('div', { class: 'el-block' },
                 h('h3', { class: 'el-heading', text: 'Course content' }),
                 ...outline.Sections.map(function (section) {
-                    return sectionBlock(section, { refresh: refresh, open: section === openSection, showAttachments: false });
+                    return sectionBlock(section, { refresh: refresh, open: section === openSection });
                 }))
         ];
     }
@@ -417,7 +442,7 @@
             h('div', { class: 'el-block' },
                 h('h3', { class: 'el-heading', text: 'Section content' }),
                 h('ol', { class: 'el-lectures' }, ...section.Lectures.map(function (lecture) {
-                    return lectureRow(lecture, { refresh: refresh, showAttachments: true });
+                    return lectureRow(lecture, { refresh: refresh });
                 }))),
             h('p', { class: 'el-meta el-block' }, h('a', { class: 'el-link', href: web.detailsHref(outline.SeriesId), text: outline.Title }), ' • ' + outline.Progress.Percent + '% complete')
         ];
@@ -455,11 +480,6 @@
         if (token !== renderToken || !outline || web.itemIdFromUrl() !== itemId) {
             return;
         }
-        const mount = web.mount(page);
-        if (!mount) {
-            return;
-        }
-
         const refresh = function () {
             notCourses.delete(itemId);
             render(page, itemId);
@@ -488,9 +508,9 @@
             return;
         }
 
-        const panel = h('section', { class: 'el-panel el-panel-' + kind + ' verticalSection detailVerticalSection padded-right', 'data-item-id': itemId }, ...content);
+        const panel = h('section', { class: 'el-panel el-panel-' + kind + ' verticalSection detailVerticalSection', 'data-item-id': itemId }, ...content);
         page.querySelectorAll('.el-panel').forEach(function (old) { old.remove(); });
-        mount.prepend(panel);
+        web.mount(page, panel);
     }
 
     document.addEventListener('viewshow', function (e) {
@@ -556,6 +576,9 @@
 span.el-status { display: inline-flex; align-items: center; justify-content: center; opacity: .8; }
 .el-actions { display: inline-flex; }
 .el-attachments { padding-left: 4.2em; font-size: .92em; }
+.el-attachments[hidden] { display: none; }
+.el-attach-toggle { background: none; border: 0; color: inherit; font: inherit; cursor: pointer; padding: .2em .4em; border-radius: 1em; }
+.el-attach-toggle:hover, .el-attach-toggle[aria-expanded="true"] { background: rgba(128,128,128,.25); opacity: 1; }
 .el-viewer { position: fixed; inset: 0; z-index: 2000; display: flex; flex-direction: column; background: #101010; color: #eee; }
 .el-viewer-header { display: flex; align-items: center; gap: .5em; padding: .4em .8em; background: #1c1c1c; }
 .el-viewer-title { flex: 1; margin: 0; font-size: 1.1em; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
