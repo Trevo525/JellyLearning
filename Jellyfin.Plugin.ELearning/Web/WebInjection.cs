@@ -35,7 +35,7 @@ public sealed class WebInjection : IHostedService
     /// <param name="payload">The file contents.</param>
     /// <returns>The transformed file.</returns>
     public static string TransformIndex(IndexTransformPayload payload)
-        => WebBundle.Inject(payload?.Contents ?? string.Empty);
+        => WebAssets.Inject(payload?.Contents ?? string.Empty);
 
     /// <inheritdoc />
     public Task StartAsync(CancellationToken cancellationToken)
@@ -65,7 +65,7 @@ public sealed class WebInjection : IHostedService
             var jobject = register.GetParameters()[0].ParameterType;
             var payload = jobject.GetMethod("Parse", BindingFlags.Public | BindingFlags.Static, [typeof(string)])!.Invoke(null, [json]);
             register.Invoke(null, [payload]);
-            _logger.LogInformation("Registered the e-learning course UI with File Transformation (bundle {Version})", WebBundle.Version);
+            _logger.LogInformation("Registered the e-learning course UI with File Transformation (bundle {Version})", WebAssets.Version);
         }
         catch (Exception ex) when (ex is TargetInvocationException or InvalidOperationException or MissingMethodException or NullReferenceException)
         {

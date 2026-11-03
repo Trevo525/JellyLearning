@@ -38,6 +38,10 @@
             const query = (window.location.hash.split('?')[1] || window.location.search.slice(1) || '');
             return new URLSearchParams(query).get('id');
         },
+        // The course player page, relative to jellyfin-web's <base>/web/.
+        playerHref: function (seriesId, lectureId) {
+            return '../ELearning/Web/player.html#' + encodeURIComponent(seriesId) + (lectureId ? '/' + encodeURIComponent(lectureId) : '');
+        },
         detailsHref: function (itemId) {
             const api = web.api();
             return '#/details?id=' + encodeURIComponent(itemId) + (api ? '&serverId=' + encodeURIComponent(api.serverId()) : '');
@@ -200,22 +204,8 @@
 
     // ---- Opening things -----------------------------------------------------------------------------
 
-    function openLecture(lecture, refresh) {
-        if (lecture.Kind === 'Video') {
-            if (lecture.ItemId) {
-                window.location.hash = web.detailsHref(lecture.ItemId).slice(1);
-            }
-            return;
-        }
-        if (lecture.ExternalUrl) {
-            window.open(lecture.ExternalUrl, '_blank', 'noopener,noreferrer');
-            if (!lecture.Completed) {
-                setComplete(lecture.Id, true).then(refresh);
-            }
-            return;
-        }
-        openViewer({ Id: lecture.Id, Name: lecture.Title, Kind: lecture.Kind }, lecture, refresh);
-    }
+    // The series being shown, for links into the course player.
+    let activeSeriesId = null;
 
     function openFile(file, refresh) {
         if (file.ExternalUrl) {
@@ -369,9 +359,7 @@
             meta = isQuiz(lecture.Title) ? 'Quiz' : lecture.Kind === 'Pdf' ? 'PDF' : 'Reading';
         }
 
-        const title = lecture.Kind === 'Video' && lecture.ItemId
-            ? h('a', { class: 'el-lecture-title', href: web.detailsHref(lecture.ItemId), text: lecture.Title })
-            : h('button', { type: 'button', class: 'el-lecture-title', disabled: lecture.Kind === 'Video', onclick: function () { openLecture(lecture, refresh); }, text: lecture.Title });
+        const title = h('a', { class: 'el-lecture-title', href: web.playerHref(activeSeriesId, lecture.Id), text: lecture.Title });
 
         const resume = lecture.Kind === 'Video' && lecture.PositionTicks > 0 && lecture.RunTimeTicks && !lecture.Completed
             ? h('div', { class: 'el-resume' }, h('div', { class: 'el-progress-fill', style: 'width:' + Math.min(100, 100 * lecture.PositionTicks / lecture.RunTimeTicks).toFixed(1) + '%' }))
@@ -422,10 +410,10 @@
         const openSection = next ? next.section : outline.Sections[0];
         return [
             progressBar(outline.Progress, 'Course progress'),
-            next ? h('div', { class: 'el-block' },
-                h('button', { type: 'button', class: 'el-continue', onclick: function () { openLecture(next.lecture, refresh); } },
-                    icon(next.lecture.Kind === 'Video' ? 'play_arrow' : kindIcon(next.lecture.Kind, next.lecture.Title, next.lecture.ExternalUrl)),
-                    h('span', { text: (outline.Progress.Completed ? 'Continue: ' : 'Start: ') + next.lecture.Title }))) : null,
+            h('div', { class: 'el-block' },
+                h('a', { class: 'el-continue', href: web.playerHref(outline.SeriesId) },
+                    icon('play_arrow'),
+                    h('span', { text: next ? (outline.Progress.Completed ? 'Continue course: ' : 'Start course: ') + next.lecture.Title : 'Open course' }))),
             fileList('Course resources', outline.Resources, refresh),
             h('div', { class: 'el-block' },
                 h('h3', { class: 'el-heading', text: 'Course content' }),
@@ -453,6 +441,8 @@
         const index = lectures.findIndex(function (x) { return x.lecture === lecture; });
         const upNext = lectures.slice(index + 1, index + 4);
         return [
+            h('div', { class: 'el-block' },
+                h('a', { class: 'el-continue', href: web.playerHref(outline.SeriesId, lecture.Id) }, icon('play_arrow'), h('span', { text: 'Open in course player' }))),
             h('p', { class: 'el-meta el-block' },
                 h('a', { class: 'el-link', href: web.detailsHref(outline.SeriesId), text: outline.Title }),
                 ' › ' + section.Title + ' • lecture ' + (section.Lectures.indexOf(lecture) + 1) + ' of ' + section.Lectures.length +
@@ -485,6 +475,7 @@
             render(page, itemId);
         };
 
+        activeSeriesId = outline.SeriesId;
         let content = null;
         let kind = 'course';
         if (outline.SeriesId === itemId) {
@@ -551,7 +542,7 @@
 .el-progress-track, .el-resume { height: .4em; border-radius: .2em; background: rgba(128,128,128,.3); overflow: hidden; }
 .el-resume { height: .2em; margin-top: .25em; max-width: 20em; }
 .el-progress-fill { height: 100%; background: #00a4dc; }
-.el-continue { display: inline-flex; align-items: center; gap: .5em; padding: .6em 1.2em; border: 0; border-radius: 2em; cursor: pointer;
+.el-continue { text-decoration: none; display: inline-flex; align-items: center; gap: .5em; padding: .6em 1.2em; border: 0; border-radius: 2em; cursor: pointer;
   background: #00a4dc; color: #fff; font: inherit; max-width: 100%; text-align: left; }
 .el-continue span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .el-section { border-bottom: 1px solid rgba(128,128,128,.25); }

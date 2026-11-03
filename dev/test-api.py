@@ -172,5 +172,37 @@ if tag:
     status, headers, script = request("GET", f"/ELearning/Web/elearning.js?v={tag.group(1).decode()}", auth=False)
     check("script served without login, cacheable", status == 200 and b"viewshow" in script and "immutable" in headers.get("Cache-Control", ""))
 
+status, headers, page = request("GET", "/ELearning/Web/player.html", auth=False)
+check("course player page served (no-cache, versioned files)", status == 200 and headers.get("Cache-Control") == "no-cache" and b"player.js?v=" in page and b"{{version}}" not in page)
+
+# 7. Streaming as the course player requests it (same device profile as player.js).
+PROFILE = {"MaxStreamingBitrate": 120000000, "MaxStaticBitrate": 100000000,
+           "DirectPlayProfiles": [{"Container": "mp4,m4v", "Type": "Video", "VideoCodec": "h264", "AudioCodec": "aac,mp3,opus,flac"}],
+           "TranscodingProfiles": [{"Container": "ts", "Type": "Video", "VideoCodec": "h264", "AudioCodec": "aac,mp3", "Context": "Streaming",
+                                    "Protocol": "hls", "MaxAudioChannels": "2", "MinSegments": 1, "BreakOnNonKeyFrames": True}],
+           "ContainerProfiles": [], "CodecProfiles": [], "SubtitleProfiles": [{"Format": "vtt", "Method": "External"}]}
+user_id = call("GET", "/Users/Me", token=token)["Id"]
+def playback_info(item_id):
+    return call("POST", f"/Items/{item_id}/PlaybackInfo", token=token, body={"UserId": user_id, "DeviceProfile": PROFILE, "AutoOpenLiveStream": False,
+                "EnableDirectPlay": True, "EnableDirectStream": True, "EnableTranscoding": True, "AllowVideoStreamCopy": True, "AllowAudioStreamCopy": True})
+videos = [l for ol in outlines.values() for _, l in walk(ol) if l["Kind"] == "Video" and l.get("ItemId")]
+paths = {l["Id"]: l["RelativePath"] for e in INDEX for _, l in walk(e["Course"])}
+mp4 = next(l for l in videos if paths[l["Id"]].endswith(".mp4"))
+mkv = next(l for l in videos if paths[l["Id"]].endswith(".mkv"))
+info = playback_info(mp4["ItemId"])
+check("mp4 lecture: direct play", info["MediaSources"][0]["SupportsDirectPlay"])
+info = playback_info(mkv["ItemId"])
+src = info["MediaSources"][0]
+ok = False
+if src.get("TranscodingUrl"):
+    status, _, master = request("GET", src["TranscodingUrl"], auth=False)
+    variant = next(l for l in master.decode().splitlines() if l and not l.startswith("#"))
+    status2, _, media = request("GET", f"/videos/{mkv['ItemId']}/{variant}", auth=False)
+    segment = next(l for l in media.decode().splitlines() if l and not l.startswith("#"))
+    status3, headers3, data = request("GET", f"/videos/{mkv['ItemId']}/{segment}", auth=False)
+    ok = status == status2 == status3 == 200 and len(data) > 1000
+    call("POST", "/Sessions/Playing/Stopped", token=token, body={"ItemId": mkv["ItemId"], "MediaSourceId": src["Id"], "PlaySessionId": info["PlaySessionId"], "PositionTicks": 0})
+check("mkv lecture: HLS from Jellyfin (playlist + first segment load with the URL's key)", ok)
+
 print(f"{sum(results)}/{len(results)} passed")
 sys.exit(0 if all(results) else 1)

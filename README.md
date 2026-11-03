@@ -16,7 +16,8 @@ Targets **Jellyfin 12.2** (.NET 10). Requires the
 3. Dashboard → Plugins → E-Learning → tick the library under *Course libraries*, save, then
    scan the library (Dashboard → Libraries → Scan all libraries).
 4. Reload the web client once (the course UI is injected into it by File Transformation):
-   course, section and lecture pages then show progress, the full outline and resources.
+   course, section and lecture pages then show progress, the full outline and resources, and
+   **Start/Continue course** opens the Udemy-style course player.
 5. Optional: Dashboard → Playback → Resume → *Max resume percentage* = 100. The plugin enforces
    its own completion rule for course lectures regardless (settings page: "Lecture completion");
    this only avoids a brief "watched" flicker while a lecture plays.
@@ -38,3 +39,9 @@ With `JELLYFIN_API_KEY` in `dev/.env` (`set -a; . dev/.env; set +a`):
 `dev/test-api.py` checks the `/ELearning` API (run all three after each change and after server
 upgrades); `dev/ui-view.py` prints courses as jellyfin-web lists them;
 `dev/library-report.sh` dumps the raw database view.
+
+## Third-party
+
+The course player bundles [hls.js](https://github.com/video-dev/hls.js) 1.7.4 (light build,
+Apache-2.0, `Jellyfin.Plugin.ELearning/Web/ThirdParty/`, license next to it), and its icons
+are Material Icons paths (Apache-2.0).

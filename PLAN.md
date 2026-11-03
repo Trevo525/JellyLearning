@@ -352,12 +352,37 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
   - **Viewer** (full-screen overlay, Esc closes): HTML/Markdown/text via `Render` + `srcdoc` in a
     sandboxed iframe, PDF/images via blob URLs, download button; opening a document lecture
     marks it complete, with a toggle to undo. Link stubs open in a new tab.
+- **Course player (added after the first browser test, at the user's request: "emulate Udemy")**:
+  `Web/player.html|js|css`, served at `<base>/ELearning/Web/player.html#<seriesId>[/<lectureId>]`.
+  Udemy layout: top bar (back to Jellyfin, course title, progress ring), video/document stage
+  with a lecture bar (previous / title / next), Overview + Resources tabs, and a sticky "Course
+  content" sidebar (numbered sections with "done / total | minutes", lecture checkboxes, kind +
+  duration, "Resources" dropdowns, resume bars; stacks under the stage below 64rem).
+  - Signs in with the session jellyfin-web stored in the same origin (`jellyfin_credentials`,
+    matched by `/System/Info/Public` Id) and sends **only the token**, so Jellyfin takes client
+    and device from the token's own device (checked in 12.2's `AuthorizationContext`).
+  - Plays via `PlaybackInfo` with its own device profile: mp4/webm direct play, everything else
+    (mkv) as HLS from Jellyfin (video stream-copied when h264) through bundled **hls.js 1.7.4**
+    (light build, Apache-2.0, npm tarball integrity verified) or native HLS on Safari. Sidecar and
+    embedded subtitles come as external WebVTT tracks. Resume from the user's position.
+  - Reports `/Sessions/Playing`, `/Progress` (every 10 s, pause/unpause/seek) and `/Stopped`
+    (on lecture change, end, and `pagehide` with `keepalive`), so ProgressGuard, resume and
+    transcode cleanup work as with jellyfin-web. Outline reloaded 1.5 s after a stop.
+  - Auto-advance: 5 s "Up next" countdown to the next lecture of any kind (cancelable).
+  - Checkboxes: videos via `/UserPlayedItems`, documents via `Lectures/{id}/Complete`.
+  - jellyfin-web panels now link into it: course page "Start/Continue course", every lecture
+    title, and "Open in course player" on lecture pages. Panels moved into the content column
+    above "Next Up"; lecture resources folded behind a paperclip toggle.
 - Native auto-play: jellyfin-web's `playbackManager.getEpisodes` queues up to 100 episodes of
   the *series* from the started one, so it continues across sections (to confirm in the browser).
 - Rendered Markdown/text pages are light-only (like the exports' HTML lectures) so they read the
   same on Jellyfin's dark theme.
-- Tests: `WebBundleTests` (injection once, before `</body>`; callback payload; embedded bundle);
-  `dev/test-api.py` checks index.html carries the tag and the script is served (30/30).
+- Tests: `WebAssetsTests` (injection once, before `</body>`; callback payload; all files embedded;
+  player page versioned; unknown names refused). `dev/test-api.py` 33/33: index.html carries the
+  tag, files served, and the player's device profile gets direct play for mp4 and working HLS
+  (playlist + first segment) for mkv.
+- Open question for the user: a "dark reading mode" for exported HTML/quizzes (invert + re-invert
+  images), since their own styling is light.
 
 ### Phase 7 — Packaging & distribution
 - Forgejo Actions: build, test, zip, generate/update `manifest.json`, publish release.

@@ -38,6 +38,10 @@
     <None Remove="Configuration\configPage.html" />
     <EmbeddedResource Include="Configuration\configPage.html" />
     <EmbeddedResource Include="Web\elearning.js" />
+    <EmbeddedResource Include="Web\player.html" />
+    <EmbeddedResource Include="Web\player.js" />
+    <EmbeddedResource Include="Web\player.css" />
+    <EmbeddedResource Include="Web\ThirdParty\hls.light.min.js" />
   </ItemGroup>
 
 </Project>

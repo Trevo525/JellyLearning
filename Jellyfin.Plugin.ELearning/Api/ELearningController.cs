@@ -266,18 +266,28 @@ public sealed class ELearningController : ControllerBase
         => SetComplete(lectureId, userId, false);
 
     /// <summary>
-    /// Gets the course UI script that File Transformation injects into jellyfin-web.
+    /// Gets a web UI file: the script File Transformation injects into jellyfin-web, or the course
+    /// player page and its files. No login needed: they contain no data, the page logs in itself.
     /// </summary>
-    /// <response code="200">Script returned.</response>
-    /// <returns>The script.</returns>
-    [HttpGet("Web/elearning.js")]
+    /// <param name="name">The file name.</param>
+    /// <response code="200">File returned.</response>
+    /// <response code="404">Unknown file.</response>
+    /// <returns>The file.</returns>
+    [HttpGet("Web/{name}")]
     [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public FileContentResult GetWebBundle()
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult GetWebFile([FromRoute, Required] string name)
     {
-        // Requested with ?v=<content hash>, so it can be cached for good.
-        Response.Headers.CacheControl = "public, max-age=31536000, immutable";
-        return File(WebBundle.Content.ToArray(), "text/javascript; charset=utf-8");
+        if (WebAssets.Get(name) is not { } file)
+        {
+            return NotFound();
+        }
+
+        // Everything but the page is requested with ?v=<hash of all files>, so it can be cached for good.
+        Response.Headers.CacheControl = name == WebAssets.PlayerPage ? "no-cache" : "public, max-age=31536000, immutable";
+        Response.Headers.XContentTypeOptions = "nosniff";
+        return File(file.Content, file.ContentType);
     }
 
     private static string Relative(IndexedCourse course, string path)

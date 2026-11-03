@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <title>Course</title>
+    <link rel="stylesheet" href="player.css?v={{version}}">
+</head>
+<body>
+    <header class="topbar">
+        <a class="topbar-back" id="back" href="#" title="Back to Jellyfin" aria-label="Back to Jellyfin"></a>
+        <h1 class="topbar-title" id="course-title">Loading course…</h1>
+        <div class="topbar-progress" id="course-progress" hidden></div>
+        <button type="button" class="topbar-button" id="open-sidebar" hidden>Course content</button>
+    </header>
+    <div class="layout" id="layout">
+        <main class="main">
+            <div class="stage" id="stage"></div>
+            <div class="lecture-bar" id="lecture-bar" hidden></div>
+            <nav class="tabs" role="tablist" id="tabs">
+                <button type="button" role="tab" class="tab" data-tab="overview" aria-selected="true">Overview</button>
+                <button type="button" role="tab" class="tab" data-tab="resources" aria-selected="false">Resources</button>
+            </nav>
+            <section class="tab-panel" id="tab-overview" role="tabpanel"></section>
+            <section class="tab-panel" id="tab-resources" role="tabpanel" hidden></section>
+        </main>
+        <aside class="sidebar" id="sidebar" aria-label="Course content">
+            <div class="sidebar-header">
+                <h2>Course content</h2>
+                <button type="button" class="icon-button" id="close-sidebar" title="Hide course content" aria-label="Hide course content"></button>
+            </div>
+            <div class="sidebar-sections" id="sections"></div>
+        </aside>
+    </div>
+    <script src="hls.light.min.js?v={{version}}"></script>
+    <script src="player.js?v={{version}}"></script>
+</body>
+</html>
