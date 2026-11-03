@@ -8,8 +8,7 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 
 - **Done:** Phases 0–5 (scaffold + dev env, mapping spike, parser + index, metadata/subtitles/
   artwork, completion rule, API). Phase 4 also confirmed manually in the browser by the user.
-- **Next:** browser test of Phase 6 by the user (checklist in Phase 6), then Phase 7 —
-  packaging.
+- **Next:** Phase 7 — packaging (needs the Forgejo repo).
 - **Not pushed yet:** the Forgejo repo `trevo525/jellyfin-plugin-elearning` must be created
   (empty, no README) before `git push -u origin main`; push-to-create is disabled on the server.
 - **Dev loop:** `docker compose -f dev/docker-compose.yml up -d` → http://localhost:8096;
@@ -330,7 +329,7 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
 - Mark document lectures complete via `Lectures/{id}/Complete` (on open, plus a toggle);
   videos complete through playback only (400 otherwise).
 
-### Phase 6 — Web UI injection — IMPLEMENTED, awaiting browser test
+### Phase 6 — Web UI injection — DONE
 - [x] `Web/WebInjection.cs` (hosted service) registers an `index.html` transformation with File
   Transformation 3.0.3.0 by reflection (`PluginInterface.RegisterTransformation(JObject)`, the
   JObject built via the parameter's own type, callback = static `WebInjection.TransformIndex`).
@@ -381,8 +380,11 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
   player page versioned; unknown names refused). `dev/test-api.py` 33/33: index.html carries the
   tag, files served, and the player's device profile gets direct play for mp4 and working HLS
   (playlist + first segment) for mkv.
-- Open question for the user: a "dark reading mode" for exported HTML/quizzes (invert + re-invert
-  images), since their own styling is light.
+- Confirmed in the browser by the user (2026-11-03): player playback (mp4 direct, mkv remuxed to
+  HLS with stream copy, transcodes cleaned up on stop), resume, checkboxes, resources, subtitles,
+  Up next. Quizzes in lecture resources: offered before moving on, marked "Quiz" in the
+  sidebar, deliberately **not** tracked as done (user decision). Exported HTML keeps its own
+  (light) styling; a dark reading mode was offered, not requested.
 
 ### Phase 7 — Packaging & distribution
 - Forgejo Actions: build, test, zip, generate/update `manifest.json`, publish release.
