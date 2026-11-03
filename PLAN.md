@@ -9,8 +9,8 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 - **Done:** Phases 0–5 (scaffold + dev env, mapping spike, parser + index, metadata/subtitles/
   artwork, completion rule, API). Phase 4 also confirmed manually in the browser by the user.
 - **Next:** Phase 7 — packaging (needs the Forgejo repo).
-- **Not pushed yet:** the Forgejo repo `trevo525/jellyfin-plugin-elearning` must be created
-  (empty, no README) before `git push -u origin main`; push-to-create is disabled on the server.
+- **Repo:** `ssh://git@<forgejo-host>/trevo525/jellylearning.git` (`origin`, `main`
+  pushed 2026-11-03).
 - **Dev loop:** `docker compose -f dev/docker-compose.yml up -d` → http://localhost:8096;
   `./dev/deploy.sh` (build + install + restart); `dotnet test`; then with
   `set -a; . dev/.env; set +a`: `dev/verify-library.py`, `dev/test-progress.py` and
@@ -38,7 +38,7 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 | Auto-play | Next **video** lecture (non-video items are skipped; Jellyfin's native "play next episode") |
 | Artwork | `poster/cover/folder.jpg/png` if present, else Jellyfin frame grab of first lecture |
 | Quizzes | Exports contain self-contained **HTML quizzes** → shown as non-video lectures in a script-enabled sandboxed iframe; score tracking deferred |
-| Repo / CI | `<forgejo-host>/trevo525/jellyfin-plugin-elearning`, Forgejo Actions builds release zip + `manifest.json` plugin repository |
+| Repo / CI | `<forgejo-host>/trevo525/jellylearning`, Forgejo Actions builds release zip + `manifest.json` plugin repository |
 
 ## Observed export layouts (parser test fixtures)
 
