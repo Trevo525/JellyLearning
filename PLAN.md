@@ -4,6 +4,23 @@ Goal: watch exported e-learning courses (Udemy, Skillshare, Dometrain, Craftsy, 
 with a "native course site" feel: ordered sections/lectures, accurate resume tracking, course
 progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 
+## Status (2026-11-02) — resume here
+
+- **Done:** Phases 0–4 (scaffold + dev env, mapping spike, parser + index, metadata/subtitles/
+  artwork, completion rule). Phase 4 also confirmed manually in the browser by the user.
+- **Next:** Phase 5 — API (see below).
+- **Not pushed yet:** the Forgejo repo `trevo525/jellyfin-plugin-elearning` must be created
+  (empty, no README) before `git push -u origin main`; push-to-create is disabled on the server.
+- **Dev loop:** `docker compose -f dev/docker-compose.yml up -d` → http://localhost:8096;
+  `./dev/deploy.sh` (build + install + restart); `dotnet test`; then with
+  `set -a; . dev/.env; set +a`: `dev/verify-library.py` and `dev/test-progress.py`.
+  `dev/.env` (gitignored) holds `JELLYFIN_API_KEY` and the test user `JELLYFIN_TEST_USER` /
+  `JELLYFIN_TEST_PASSWORD` ("learner"). Libraries: "Courses" (`/data/elearning`, real exports,
+  read-only) and "Course Fixtures" (`/data/courses`, from `dev/make-fixtures.sh`), both ticked
+  in the plugin settings.
+- **Reference source:** 12.2 server code is at tag `v12.2` of github.com/jellyfin/jellyfin
+  (sparse clone of `MediaBrowser.*`, `Emby.*` was enough to answer every extension question).
+
 ## Decisions (from interview, 2026-10-21)
 
 | Topic | Decision |
@@ -13,7 +30,7 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 | Users | Multiple users; all progress is per-user |
 | Library type | **Shows** library: Course = Series, Section = Season, Lecture = Episode |
 | Ordering | Numeric prefixes, natural sort, alphabetical fallback |
-| Completion | Lecture completes only near the very end (default: last 10 s **or** ≥ 98 %, configurable); otherwise exact resume position is kept |
+| Completion | Lecture completes only near the very end (default: last 10 s **or** ≥ 98 %, configurable); otherwise exact resume position is kept (< 5 s → start). Completed lectures stay completed when rewatched |
 | UI | Injected into jellyfin-web via the **File Transformation** plugin (dependency) |
 | Attachments | Lecture-level, section-level, and course-level; inline view for PDF/HTML/MD/TXT/images, download for everything |
 | Non-video lectures | HTML, Markdown/text, PDF-as-lecture shown in the course outline |
@@ -258,9 +275,25 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
 - [x] `dev/test-progress.py`: plays lectures as a test user via the web client's session
   endpoints; 6/6 scenarios pass with Jellyfin's default MaxResumePct = 90.
 - Thresholds are global (plugin settings), not per library — enough for one dedicated instance.
+- Manually confirmed in the browser (user, 2026-11-02): half-watched lecture resumes and stays
+  unwatched; 12 s before the end stays in progress; 4 s before the end marks it complete.
 
 ### Phase 5 — API
-- Controller endpoints above, auth, safe file serving, Markdown rendering.
+- Controller `/ELearning/...` (endpoints in "API" above), all `[Authorize]`; the course is found
+  from the Series' path via `CourseIndex.GetCourse`, files via `CourseIndex.GetFile(id)` only.
+- **Outline**: sections → lectures (videos with their Jellyfin episode IDs, documents),
+  attachments, resources; per-user completion = Jellyfin played state for videos +
+  `ProgressStore` for document lectures; totals for the course/section progress bars.
+- **Files**: stream with range support (PDF/video), correct content type, `download=true` →
+  attachment. Check the user may see the course (library access) before serving.
+- **Render**: Markdown → HTML (Markdig, no raw HTML); HTML lectures/quizzes served with a
+  strict CSP for a sandboxed iframe (`allow-scripts`, no `allow-same-origin`); **link stubs**
+  (meta-refresh / single link pages, common in Udemy `N-Resources/`) detected and returned as
+  external links instead.
+- **Non-video completion**: `POST`/`DELETE Items/{lectureId}/Complete`, stored per user in
+  `ProgressStore` (plugin data folder), keyed by course folder + relative path (stable like
+  the file IDs).
+- Tests: controller logic against fixture courses; path-traversal / unknown-ID cases.
 
 ### Phase 6 — Web UI injection
 - Register bundle with File Transformation; course/section/lecture panels, outline, viewer,
@@ -284,8 +317,8 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
 - **MKV in browser** may force transcoding; check the dedicated instance's hardware acceleration.
   The Screen Grabber also failed on a few Udemy `.mkv` files during the Phase 1 scan; check
   whether those files play and fall back to the course cover for their thumbnails.
-- **12.2 extension APIs**: resolver/provider interfaces verified in Phase 1 (v12.2 source +
-  running spike). Still to verify: `ISessionManager.PlaybackStopped` args (Phase 4).
+- ~~12.2 extension APIs~~: resolver/provider/ignore-rule/image-provider interfaces (Phases 1, 3)
+  and session/user-data events (Phase 4) verified against the v12.2 source and the running server.
 - **Server upgrades**: plugin is built per server version; bump image tag, packages and
-  `targetAbi` together, and re-run `dev/ui-view.py` against the real sources to catch
-  resolver/provider behaviour changes.
+  `targetAbi` together, then run `dotnet test`, `dev/verify-library.py` and
+  `dev/test-progress.py` to catch resolver/provider/playback behaviour changes.
