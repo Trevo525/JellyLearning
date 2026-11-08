@@ -15,7 +15,7 @@ S-  #2  "QUIZ 1 IvatETA Emememezigif"  <- 02-QUIZ_1_IvatETA_Emememezigif
 S2  #3  "Emememezigif of Zalegoko umubelile"  <- 03-Emememezigif_of_Zalegoko_umubelile
   E1   #8    Video    "Introduction to zalegoko umubelile"  <- 03-Emememezigif_of_Zalegoko_umubelile/8-Introduction_to_zalegoko_umubelile.mkv
   E2   #9    Video    "Rusigupe Gegep using nava kuguzalo inuza Obutak inuza"  <- 03-Emememezigif_of_Zalegoko_umubelile/9-Rusigupe_Gegep_using_nava_kuguzalo_inuza_Obutak_inuza.mkv
-  E3   #10   Video    "Pomotob of GIR in 2D Akebelokubif GIR s Arape of ogarezozase"  <- 03-Emememezigif_of_Zalegoko_umubelile/10-Pomotob_of_GIR_in_2D_Akebelokubif_GIR_s_Arape_of_ogarezozase.mkv
+  E3   #10   Video    "Pomotob of GIR in 2D Akebelokubif GIR's Arape of ogarezozase"  <- 03-Emememezigif_of_Zalegoko_umubelile/10-Pomotob_of_GIR_in_2D_Akebelokubif_GIR_s_Arape_of_ogarezozase.mkv
   E4   #11   Video    "Lokerut Memilisop"  <- 03-Emememezigif_of_Zalegoko_umubelile/11-Lokerut_Memilisop.mkv
   E5   #12   Video    "Lokerut 1"  <- 03-Emememezigif_of_Zalegoko_umubelile/12-Lokerut_1.mkv
   E6   #13   Video    "Uregebir a Ovumuvuloz Orus tusofo ogarezozase"  <- 03-Emememezigif_of_Zalegoko_umubelile/13-Uregebir_a_Ovumuvuloz_Orus_tusofo_ogarezozase.mkv

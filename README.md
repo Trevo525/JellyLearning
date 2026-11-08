@@ -24,8 +24,10 @@ Jellyfin **12.2** only (the plugin is built against 12.2's packages).
 
 1. Install File Transformation and this plugin (see Install), restart.
 2. Create a **Shows** library for the courses (one folder per course). In its settings turn off
-   all internet metadata/image fetchers (TheMovieDb, OMDb) and the NFO saver, and under the
-   image fetchers for **Shows** and **Seasons** enable **E-Learning first lecture**.
+   all internet metadata/image fetchers (TheMovieDb, OMDb) and the NFO saver. Courses and
+   sections get a generated cover (title on a purple/blue gradient); to use your own, put a
+   `poster`, `cover` or `folder` image (jpg/png) in the course folder. Covers follow the folder names:
+   after renaming a course or section folder, a normal library scan draws the new one.
 3. Dashboard → Plugins → E-Learning → tick the library under *Course libraries*, save, then
    scan the library (Dashboard → Libraries → Scan all libraries).
 4. Reload the web client once (the course UI is injected into it by File Transformation):

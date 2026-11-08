@@ -1,0 +1,13 @@
+COURSE "Getting Started - Sourdough 2024-6"  studio=Dometrain  year=-  artwork=-
+  resource  Archive  "Code.zip"  <- code.zip
+
+S1  #-  "Lectures"  <- (course folder)
+  E1   #1    Video    "Welcome"  <- 01. Welcome.mp4
+  E2   #2    Video    "What you will bake in this course"  <- 02. What you will bake in this course.mp4
+  E3   #3    Video    "Tools & Ingredients"  <- 03. Tools & Ingredients.mp4
+  E4   #4    Video    "Feeding a starter"  <- 04. Feeding a starter.mp4
+  E5   #5    Video    "Mixing the dough"  <- 05. Mixing the dough.mp4
+  E6   #6    Video    "Folding & Shaping"  <- 06. Folding & Shaping.mp4
+  E7   #7    Video    "Proofing overnight"  <- 07. Proofing overnight.mp4
+  E8   #8    Video    "Scoring and baking"  <- 08. Scoring and baking.mp4
+  E9   #9    Video    "Course conclusion"  <- 09. Course conclusion.mp4

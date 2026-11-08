@@ -1,0 +1,26 @@
+COURSE "Linkedin Learning Learning Pottery-EXAMPLE"  studio=-  year=-  artwork=-
+  resource  Archive  "Ex Files Learning Pottery.zip"  <- Ex.Files.Learning.Pottery.zip
+
+S1  #1  "Introduction"  <- 01-Introduction
+  E1   #1    Video    "Pottery for beginners"  <- 01-Introduction/01.Pottery.for.beginners.mp4
+  E2   #2    Video    "Why clay"  <- 01-Introduction/02.Why.clay.mp4
+  E3   #3    Video    "Sample projects to try"  <- 01-Introduction/03.Sample.projects.to.try.mp4
+
+S2  #2  "Basics"  <- 02-Basics
+  E1   #1    Video    "Wedging the clay"  <- 02-Basics/01.Wedging.the.clay.mp4
+  E2   #2    Video    "Challenge - Center the clay"  <- 02-Basics/02.Challenge.-.Center.the.clay.mp4
+  E3   #3    Video    "Solution - Center the clay"  <- 02-Basics/03.Solution.-.Center.the.clay.mp4
+  E4   #4    Video    "Let's throw a cup"  <- 02-Basics/04.Let.s.throw.a.cup.mp4
+
+S3  #3  "Working Around the Wheel"  <- 03-Working.Around.the.Wheel
+  E1   #1    Video    "Wheel speed - A B C"  <- 03-Working.Around.the.Wheel/01.Wheel.speed.-.A.B.C.mp4
+  E2   #2    Video    "Wheel 3.0 settings"  <- 03-Working.Around.the.Wheel/02.Wheel.3.0.settings.mp4
+  E3   #3    Video    "Challenge - Edit .wheelrc"  <- 03-Working.Around.the.Wheel/03.Challenge.-.Edit..wheelrc.mp4
+  E4   #4    Video    "Solution - Edit .wheelrc"  <- 03-Working.Around.the.Wheel/04.Solution.-.Edit..wheelrc.mp4
+
+S4  #4  "Step By Step.Clay"  <- 04-Step-By-Step.Clay
+  E1   #1    Video    "Storing clay"  <- 04-Step-By-Step.Clay/01.Storing.clay.mp4
+  E2   #2    Video    "Don't waste scraps"  <- 04-Step-By-Step.Clay/02.Don.t.waste.scraps.mp4
+
+S5  #5  "Conclusion"  <- 05-Conclusion
+  E1   #1    Video    "Next steps"  <- 05-Conclusion/01.Next.steps.mp4

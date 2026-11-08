@@ -4,7 +4,7 @@ COURSE "How to Tivav - Udimarolam for Emubigom, Popafokiro & Vuzulalop the Ulusu
 
 S1  #-  "Lectures"  <- (course folder)
   E1   #1    Video    "Introduction"  <- 01 - introduction.mp4
-  E2   #2    Video    "Lazi S Refeku For Learning"  <- 02 - lazi-s-refeku-for-learning.mp4
+  E2   #2    Video    "Lazi's Refeku For Learning"  <- 02 - lazi-s-refeku-for-learning.mp4
   E3   #3    Video    "How We Tivav Vinomit"  <- 03 - how-we-tivav-vinomit.mp4
   E4   #4    Video    "Getting Started Uvimame Umizosa"  <- 04 - getting-started-uvimame-umizosa.mp4
   E5   #5    Video    "Popafokiro Dusug"  <- 05 - popafokiro-dusug.mp4

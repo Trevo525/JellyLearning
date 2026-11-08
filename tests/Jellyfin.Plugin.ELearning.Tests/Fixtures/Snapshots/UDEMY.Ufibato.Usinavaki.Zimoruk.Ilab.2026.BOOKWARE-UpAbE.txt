@@ -255,7 +255,7 @@ S12  #12  "Eresu Amabom"  <- 12-Eresu_Amabom
          attach    Html     "Defib Livaba Otoduki 3.html"  <- 12-Eresu_Amabom/121-Resources/Defib_Livaba_Otoduki_3.html
          attach    Html     "Pakazefapi Otoduki.html"  <- 12-Eresu_Amabom/121-Resources/Pakazefapi_Otoduki.html
   E3   #122  Video    "Agogovugi Badag.bat Tunut"  <- 12-Eresu_Amabom/122-Agogovugi_Badag.bat_Tunut.mkv
-         attach    Html     "Ulana s Tunut Gosa.html"  <- 12-Eresu_Amabom/122-Resources/Ulana_s_Tunut_Gosa.html
+         attach    Html     "Ulana's Tunut Gosa.html"  <- 12-Eresu_Amabom/122-Resources/Ulana_s_Tunut_Gosa.html
   E4   #123  Video    "DinevodepofIKU Using Rusigupe"  <- 12-Eresu_Amabom/123-DinevodepofIKU_Using_Rusigupe.mkv
          attach    Html     "Edeb.html"  <- 12-Eresu_Amabom/123-Resources/Edeb.html
   E5   #124  Video    "Rusigupe Sutet-Kafupap Zimoruk"  <- 12-Eresu_Amabom/124-Rusigupe_Sutet-Kafupap_Zimoruk.mkv

@@ -36,7 +36,7 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 | Attachments | Lecture-level, section-level, and course-level; inline view for PDF/HTML/MD/TXT/images, download for everything |
 | Non-video lectures | HTML, Markdown/text, PDF-as-lecture shown in the course outline |
 | Auto-play | Next **video** lecture (non-video items are skipped; Jellyfin's native "play next episode") |
-| Artwork | `poster/cover/folder.jpg/png` if present, else Jellyfin frame grab of first lecture |
+| Artwork | `poster/cover/folder.jpg/png` if present, else a generated cover (title on a purple/blue gradient) |
 | Quizzes | Exports contain self-contained **HTML quizzes** → shown as non-video lectures in a script-enabled sandboxed iframe; score tracking deferred |
 | Repo / CI | `<forgejo-host>/trevo525/jellylearning`, Forgejo Actions builds release zip + `manifest.json` plugin repository |
 
@@ -212,7 +212,8 @@ Carry into Phases 2–3:
 ### Phase 2 — CourseParser + CourseIndex — DONE
 - [x] Pure parser (`Courses/CourseParser.cs`, `CourseNaming.cs`) working on relative paths only.
 - [x] Fixtures = file listings of the 7 layouts (`tests/.../Fixtures/Listings/`, 5 exported from the
-  real sources, Skillshare/Craftsy from the interview). **Snapshot tests** pin the full outline of
+  real sources, Skillshare/Craftsy from the interview; new fixtures use invented names, see
+  "Real-library review"). **Snapshot tests** pin the full outline of
   each (`Fixtures/Snapshots/`) — a snapshot diff means numbering changed; review before accepting
   (`UPDATE_SNAPSHOTS=1 dotnet test`). Plus per-rule unit tests (76 tests total).
 - [x] `CourseIndex`: persisted at `<DataPath>/elearning/course-index.json` (dev host:
@@ -231,8 +232,8 @@ Rules settled while implementing (in addition to "Parsing rules" above):
 - Subtitles: `<video>{.|_|-| }<lang>[.<flag>].<ext>`, matched to the longest video name;
   unmatched subtitles become section resources.
 - Cover: `poster|cover|folder.<image>` in the course folder.
-- Known limitation: slugs lose apostrophes ("Lazi S Refeku For Learning"); fix via the later
-  `course.json` override if it matters.
+- ~~Known limitation: slugs lose apostrophes~~ — fixed 2026-11-08 (contraction rule, see
+  "Real-library review").
 - **For Phase 3**: library scans run metadata providers *before* post-scan tasks, so providers
   must parse the course themselves (`CourseScanner.Scan`, cached per scan), not read the index.
 
@@ -250,11 +251,12 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
 - [x] `SubtitleSidecarProvider` (pre-refresh, order 10 < probe's 100): copies `X_en.srt` into the
   item's internal metadata folder as `X.en.srt`, where 12.2's external-subtitle scan looks too.
   Course folders are never written to. Result: "English - SUBRIP/WEBVTT - External" tracks.
-- [x] `FirstLectureImageProvider` (`IDynamicImageProvider`, "E-Learning first lecture"): course
-  and section artwork = frame of the first video lecture, unless a `poster/cover/folder` image
-  exists. **Must be enabled per library** (Shows + Seasons image fetchers).
-  `CourseArtworkTask` (post-scan) fills images that were missing on a course's first scan
-  (sections are refreshed before their videos are probed).
+- [x] ~~`FirstLectureImageProvider`~~ (frame of the first lecture) — replaced after Phase 7 by
+  `CourseCoverProvider`: generated covers for courses and sections (`CoverRenderer`, SkiaSharp
+  from the server: blurred purple/blue gradient, title, studio / course name). An
+  `ILocalImageProvider` (order 1), so it is always on, applies to existing items on any scan,
+  and loses to a `poster/cover/folder` image in the course folder (Jellyfin's own local images,
+  order 0). Covers are cached in `<data>/elearning/covers/`, keyed by text + `DesignVersion`.
 - [x] `dev/verify-library.py`: compares jellyfin-web's view with the course index for every
   course; passes for 13 series / 825 lectures (real sources + fixtures) including subtitles and
   artwork, also on a from-scratch first scan. A non-course library on the same instance keeps
@@ -401,12 +403,61 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
 - `dev/deploy.sh` now removes every installed `E-Learning_*` folder first (Jellyfin loads the
   highest version, so a leftover release would shadow dev builds).
 
+### Real-library review (2026-11-08, after Phase 7)
+The user imported a large real library (134 courses); findings and decisions:
+
+- **Merged lectures (fixed)**: Jellyfin's folder-wide video resolver groups episodes whose path
+  parses to the same SxxEyy into *versions* of one item — a folder name like "… 2024-6" made every
+  file "S2024E6" — and it silently drops files with the word "sample" in their name.
+  `LectureResolver` (`IMultiItemResolver`, priority Plugin) now resolves each lecture of a course
+  folder on its own via `ILibraryManager.ResolvePath` (ends in Jellyfin's EpisodeResolver, which
+  neither groups nor drops). Other libraries keep Jellyfin's behaviour. Already-grouped items
+  split on the next scan with their IDs and watch data intact.
+- **Stale names (fixed)**: our custom providers only run on an ordinary scan if they implement
+  `IHasItemChangeMonitor` and report a change, so Course/Section/LectureProvider now compare
+  the parsed values with the item (`Apply(item, write: false)`).
+- **Naming rules added**: slug contractions (`Let_s` → "Let's", `don_t`, `we_ll`, `you_ve`, `_re`;
+  needs a separator after it so "and_s" stays), dots as word gaps in dotted names when dots
+  outnumber dashes (digit dots like "3.0" and dotfiles "..zshenv" → " .zshenv" stay; accepted
+  side effect: "Step-By-Step.Clay" → "Step By Step.Clay"), `.part` files are junk.
+- **Deliberately not changed** (user decisions):
+  - Release tags (`-GROUP`) stay in titles; stripping them risks eating real title text.
+  - No provider/studio guessing from nfo files or file names; folder name only.
+  - A trailing "- <course title>" on lecture names is kept (could be part of a real title).
+  - Numeric course IDs in some providers' names are kept.
+  - Bad source folders (wrong or missing structure) are fixed by hand in the library, not by
+    heuristics.
+  - A year in the middle of a scene name (not at the end) isn't detected; acceptable.
+  - Truncated source names (8-character names, e.g. `4___ABC_.MP4`) can't be repaired; the
+    numbers set section/lecture order and are not shown in titles.
+- **Open**: `.url` files (only 4 in the library) are ignored; could become link lectures/resources
+  like the HTML meta-refresh stubs.
+- **Generated covers** (replace the first-lecture frame grab, see Phase 3). How they behave:
+  - Course: title + studio; section: "SECTION N" + section title + course title; a flat
+    course's one section: "LECTURES".
+  - Cached in `<data>/elearning/covers/<sha256>.jpg`, keyed by the text + `DesignVersion`;
+    a renamed course/section folder gets a new cover on the next normal scan. Bump
+    `CoverRenderer.DesignVersion` to redraw all after a design change. First full render of
+    694 covers took ~86 s of scan time.
+  - Rough edges for the design cleanup: a line can end in a dangling " -"; relies on the
+    server's DejaVu Sans (bundle a font for other hosts); an image uploaded through Jellyfin's
+    UI is replaced on the next refresh (local images win), so overrides go in the course
+    folder; old cache files are never deleted.
+- **Test fixtures must not use the user's real course or file names** (user rule, 2026-11-08):
+  fixtures, test cases and examples in code/docs use invented names with the same shape.
+  Fixtures added before that rule still carry real names and are in git history — see open
+  question in "Open risks".
+
 ### Later
 - Quiz score tracking (read results from the HTML quiz via postMessage).
 - Optional per-course `course.json` override (titles/order/description).
 - Course-level "Continue where you left off" button.
 
 ## Open risks
+- **Real course names in the repo**: the fixtures from Phase 2 (listings, snapshots), some test
+  cases, `dev/test-api.py`, `dev/test-progress.py` and examples in this plan use the user's real
+  course and file names, and are in the pushed history. Pending user decision: replace them with
+  invented ones, and whether to rewrite history (force push).
 - ~~File Transformation compatibility with 12.2~~: resolved — 3.0.3.0 has a 12.2.0.0 build and
   loads in the dev instance. (Fallback if it ever lags a server upgrade: serve the bundle from the
   plugin and load it through a generic custom-JS plugin.)

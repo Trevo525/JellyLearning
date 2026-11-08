@@ -1,0 +1,15 @@
+COURSE "UDEMY LEARN TO SKETCH ANYTHING-EXAMPLE"  studio=-  year=-  artwork=-
+
+S1  #1  "Getting Started"  <- 01 Getting Started
+  E1   #1    Video    "Choosing Pencils"  <- 01 Getting Started/001 Choosing Pencils.mp4
+  E2   #2    Video    "Holding the Pencil"  <- 01 Getting Started/002 Holding the Pencil.mp4
+  resource  Text     "Useful Links.txt"  <- 01 Getting Started/useful-links.txt
+
+S2  #2  "Shapes and Shading"  <- 02 Shapes and Shading
+  E1   #3    Video    "Basic Shapes"  <- 02 Shapes and Shading/003 Basic Shapes.mp4
+  E2   #4    Video    "Light and Shadow"  <- 02 Shapes and Shading/004 Light and Shadow.mp4
+  resource  Text     "Useful Links.txt"  <- 02 Shapes and Shading/useful-links.txt
+
+S3  #3  "Putting It Together"  <- 03 Putting It Together
+  E1   #5    Video    "Drawing a Still Life"  <- 03 Putting It Together/005 Drawing a Still Life.mp4
+  E2   #6    Video    "Well Done (And what comes next...)"  <- 03 Putting It Together/006 Well Done (And what comes next...).mp4

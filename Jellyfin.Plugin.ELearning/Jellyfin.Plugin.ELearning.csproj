@@ -21,6 +21,10 @@
     <PackageReference Include="Jellyfin.Model" Version="12.2.0">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+    <!-- Ships with the server (Jellyfin draws its images with it); compile against the same version. -->
+    <PackageReference Include="SkiaSharp" Version="3.119.4">
+      <ExcludeAssets>runtime;native</ExcludeAssets>
+    </PackageReference>
     <PackageReference Include="Markdig" Version="1.5.1" />
   </ItemGroup>
 

@@ -89,7 +89,7 @@ public static partial class CourseNaming
         ["DataCamp"] = "DataCamp",
     }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
-    private static readonly FrozenSet<string> _junkExtensions = new[] { ".rar", ".sfv", ".nfo", ".par2", ".nzb", ".torrent", ".url", ".lnk" }
+    private static readonly FrozenSet<string> _junkExtensions = new[] { ".rar", ".sfv", ".nfo", ".par2", ".nzb", ".torrent", ".url", ".lnk", ".part" }
         .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
     private static readonly FrozenSet<string> _junkNames = new[] { "Thumbs.db", "desktop.ini" }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
@@ -166,8 +166,9 @@ public static partial class CourseNaming
     }
 
     /// <summary>
-    /// Turns slugs into words ("lazi-s-refeku" → "Lazi S Refeku", "File_Handling" → "File Handling").
-    /// Names that already contain spaces keep their punctuation ("Free-Form").
+    /// Turns slugs into words ("anna-s-method" → "Anna's Method", "File_Handling" → "File Handling",
+    /// "Working.Around" → "Working Around"). Names that already contain spaces keep their punctuation
+    /// ("Free-Form").
     /// </summary>
     /// <param name="text">The text.</param>
     /// <returns>The humanized text.</returns>
@@ -177,7 +178,14 @@ public static partial class CourseNaming
         var result = Whitespace().Replace(text, " ").Trim();
         if (!result.Contains(' ', StringComparison.Ordinal))
         {
-            result = result.Replace('_', ' ');
+            result = Contractions(result).Replace('_', ' ');
+            // Dots are the word gaps only when they outnumber dashes: "Solution.-.Center.the.clay", but
+            // "What-is-.NET-Nebedo". ".." starts a dotfile ("Edit..zshenv" → "Edit .zshenv").
+            if (!result.Contains(' ', StringComparison.Ordinal) && WordDot().Count(result) > result.Count(c => c == '-'))
+            {
+                result = WordDot().Replace(result.Replace("..", " .", StringComparison.Ordinal), " ");
+            }
+
             if (!result.Contains(' ', StringComparison.Ordinal))
             {
                 result = result.Replace('-', ' ');
@@ -233,7 +241,7 @@ public static partial class CourseNaming
                 name = name[..scene.Index];
             }
 
-            name = name.Replace('.', ' ');
+            name = WordDot().Replace(Contractions(name), " ");
         }
 
         name = Humanize(name);
@@ -324,6 +332,9 @@ public static partial class CourseNaming
 #pragma warning restore CA1308
     }
 
+    // In slugs a separator stands for a space, so "Developer.s.Guide" and "Let_s_Start" lost an apostrophe.
+    private static string Contractions(string slug) => Contraction().Replace(slug, m => "'" + m.Value[1..]);
+
     private static string TitleCase(string text)
     {
         var chars = text.ToCharArray();
@@ -343,6 +354,13 @@ public static partial class CourseNaming
 
     [GeneratedRegex(@"\s+")]
     private static partial Regex Whitespace();
+
+    [GeneratedRegex(@"(?<=[A-Za-z])[._-](?:s|ll|ve|re)(?=[._-])|(?<=[A-Za-z]n)[._-]t(?=[._-])", RegexOptions.IgnoreCase)]
+    private static partial Regex Contraction();
+
+    // A dot between words; dots between digits ("3.0") and after a space (".zshenv") stay.
+    [GeneratedRegex(@"(?<![\s\d])\.|(?<=\d)\.(?=\D)")]
+    private static partial Regex WordDot();
 
     [GeneratedRegex(@"\.(?<year>(?:19|20)\d{2})\.[A-Za-z0-9.]+-[A-Za-z0-9]+$")]
     private static partial Regex SceneSuffix();

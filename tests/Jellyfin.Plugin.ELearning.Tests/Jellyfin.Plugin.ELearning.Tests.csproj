@@ -12,6 +12,9 @@
     <!-- With runtime assets (the plugin excludes them), so tests can load Jellyfin types. -->
     <PackageReference Include="Jellyfin.Controller" Version="12.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <!-- Same version as the server's; the native library lets the cover tests draw. -->
+    <PackageReference Include="SkiaSharp" Version="3.119.4" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.4" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
   </ItemGroup>
