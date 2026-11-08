@@ -44,9 +44,10 @@
         },
         // jellyfin-web's own headings on course pages, in course words. It writes "Seasons" /
         // "Episodes" after loading the children, so they are set again whenever it does.
+        // Series and seasons use #listChildrenCollapsible (12.2), other types #childrenCollapsible.
         headings: {
-            course: { '#childrenCollapsible .sectionTitle > span': 'Sections', '.nextUpSection .sectionTitle': 'Next lecture' },
-            section: { '#childrenCollapsible .sectionTitle > span': 'Lectures', '.nextUpSection .sectionTitle': 'Next lecture' }
+            course: { '#listChildrenCollapsible .sectionTitle > span, #childrenCollapsible .sectionTitle > span': 'Sections', '.nextUpSection .sectionTitle': 'Next lecture' },
+            section: { '#listChildrenCollapsible .sectionTitle > span, #childrenCollapsible .sectionTitle > span': 'Lectures', '.nextUpSection .sectionTitle': 'Next lecture' }
         },
         relabel: function (page, kind) {
             const labels = web.headings[kind];

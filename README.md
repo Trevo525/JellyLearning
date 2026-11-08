@@ -47,8 +47,8 @@ dotnet test                                      # unit + snapshot tests
 build/package.sh 0.1.0                           # release zip -> artifacts/release/
 ```
 
-Releases: push a tag `vX.Y.Z`; the Forgejo workflow (`.forgejo/workflows/build.yml`) runs the
-tests, builds the zip with `build/package.sh` and attaches it to a release. Every push runs the
+Releases: push a tag `vX.Y.Z`; the GitHub Actions workflow (`.github/workflows/build.yml`) runs
+the tests, builds the zip with `build/package.sh` and attaches it to a GitHub release. Every push runs the
 tests. Bump `version` and `changelog` in `build.yaml` with each release.
 
 First-run setup of the dev instance is in [dev/README.md](dev/README.md).

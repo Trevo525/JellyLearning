@@ -8,12 +8,14 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 
 - **Done:** Phases 0–7, plus the real-library review (merged lectures, naming rules, generated
   covers, `.url` links, course words for Jellyfin's headings, invented test fixtures).
-- **Waiting on the user:** browser check of the generated covers and the Sections/Lectures
-  headings; Forgejo runner confirmation (label `docker`) before the first tag `v0.1.0`.
-- **Next:** cover design cleanup (see "Real-library review"); then "Later".
-- **Repo:** `ssh://git@<forgejo-host>/trevo525/jellylearning.git` (`origin`). History
-  was rewritten and force-pushed on 2026-11-08 to remove real course names; old clones must be
-  re-cloned (`git fetch && git reset --hard origin/main`).
+- **Confirmed by the user (2026-11-08):** generated covers, Sections/Lectures headings.
+- **Last step for 1.0:** Phase 8, publish on GitHub (user has no time yet; nothing pushed since
+  the rewrite).
+- **Next:** "Later". The generated covers were approved as they are (2026-11-08); the rough
+  edges listed under "Real-library review" are only to revisit if they become a problem.
+- **Repo:** moving to GitHub (user decision, 2026-11-08); CI is GitHub Actions. The history was
+  rewritten on 2026-11-08 to remove real course names and personal names/addresses, so it is
+  published from this rewritten clone.
 - **Dev loop:** `docker compose -f dev/docker-compose.yml up -d` → http://localhost:8096;
   `./dev/deploy.sh` (build + install + restart); `dotnet test`; then with
   `set -a; . dev/.env; set +a`: `dev/verify-library.py`, `dev/test-progress.py` and
@@ -41,7 +43,7 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 | Auto-play | Next **video** lecture (non-video items are skipped; Jellyfin's native "play next episode") |
 | Artwork | `poster/cover/folder.jpg/png` if present, else a generated cover (title on a purple/blue gradient) |
 | Quizzes | Exports contain self-contained **HTML quizzes** → shown as non-video lectures in a script-enabled sandboxed iframe; score tracking deferred |
-| Repo / CI | `<forgejo-host>/trevo525/jellylearning`, Forgejo Actions builds release zip + `manifest.json` plugin repository |
+| Repo / CI | GitHub; GitHub Actions tests every push and attaches the release zip to tagged releases (no plugin repository, see Phase 7) |
 
 ## Observed export layouts (parser test fixtures)
 
@@ -159,7 +161,7 @@ Jellyfin's own on every progress report and stop, for items in course libraries 
 ## Phases
 
 ### Phase 0 — Setup
-- [x] Standalone git repo (dotfiles ignores it via its `*` rule). Remote on Forgejo pending.
+- [x] Standalone git repo (dotfiles ignores it via its `*` rule).
 - [x] Scaffold from `jellyfin/jellyfin-plugin-template` → `Jellyfin.Plugin.ELearning`,
   `net10.0`, `Jellyfin.Controller`/`Jellyfin.Model` **12.2.0**, targetAbi `12.2.0.0`. Loads as Active.
 - [x] `dev/docker-compose.yml`: 12.2 instance (pinned) + File Transformation 3.0.3.0 (verified 12.2
@@ -391,18 +393,18 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
   sidebar, deliberately **not** tracked as done (user decision). Exported HTML keeps its own
   (light) styling; a dark reading mode was offered, not requested.
 
-### Phase 7 — Packaging & distribution — DONE (workflow untested until the runner picks it up)
-- **No plugin repository** (user decision, 2026-11-03): Forgejo requires sign-in for everything,
-  so Jellyfin couldn't fetch a `manifest.json` from it. Install is manual: unzip a release zip
-  into `<config>/data/plugins/` and restart (README, "Install").
+### Phase 7 — Packaging & distribution — DONE (workflow untested until the first GitHub run)
+- **No plugin repository** (user decision, 2026-11-03; the original host required sign-in, so
+  Jellyfin couldn't fetch a `manifest.json`). Install is manual: unzip a release zip into
+  `<config>/data/plugins/` and restart (README, "Install"). A plugin repository on GitHub
+  (manifest.json served from the repo or Pages) is possible later.
 - [x] `build/package.sh [version]`: Release publish with the version stamped into the assembly,
   copies the `build.yaml` artifacts (plugin dll, Markdig.dll), writes `meta.json` from
   `build.yaml`, zips `E-Learning_<version>/` + a `.sha256`. Verified on the dev server: unzipped
   0.1.0.0 loads as Active and `dev/test-api.py` passes 33/33.
-- [x] `.forgejo/workflows/build.yml`: tests on every push/PR; on `v*` tags also packages and
-  `build/publish-release.py` creates the release and attaches the zip (Forgejo API, automatic
-  token). Assumes a runner with the `docker` label and the default actions mirror
-  (`actions/checkout`, `actions/setup-dotnet`).
+- [x] `.github/workflows/build.yml` (GitHub Actions since 2026-11-08, user decision):
+  tests on every push/PR; on `v*` tags also packages and `gh release create` publishes the zip +
+  `.sha256`, with notes from `build/release-notes.py` (build.yaml changelog + install steps).
 - `dev/deploy.sh` now removes every installed `E-Learning_*` folder first (Jellyfin loads the
   highest version, so a leftover release would shadow dev builds).
 
@@ -449,7 +451,7 @@ The user imported a large real library (134 courses); findings and decisions:
     a renamed course/section folder gets a new cover on the next normal scan. Bump
     `CoverRenderer.DesignVersion` to redraw all after a design change. First full render of
     694 covers took ~86 s of scan time.
-  - Rough edges for the design cleanup: a line can end in a dangling " -"; relies on the
+  - Approved by the user as is (2026-11-08). Known rough edges, if ever needed: a line can end in a dangling " -"; relies on the
     server's DejaVu Sans (bundle a font for other hosts); an image uploaded through Jellyfin's
     UI is replaced on the next refresh (local images win), so overrides go in the course
     folder; old cache files are never deleted.
@@ -460,6 +462,23 @@ The user imported a large real library (134 courses); findings and decisions:
   order; the git history was rewritten the same way (user decision). `dev/make-fixtures.sh`
   writes meta-refresh stubs for HTML in `N-Resources/` and example.com targets for `.url`
   files, so `dev/test-api.py` no longer needs a real course.
+
+### Phase 8 — Publish on GitHub (last step for 1.0) — TODO
+Nothing identifying the user may be in the repo or its history (user rule, 2026-11-08: no real
+name, usernames, email or self-hosted server; course names already removed).
+- [ ] User picks the public identity: commit author name + email (GitHub noreply address
+  `<id>+<username>@users.noreply.github.com` links commits to the account), plugin `owner` in
+  `build.yaml` (still the old username), GitHub username for README links.
+- [ ] Set that identity in this repo's git config (`git config user.name/user.email`), so new
+  commits don't carry the old one.
+- [ ] Rewrite history once more: author/committer on every commit, the commit message that names
+  the old repo, the old repo URL in past PLAN.md versions. Re-run the history checks (every
+  blob, path and commit message) before publishing.
+- [ ] Create the GitHub repo, add it as `origin` (replacing the old remote), push `main`.
+- [ ] Check the first GitHub Actions run (`.github/workflows/build.yml`, untested so far).
+- [ ] Tag the release (on the user's go) and check the release zip installs on a clean server.
+- [ ] Afterwards: delete the pre-rewrite backup bundle and the word mapping from the
+  2026-11-08 session scratchpad, if they still exist (they hold what the rewrite removed).
 
 ### Later
 - Quiz score tracking (read results from the HTML quiz via postMessage).

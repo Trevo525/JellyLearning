@@ -6,3 +6,4 @@ obj/
 .vs/
 .idea/
 artifacts
+__pycache__/

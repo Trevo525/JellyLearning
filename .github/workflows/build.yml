@@ -1,4 +1,4 @@
-# Tests every push; a tag like v0.1.0 also builds the plugin zip and attaches it to a release.
+# Tests every push; a tag like v0.1.0 also builds the plugin zip and attaches it to a GitHub release.
 # Install from a release: unzip into Jellyfin's plugins folder (see README, "Install").
 name: build
 
@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: docker
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -21,7 +21,9 @@ jobs:
   release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: test
-    runs-on: docker
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -31,5 +33,7 @@ jobs:
         run: build/package.sh "${GITHUB_REF_NAME}"
       - name: Publish release
         env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: build/publish-release.py "${GITHUB_REF_NAME}" artifacts/release
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          build/release-notes.py > "$RUNNER_TEMP/notes.md"
+          gh release create "$GITHUB_REF_NAME" artifacts/release/* --title "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md"
