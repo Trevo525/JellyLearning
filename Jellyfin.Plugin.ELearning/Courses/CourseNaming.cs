@@ -30,6 +30,7 @@ public static partial class CourseNaming
         [".pdf"] = FileKind.Pdf,
         [".html"] = FileKind.Html,
         [".htm"] = FileKind.Html,
+        [".url"] = FileKind.Link,
         [".md"] = FileKind.Markdown,
         [".markdown"] = FileKind.Markdown,
         [".txt"] = FileKind.Text,
@@ -89,7 +90,7 @@ public static partial class CourseNaming
         ["DataCamp"] = "DataCamp",
     }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
-    private static readonly FrozenSet<string> _junkExtensions = new[] { ".rar", ".sfv", ".nfo", ".par2", ".nzb", ".torrent", ".url", ".lnk", ".part" }
+    private static readonly FrozenSet<string> _junkExtensions = new[] { ".rar", ".sfv", ".nfo", ".par2", ".nzb", ".torrent", ".lnk", ".part" }
         .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
     private static readonly FrozenSet<string> _junkNames = new[] { "Thumbs.db", "desktop.ini" }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
@@ -203,7 +204,7 @@ public static partial class CourseNaming
 
     /// <summary>
     /// Builds the display name of a file: cleaned title plus a single extension
-    /// ("egubak Lusu Pabi .pdf.pdf" → "egubak Lusu Pabi.pdf"). Files are never renamed.
+    /// ("egubak Lusu Pabi .pdf.pdf" → "egubak Lusu Pabi.pdf"); links have none. Files are never renamed.
     /// </summary>
     /// <param name="fileName">The file name.</param>
     /// <returns>The display name.</returns>
@@ -217,7 +218,7 @@ public static partial class CourseNaming
             stem = stem[..^extension.Length].TrimEnd();
         }
 
-        return CleanTitle(stem) + extension;
+        return CleanTitle(stem) + (GetKind(extension) == FileKind.Link ? string.Empty : extension);
     }
 
     /// <summary>

@@ -11,12 +11,12 @@ S1  #1  "Evaluti Up"  <- 01-Evaluti_Up
   E5   #5    Video    "Ozonoribum UbimubeD"  <- 01-Evaluti_Up/5-Ozonoribum_UbimubeD.mkv
          attach    Html     "Garan.html"  <- 01-Evaluti_Up/5-Resources/Garan.html
   E6   #6    Video    "Rusigupe Tupigo Gituru Ukekadi"  <- 01-Evaluti_Up/6-Rusigupe_Tupigo_Gituru_Ukekadi.mkv
-         attach    Html     "Gituru Olo.html"  <- 01-Evaluti_Up/6-Resources/Gituru_Olo.html
          attach    Html     "Badag.bat Daze.html"  <- 01-Evaluti_Up/6-Resources/Badag.bat_Daze.html
+         attach    Html     "Gituru Olo.html"  <- 01-Evaluti_Up/6-Resources/Gituru_Olo.html
   E7   #7    Video    "Rusigupe Tupigo Gituru Nig"  <- 01-Evaluti_Up/7-Rusigupe_Tupigo_Gituru_Nig.mkv
+         attach    Html     "Badag.command Daze.html"  <- 01-Evaluti_Up/7-Resources/Badag.command_Daze.html
          attach    Html     "IME Umuvamor.html"  <- 01-Evaluti_Up/7-Resources/IME_Umuvamor.html
          attach    Html     "Tupigo Poku.html"  <- 01-Evaluti_Up/7-Resources/Tupigo_Poku.html
-         attach    Html     "Badag.command Daze.html"  <- 01-Evaluti_Up/7-Resources/Badag.command_Daze.html
   E8   #8    Video    "Rusigupe Tupigo Gituru Abadu"  <- 01-Evaluti_Up/8-Rusigupe_Tupigo_Gituru_Abadu.mkv
          attach    Html     "Tupigo Poku.html"  <- 01-Evaluti_Up/8-Resources/Tupigo_Poku.html
   E9   #9    Video    "Gikukaf"  <- 01-Evaluti_Up/9-Gikukaf.mkv
@@ -25,31 +25,31 @@ S1  #1  "Evaluti Up"  <- 01-Evaluti_Up
 S2  #2  "Ilab Basics LAPADARU"  <- 02-Ilab_Basics_LAPADARU
   E1   #10   Video    "Ilab Basics 1"  <- 02-Ilab_Basics_LAPADARU/10-Ilab_Basics_1.mkv
          attach    Html     "Ilab Basics 1 - Quiz.html"  <- 02-Ilab_Basics_LAPADARU/10-Ilab_Basics_1_-_Quiz.html
+         attach    Html     "Dofepimuf.html"  <- 02-Ilab_Basics_LAPADARU/10-Resources/Dofepimuf.html
          attach    Html     "Esus Arape.html"  <- 02-Ilab_Basics_LAPADARU/10-Resources/Esus_Arape.html
          attach    Html     "Nudovag.html"  <- 02-Ilab_Basics_LAPADARU/10-Resources/Nudovag.html
-         attach    Html     "Dofepimuf.html"  <- 02-Ilab_Basics_LAPADARU/10-Resources/Dofepimuf.html
   E2   #11   Video    "Ilab Basics 2"  <- 02-Ilab_Basics_LAPADARU/11-Ilab_Basics_2.mkv
          attach    Html     "Ilab Basics 2 - Quiz.html"  <- 02-Ilab_Basics_LAPADARU/11-Ilab_Basics_2_-_Quiz.html
-         attach    Html     "If Ruse Kazoripul.html"  <- 02-Ilab_Basics_LAPADARU/11-Resources/If_Ruse_Kazoripul.html
          attach    Html     "Afut.html"  <- 02-Ilab_Basics_LAPADARU/11-Resources/Afut.html
+         attach    Html     "If Ruse Kazoripul.html"  <- 02-Ilab_Basics_LAPADARU/11-Resources/If_Ruse_Kazoripul.html
          attach    Html     "Piputon Omateza.html"  <- 02-Ilab_Basics_LAPADARU/11-Resources/Piputon_Omateza.html
   E3   #12   Video    "Ilab Basics 3"  <- 02-Ilab_Basics_LAPADARU/12-Ilab_Basics_3.mkv
          attach    Html     "Ilab Basics 3 - Quiz.html"  <- 02-Ilab_Basics_LAPADARU/12-Ilab_Basics_3_-_Quiz.html
          attach    Html     "Atakug.html"  <- 02-Ilab_Basics_LAPADARU/12-Resources/Atakug.html
          attach    Html     "For Etimi.html"  <- 02-Ilab_Basics_LAPADARU/12-Resources/For_Etimi.html
-         attach    Html     "RureFom.html"  <- 02-Ilab_Basics_LAPADARU/12-Resources/RureFom.html
          attach    Html     "Idoro.html"  <- 02-Ilab_Basics_LAPADARU/12-Resources/Idoro.html
+         attach    Html     "RureFom.html"  <- 02-Ilab_Basics_LAPADARU/12-Resources/RureFom.html
   E4   #13   Video    "Ilab Basics 4"  <- 02-Ilab_Basics_LAPADARU/13-Ilab_Basics_4.mkv
          attach    Html     "Ilab Basics 4 - Quiz.html"  <- 02-Ilab_Basics_LAPADARU/13-Ilab_Basics_4_-_Quiz.html
-         attach    Html     "Vinibikarez.html"  <- 02-Ilab_Basics_LAPADARU/13-Resources/Vinibikarez.html
          attach    Html     "Avano.html"  <- 02-Ilab_Basics_LAPADARU/13-Resources/Avano.html
-         attach    Html     "Sinenakoron.html"  <- 02-Ilab_Basics_LAPADARU/13-Resources/Sinenakoron.html
-         attach    Html     "More Sinenakoron.html"  <- 02-Ilab_Basics_LAPADARU/13-Resources/More_Sinenakoron.html
          attach    Html     "Fenoli Dibovat.html"  <- 02-Ilab_Basics_LAPADARU/13-Resources/Fenoli_Dibovat.html
+         attach    Html     "More Sinenakoron.html"  <- 02-Ilab_Basics_LAPADARU/13-Resources/More_Sinenakoron.html
+         attach    Html     "Sinenakoron.html"  <- 02-Ilab_Basics_LAPADARU/13-Resources/Sinenakoron.html
+         attach    Html     "Vinibikarez.html"  <- 02-Ilab_Basics_LAPADARU/13-Resources/Vinibikarez.html
   E5   #14   Video    "Ilab Basics 5"  <- 02-Ilab_Basics_LAPADARU/14-Ilab_Basics_5.mkv
          attach    Html     "Ilab Basics 5 - Quiz.html"  <- 02-Ilab_Basics_LAPADARU/14-Ilab_Basics_5_-_Quiz.html
-         attach    Html     "Esudogil Ipod Savo.html"  <- 02-Ilab_Basics_LAPADARU/14-Resources/Esudogil_Ipod_Savo.html
          attach    Html     "Alolam.html"  <- 02-Ilab_Basics_LAPADARU/14-Resources/Alolam.html
+         attach    Html     "Esudogil Ipod Savo.html"  <- 02-Ilab_Basics_LAPADARU/14-Resources/Esudogil_Ipod_Savo.html
          attach    Html     "Fefati Kazoripul.html"  <- 02-Ilab_Basics_LAPADARU/14-Resources/Fefati_Kazoripul.html
 
 S3  #3  "Emubigom Ofu"  <- 03-Emubigom_Ofu
@@ -59,13 +59,13 @@ S3  #3  "Emubigom Ofu"  <- 03-Emubigom_Ofu
   E3   #17   Video    "Ligirone"  <- 03-Emubigom_Ofu/17-Ligirone.mkv
   E4   #18   Video    "Command Vukedomat"  <- 03-Emubigom_Ofu/18-Command_Vukedomat.mkv
   E5   #19   Video    "Povilum Ligirone"  <- 03-Emubigom_Ofu/19-Povilum_Ligirone.mkv
-  E6   #20   Video    "Oluponotavidi Pufo rulapu.yml"  <- 03-Emubigom_Ofu/20-Oluponotavidi_Pufo_rulapu.oba.mkv
+  E6   #20   Video    "Oluponotavidi Pufo rulapu.oba"  <- 03-Emubigom_Ofu/20-Oluponotavidi_Pufo_rulapu.oba.mkv
   E7   #21   Video    "Rumuzigupat"  <- 03-Emubigom_Ofu/21-Rumuzigupat.mkv
 
 S4  #4  "Ririf of Tupigo MIM"  <- 04-Ririf_of_Tupigo_MIM
   E1   #22   Video    "Rinureli"  <- 04-Ririf_of_Tupigo_MIM/22-Rinureli.mkv
-         attach    Html     "Tupigo Ize Betomazo Rinureli.html"  <- 04-Ririf_of_Tupigo_MIM/22-Resources/Tupigo_Ize_Betomazo_Rinureli.html
          attach    Html     "Tupigo Fozavuk Rinureli.html"  <- 04-Ririf_of_Tupigo_MIM/22-Resources/Tupigo_Fozavuk_Rinureli.html
+         attach    Html     "Tupigo Ize Betomazo Rinureli.html"  <- 04-Ririf_of_Tupigo_MIM/22-Resources/Tupigo_Ize_Betomazo_Rinureli.html
   E2   #23   Video    "Asatadi Rofodo Tugumepos"  <- 04-Ririf_of_Tupigo_MIM/23-Asatadi_Rofodo_Tugumepos.mkv
   E3   #24   Video    "Upavebol"  <- 04-Ririf_of_Tupigo_MIM/24-Upavebol.mkv
   E4   #25   Video    "Odazes Ogebunobo KuroNigibu"  <- 04-Ririf_of_Tupigo_MIM/25-Odazes_Ogebunobo_KuroNigibu.mkv
@@ -123,8 +123,8 @@ S5  #5  "More Pipepesi MIM"  <- 05-More_Pipepesi_MIM
   E15  #61   Video    "Orimirulu"  <- 05-More_Pipepesi_MIM/61-Orimirulu.mkv
   E16  #62   Video    "Ofunake Upavebol 1.19.4"  <- 05-More_Pipepesi_MIM/62-Ofunake_Upavebol_1.19.4.mkv
          attach    Html     "Command mezaragun ovedamilizosizo.html"  <- 05-More_Pipepesi_MIM/62-Resources/Command_mezaragun_ovedamilizosizo.html
-         attach    Html     "Ofunake Rinureli.html"  <- 05-More_Pipepesi_MIM/62-Resources/Ofunake_Rinureli.html
          attach    Html     "MC Edeb.html"  <- 05-More_Pipepesi_MIM/62-Resources/MC_Edeb.html
+         attach    Html     "Ofunake Rinureli.html"  <- 05-More_Pipepesi_MIM/62-Resources/Ofunake_Rinureli.html
          attach    Html     "Ubumuren vekavumifuri.html"  <- 05-More_Pipepesi_MIM/62-Resources/Ubumuren_vekavumifuri.html
   E17  #63   Video    "Evaluti Rumuzigupat"  <- 05-More_Pipepesi_MIM/63-Evaluti_Rumuzigupat.mkv
   E18  #64   Video    "Iroridagag 1 - Fenoli"  <- 05-More_Pipepesi_MIM/64-Iroridagag_1_-_Fenoli.mkv
@@ -143,28 +143,28 @@ S6  #6  "Pipepesi Pekuv"  <- 06-Pipepesi_Pekuv
   E5   #72   Video    "Using Fozore ROTu"  <- 06-Pipepesi_Pekuv/72-Using_Fozore_ROTu.mkv
   E6   #73   Video    "Rusigupe Efokof MIM"  <- 06-Pipepesi_Pekuv/73-Rusigupe_Efokof_MIM.mkv
   E7   #74   Video    "Rusigupe Fubabaf Azer Rogab Biguz"  <- 06-Pipepesi_Pekuv/74-Rusigupe_Fubabaf_Azer_Rogab_Biguz.mkv
-         attach    Html     "izu Anozu.html"  <- 06-Pipepesi_Pekuv/74-Resources/izu_Anozu.html
-         attach    Html     "ZaneSivenAFE Umuvamor.html"  <- 06-Pipepesi_Pekuv/74-Resources/ZaneSivenAFE_Umuvamor.html
-         attach    Html     "ZaneSivenAFE Paves Uzimolis.html"  <- 06-Pipepesi_Pekuv/74-Resources/ZaneSivenAFE_Paves_Uzimolis.html
          attach    Html     "Azer Rogab Studio Umuvamor.html"  <- 06-Pipepesi_Pekuv/74-Resources/Azer_Rogab_Studio_Umuvamor.html
+         attach    Html     "izu Anozu.html"  <- 06-Pipepesi_Pekuv/74-Resources/izu_Anozu.html
+         attach    Html     "ZaneSivenAFE Paves Uzimolis.html"  <- 06-Pipepesi_Pekuv/74-Resources/ZaneSivenAFE_Paves_Uzimolis.html
+         attach    Html     "ZaneSivenAFE Umuvamor.html"  <- 06-Pipepesi_Pekuv/74-Resources/ZaneSivenAFE_Umuvamor.html
   E8   #75   Video    "Edofi Text Kukar"  <- 06-Pipepesi_Pekuv/75-Edofi_Text_Kukar.mkv
          attach    Html     "PuvUgi Olil.html"  <- 06-Pipepesi_Pekuv/75-Resources/PuvUgi_Olil.html
   E9   #76   Video    "Otapege"  <- 06-Pipepesi_Pekuv/76-Otapege.mkv
          attach    Html     "Mitita olugi.html"  <- 06-Pipepesi_Pekuv/76-Resources/Mitita_olugi.html
   E10  #77   Video    "Efokof Bezom Esus w Resource Kefik"  <- 06-Pipepesi_Pekuv/77-Efokof_Bezom_Esus_w_Resource_Kefik.mkv
          attach    Html     "Donidop RP Obigava.html"  <- 06-Pipepesi_Pekuv/77-Resources/Donidop_RP_Obigava.html
-         attach    Html     "Uvunavik Json Daze.html"  <- 06-Pipepesi_Pekuv/77-Resources/Uvunavik_Json_Daze.html
          attach    Html     "Kolid Bezom RP.html"  <- 06-Pipepesi_Pekuv/77-Resources/Kolid_Bezom_RP.html
+         attach    Html     "Uvunavik Json Daze.html"  <- 06-Pipepesi_Pekuv/77-Resources/Uvunavik_Json_Daze.html
   E11  #78   Video    "Efokof Balatudukuve"  <- 06-Pipepesi_Pekuv/78-Efokof_Balatudukuve.mkv
   E12  #79   Video    "AI Sika"  <- 06-Pipepesi_Pekuv/79-AI_Sika.mkv
-         attach    Html     "Ilab MIM.html"  <- 06-Pipepesi_Pekuv/79-Resources/Ilab_MIM.html
          attach    Html     "BabaPU Sika.html"  <- 06-Pipepesi_Pekuv/79-Resources/BabaPU_Sika.html
+         attach    Html     "Ilab MIM.html"  <- 06-Pipepesi_Pekuv/79-Resources/Ilab_MIM.html
   E13  #80   Video    "LEK Sefat"  <- 06-Pipepesi_Pekuv/80-LEK_Sefat.mkv
   E14  #81   Video    "Gikukaf Usinavaki Vumori"  <- 06-Pipepesi_Pekuv/81-Gikukaf_Usinavaki_Vumori.mkv
          attach    Html     "Gikukaf Sifomogetino Nabov.html"  <- 06-Pipepesi_Pekuv/81-Resources/Gikukaf_Sifomogetino_Nabov.html
          attach    Html     "GIP Paves Uzimolis.html"  <- 06-Pipepesi_Pekuv/81-Resources/GIP_Paves_Uzimolis.html
          attach    Html     "Rumuzigupat Mezaragun.html"  <- 06-Pipepesi_Pekuv/81-Resources/Rumuzigupat_Mezaragun.html
-  E15  #82   Video    "IZIKAMU Command Ozageno No Fozore.yml"  <- 06-Pipepesi_Pekuv/82-IZIKAMU_Command_Ozageno_No_Fozore.oba.mkv
+  E15  #82   Video    "IZIKAMU Command Ozageno No Fozore.oba"  <- 06-Pipepesi_Pekuv/82-IZIKAMU_Command_Ozageno_No_Fozore.oba.mkv
 
 S7  #7  "Efodedolo LAPADARU"  <- 07-Efodedolo_LAPADARU
   E1   #83   Video    "Rusigupe Kavitofa Esumepik"  <- 07-Efodedolo_LAPADARU/83-Rusigupe_Kavitofa_Esumepik.mkv
@@ -176,11 +176,11 @@ S7  #7  "Efodedolo LAPADARU"  <- 07-Efodedolo_LAPADARU
   E5   #87   Video    "Using KebumeGO"  <- 07-Efodedolo_LAPADARU/87-Using_KebumeGO.mkv
          attach    Html     "KebumeGO Paves Apilutovuv.html"  <- 07-Efodedolo_LAPADARU/87-Resources/KebumeGO_Paves_Apilutovuv.html
   E6   #88   Video    "Using IzenuRU Abopaninotog Agokinitep Using"  <- 07-Efodedolo_LAPADARU/88-Using_IzenuRU_Abopaninotog_Agokinitep_Using.mkv
-         attach    Html     "Pugekonun gituru umuvamor.html"  <- 07-Efodedolo_LAPADARU/88-Resources/Pugekonun_gituru_umuvamor.html
-         attach    Html     "Pugekonun gituru toran on Abadu.html"  <- 07-Efodedolo_LAPADARU/88-Resources/Pugekonun_gituru_toran_on_Abadu.html
-         attach    Html     "Pugekonun gituru toran on Nig.html"  <- 07-Efodedolo_LAPADARU/88-Resources/Pugekonun_gituru_toran_on_Nig.html
          attach    Html     "IzenuRU paves viri.html"  <- 07-Efodedolo_LAPADARU/88-Resources/IzenuRU_paves_viri.html
          attach    Html     "IzenuRU vs GEM.html"  <- 07-Efodedolo_LAPADARU/88-Resources/IzenuRU_vs_GEM.html
+         attach    Html     "Pugekonun gituru toran on Abadu.html"  <- 07-Efodedolo_LAPADARU/88-Resources/Pugekonun_gituru_toran_on_Abadu.html
+         attach    Html     "Pugekonun gituru toran on Nig.html"  <- 07-Efodedolo_LAPADARU/88-Resources/Pugekonun_gituru_toran_on_Nig.html
+         attach    Html     "Pugekonun gituru umuvamor.html"  <- 07-Efodedolo_LAPADARU/88-Resources/Pugekonun_gituru_umuvamor.html
 
 S8  #8  "INEKASOKO"  <- 08-INEKASOKO
   E1   #89   Video    "Otabomate 1"  <- 08-INEKASOKO/89-Otabomate_1.mkv
@@ -210,12 +210,12 @@ S9  #9  "SUFAVAKON"  <- 09-SUFAVAKON
 S10  #10  "Ibasepuf LAPADARU"  <- 10-Ibasepuf_LAPADARU
   E1   #106  Video    "Rusigupe OtopugAtit Uvefeko Ukekadi"  <- 10-Ibasepuf_LAPADARU/106-Rusigupe_OtopugAtit_Uvefeko_Ukekadi.mkv
          attach    Html     "OtopugAtit Umuvamor.html"  <- 10-Ibasepuf_LAPADARU/106-Resources/OtopugAtit_Umuvamor.html
-         attach    Html     "Tupigo Voguka Badag Daze.html"  <- 10-Ibasepuf_LAPADARU/106-Resources/Tupigo_Voguka_Badag_Daze.html
          attach    Html     "Tupigo Umuvamor.html"  <- 10-Ibasepuf_LAPADARU/106-Resources/Tupigo_Umuvamor.html
+         attach    Html     "Tupigo Voguka Badag Daze.html"  <- 10-Ibasepuf_LAPADARU/106-Resources/Tupigo_Voguka_Badag_Daze.html
   E2   #107  Video    "Rusigupe OtopugAtit Uvefeko Nig"  <- 10-Ibasepuf_LAPADARU/107-Rusigupe_OtopugAtit_Uvefeko_Nig.mkv
+         attach    Html     "Badag Fotusu.html"  <- 10-Ibasepuf_LAPADARU/107-Resources/Badag_Fotusu.html
          attach    Html     "OtopugAtit Umuvamor.html"  <- 10-Ibasepuf_LAPADARU/107-Resources/OtopugAtit_Umuvamor.html
          attach    Html     "Tupigo Umuvamor.html"  <- 10-Ibasepuf_LAPADARU/107-Resources/Tupigo_Umuvamor.html
-         attach    Html     "Badag Fotusu.html"  <- 10-Ibasepuf_LAPADARU/107-Resources/Badag_Fotusu.html
   E3   #108  Video    "Rusigupe OtopugAtit Uvefeko Abadu"  <- 10-Ibasepuf_LAPADARU/108-Rusigupe_OtopugAtit_Uvefeko_Abadu.mkv
          attach    Html     "OtopugAtit Umuvamor.html"  <- 10-Ibasepuf_LAPADARU/108-Resources/OtopugAtit_Umuvamor.html
   E4   #109  Video    "First OtopugAtit Fozore"  <- 10-Ibasepuf_LAPADARU/109-First_OtopugAtit_Fozore.mkv
@@ -231,8 +231,8 @@ S10  #10  "Ibasepuf LAPADARU"  <- 10-Ibasepuf_LAPADARU
 
 S11  #11  "OMA Uguduni"  <- 11-OMA_Uguduni
   E1   #116  Video    "Nelinezibesup OMA"  <- 11-OMA_Uguduni/116-Nelinezibesup_OMA.mkv
-         attach    Html     "VugezEguva umuvamor.html"  <- 11-OMA_Uguduni/116-Resources/VugezEguva_umuvamor.html
          attach    Html     "Paves fozore.html"  <- 11-OMA_Uguduni/116-Resources/Paves_fozore.html
+         attach    Html     "VugezEguva umuvamor.html"  <- 11-OMA_Uguduni/116-Resources/VugezEguva_umuvamor.html
   E2   #117  Video    "Zatanok Uguduni"  <- 11-OMA_Uguduni/117-Zatanok_Uguduni.mkv
          attach    Html     "Kalagone Olil new NOS.html"  <- 11-OMA_Uguduni/117-Resources/Kalagone_Olil_new_NOS.html
   E3   #118  Video    "IZIKAMU Medane GIRe"  <- 11-OMA_Uguduni/118-IZIKAMU_Medane_GIRe.mkv
@@ -241,14 +241,14 @@ S11  #11  "OMA Uguduni"  <- 11-OMA_Uguduni
 
 S12  #12  "Eresu Amabom"  <- 12-Eresu_Amabom
   E1   #120  Video    "Uvimame Balar Bagivopu Olulozu Irepazite"  <- 12-Eresu_Amabom/120-Uvimame_Balar_Bagivopu_Olulozu_Irepazite.mkv
-         attach    Html     "Ubut Usinavaki Edusa Gosa.html"  <- 12-Eresu_Amabom/120-Resources/Ubut_Usinavaki_Edusa_Gosa.html
          attach    Html     "Fozore Apagapug Akuvazese.html"  <- 12-Eresu_Amabom/120-Resources/Fozore_Apagapug_Akuvazese.html
-         attach    Html     "Fozore Ruba Esumepik.html"  <- 12-Eresu_Amabom/120-Resources/Fozore_Ruba_Esumepik.html
-         attach    Html     "Fozore UKEmimIze.html"  <- 12-Eresu_Amabom/120-Resources/Fozore_UKEmimIze.html
          attach    Html     "Fozore Evepub Nafipo.html"  <- 12-Eresu_Amabom/120-Resources/Fozore_Evepub_Nafipo.html
-         attach    Html     "Fozore Uboli Tulada.html"  <- 12-Eresu_Amabom/120-Resources/Fozore_Uboli_Tulada.html
          attach    Html     "Fozore FutozEbug.html"  <- 12-Eresu_Amabom/120-Resources/Fozore_FutozEbug.html
+         attach    Html     "Fozore Ruba Esumepik.html"  <- 12-Eresu_Amabom/120-Resources/Fozore_Ruba_Esumepik.html
+         attach    Html     "Fozore Uboli Tulada.html"  <- 12-Eresu_Amabom/120-Resources/Fozore_Uboli_Tulada.html
+         attach    Html     "Fozore UKEmimIze.html"  <- 12-Eresu_Amabom/120-Resources/Fozore_UKEmimIze.html
          attach    Html     "Tupigo Resources Gosa.html"  <- 12-Eresu_Amabom/120-Resources/Tupigo_Resources_Gosa.html
+         attach    Html     "Ubut Usinavaki Edusa Gosa.html"  <- 12-Eresu_Amabom/120-Resources/Ubut_Usinavaki_Edusa_Gosa.html
   E2   #121  Video    "Otakabu Kipefiz Daze Defib"  <- 12-Eresu_Amabom/121-Otakabu_Kipefiz_Daze_Defib.mkv
          attach    Html     "Defib Livaba Otoduki 1.html"  <- 12-Eresu_Amabom/121-Resources/Defib_Livaba_Otoduki_1.html
          attach    Html     "Defib Livaba Otoduki 2.html"  <- 12-Eresu_Amabom/121-Resources/Defib_Livaba_Otoduki_2.html
@@ -266,13 +266,13 @@ S12  #12  "Eresu Amabom"  <- 12-Eresu_Amabom
          attach    Html     "oRugup Olil.html"  <- 12-Eresu_Amabom/126-Resources/oRugup_Olil.html
   E8   #127  Video    "Arulunugeve Tupigo Tafob"  <- 12-Eresu_Amabom/127-Arulunugeve_Tupigo_Tafob.mkv
   E9   #128  Video    "Using Denise"  <- 12-Eresu_Amabom/128-Using_Denise.mkv
+         attach    Html     "Otakabu Efokof Zimoruk.html"  <- 12-Eresu_Amabom/128-Resources/Otakabu_Efokof_Zimoruk.html
          attach    Html     "Paves vs Denise.html"  <- 12-Eresu_Amabom/128-Resources/Paves_vs_Denise.html
          attach    Html     "Tupigo Denise.html"  <- 12-Eresu_Amabom/128-Resources/Tupigo_Denise.html
-         attach    Html     "Otakabu Efokof Zimoruk.html"  <- 12-Eresu_Amabom/128-Resources/Otakabu_Efokof_Zimoruk.html
   E10  #129  Video    "Using PuvUgi"  <- 12-Eresu_Amabom/129-Using_PuvUgi.mkv
-         attach    Html     "PuvUgi Abag.html"  <- 12-Eresu_Amabom/129-Resources/PuvUgi_Abag.html
-         attach    Html     "gumegasaf Mezaragun.html"  <- 12-Eresu_Amabom/129-Resources/gumegasaf_Mezaragun.html
          attach    Html     "Bud Umuvamor.html"  <- 12-Eresu_Amabom/129-Resources/Bud_Umuvamor.html
+         attach    Html     "gumegasaf Mezaragun.html"  <- 12-Eresu_Amabom/129-Resources/gumegasaf_Mezaragun.html
+         attach    Html     "PuvUgi Abag.html"  <- 12-Eresu_Amabom/129-Resources/PuvUgi_Abag.html
   E11  #130  Video    "Damifoduke to Paves Denise"  <- 12-Eresu_Amabom/130-Damifoduke_to_Paves_Denise.mkv
          attach    Html     "PefAsos.html"  <- 12-Eresu_Amabom/130-Resources/PefAsos.html
   E12  #131  Video    "Udorava Itubanono"  <- 12-Eresu_Amabom/131-Udorava_Itubanono.mkv

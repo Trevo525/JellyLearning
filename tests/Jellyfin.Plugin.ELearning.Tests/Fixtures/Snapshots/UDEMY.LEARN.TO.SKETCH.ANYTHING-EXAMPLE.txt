@@ -1,4 +1,5 @@
 COURSE "UDEMY LEARN TO SKETCH ANYTHING-EXAMPLE"  studio=-  year=-  artwork=-
+  resource  Link     "Drawing community"  <- Drawing community.url
 
 S1  #1  "Getting Started"  <- 01 Getting Started
   E1   #1    Video    "Choosing Pencils"  <- 01 Getting Started/001 Choosing Pencils.mp4
@@ -8,6 +9,7 @@ S1  #1  "Getting Started"  <- 01 Getting Started
 S2  #2  "Shapes and Shading"  <- 02 Shapes and Shading
   E1   #3    Video    "Basic Shapes"  <- 02 Shapes and Shading/003 Basic Shapes.mp4
   E2   #4    Video    "Light and Shadow"  <- 02 Shapes and Shading/004 Light and Shadow.mp4
+         attach    Link     "Paper suppliers"  <- 02 Shapes and Shading/004 Paper suppliers.url
   resource  Text     "Useful Links.txt"  <- 02 Shapes and Shading/useful-links.txt
 
 S3  #3  "Putting It Together"  <- 03 Putting It Together

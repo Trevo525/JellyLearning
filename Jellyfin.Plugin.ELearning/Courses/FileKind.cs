@@ -34,4 +34,7 @@ public enum FileKind
 
     /// <summary>An office document, spreadsheet or presentation.</summary>
     Document,
+
+    /// <summary>An internet shortcut (<c>.url</c>), shown as an external link.</summary>
+    Link,
 }

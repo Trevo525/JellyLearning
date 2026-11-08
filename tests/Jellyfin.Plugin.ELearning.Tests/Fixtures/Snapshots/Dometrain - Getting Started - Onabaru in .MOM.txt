@@ -1,5 +1,5 @@
-COURSE "Getting Started - Onabaru in .NET"  studio=Dometrain  year=-  artwork=-
-  resource  Archive  "Daze.zip"  <- daze.zip
+COURSE "Getting Started - Onabaru in .MOM"  studio=Dometrain  year=-  artwork=-
+  resource  Archive  "Code.zip"  <- code.zip
 
 S1  #1  "Course anorebag"  <- 01. Course anorebag
   E1   #1    Video    "Welcome"  <- 01. Course anorebag/01. Welcome.mp4

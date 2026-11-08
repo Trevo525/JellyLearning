@@ -96,7 +96,10 @@ check("outline by episode / season ID equals outline by series ID", via_episode 
 check("quiz-only sections have no season", any(not s.get("SeasonId") and all(l["Kind"] != "Video" for l in s["Lectures"]) for s in o["Sections"]))
 
 stubs = [f for _, l in walk(outlines[linked]) for f in l["Attachments"] if f.get("ExternalUrl")]
-check(f"abag stubs exposed as kalifilo links ({len(stubs)} in the Usinavaki course)", len(stubs) >= 100 and all(f.get("ExternalUrl").startswith("http") for f in stubs))
+sketch = next(p for p in outlines if p.endswith("UDEMY.LEARN.TO.SKETCH.ANYTHING-EXAMPLE"))
+shortcuts = [f for f in outlines[sketch]["Resources"] + [f for _, l in walk(outlines[sketch]) for f in l["Attachments"]] if f["Kind"] == "Link"]
+check(f".url shortcuts exposed as external links ({len(shortcuts)})", len(shortcuts) == 2 and all(f.get("ExternalUrl", "").startswith("https://example.com/") for f in shortcuts), shortcuts)
+check(f"link stubs exposed as external links ({len(stubs)} in the Usinavaki course)", len(stubs) >= 100 and all(f.get("ExternalUrl").startswith("http") for f in stubs))
 
 # 2. Files.
 pdf = next(f for _, l in walk(o) for f in l["Attachments"] if f["Kind"] == "Pdf")

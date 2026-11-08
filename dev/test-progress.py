@@ -46,8 +46,8 @@ def play(item, *positions):
     d = call("GET", f"/UserItems/{item['Id']}/UserData", token=token, userId=user_id)
     return d["Played"], round(d["PlaybackPositionTicks"] / TICKS, 3)
 
-a = lecture("/esus/courses/Dometrain - Getting Started - Onabaru in .MOM/02. Onabaru/04. What is onabaru.mp4")
-b = lecture("/esus/courses/Dometrain - Getting Started - Onabaru in .MOM/02. Onabaru/05. Is onabaru gudinevol.mp4")
+a = lecture("/data/courses/Dometrain - Getting Started - Onabaru in .MOM/02. Onabaru/04. What is onabaru.mp4")
+b = lecture("/data/courses/Dometrain - Getting Started - Onabaru in .MOM/02. Onabaru/05. Is onabaru gudinevol.mp4")
 # A real lecture of 10+ minutes (from the real sources), for the percentage rule.
 c = next((i for i in EPISODES if i["Path"].startswith("/data/elearning/") and i.get("RunTimeTicks", 0) >= 600 * TICKS), None)
 runtime = a.get("RunTimeTicks", 0) / TICKS

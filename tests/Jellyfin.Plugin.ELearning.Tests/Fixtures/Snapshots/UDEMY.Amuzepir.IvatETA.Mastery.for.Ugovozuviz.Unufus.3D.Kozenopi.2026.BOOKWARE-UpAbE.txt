@@ -95,30 +95,30 @@ S-  #10  "QUIZ 5 Pipepesi Part Unufus Section"  <- 10-QUIZ_5_Pipepesi_Part_Unufu
 
 S6  #11  "Edisoge with Apekirosir"  <- 11-Edisoge_with_Apekirosir
   E1   #69   Video    "Rusigupe Bufafo for Isebipud"  <- 11-Edisoge_with_Apekirosir/69-Rusigupe_Bufafo_for_Isebipud.mkv
-         attach    Other    "Elup.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/Elup.Kpart
-         attach    Pdf      "Elup.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Elup.pdf
-         attach    Other    "Elup.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/Elup.Xmod
-         attach    Other    "Omav.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/Omav.Kpart
-         attach    Pdf      "Omav.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Omav.pdf
-         attach    Other    "Omav.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/Omav.Xmod
-         attach    Other    "Veten.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/veten.Kpart
-         attach    Pdf      "Veten.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Veten.pdf
-         attach    Other    "Veten.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/veten.Xmod
-         attach    Other    "Meve.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/Meve.Kpart
-         attach    Other    "Meve.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/Meve.Xmod
-         attach    Pdf      "Meve Lokerut 32.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Meve_Lokerut_32.pdf
-         attach    Other    "Sap.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/sap.Kpart
-         attach    Pdf      "Sap.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Sap.pdf
-         attach    Other    "Sap.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/sap.Xmod
          attach    Other    "Ege.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/Ege.Kpart
          attach    Pdf      "Ege.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Ege.pdf
          attach    Other    "Ege.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/Ege.Xmod
+         attach    Other    "Elup.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/Elup.Kpart
+         attach    Pdf      "Elup.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Elup.pdf
+         attach    Other    "Elup.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/Elup.Xmod
+         attach    Other    "Meve.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/Meve.Kpart
+         attach    Other    "Meve.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/Meve.Xmod
+         attach    Pdf      "Meve Lokerut 32.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Meve_Lokerut_32.pdf
+         attach    Other    "Omav.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/Omav.Kpart
+         attach    Pdf      "Omav.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Omav.pdf
+         attach    Other    "Omav.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/Omav.Xmod
+         attach    Other    "Sap.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/sap.Kpart
+         attach    Pdf      "Sap.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Sap.pdf
+         attach    Other    "Sap.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/sap.Xmod
          attach    Other    "Setak.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/Setak.Kpart
          attach    Pdf      "Setak.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Setak.pdf
          attach    Other    "Setak.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/Setak.Xmod
          attach    Other    "T elup.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/T_elup.Kpart
          attach    Pdf      "T elup.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/T_elup.pdf
          attach    Other    "T elup.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/T_elup.Xmod
+         attach    Other    "Veten.Kpart"  <- 11-Edisoge_with_Apekirosir/69-Resources/veten.Kpart
+         attach    Pdf      "Veten.pdf"  <- 11-Edisoge_with_Apekirosir/69-Resources/Veten.pdf
+         attach    Other    "Veten.Xmod"  <- 11-Edisoge_with_Apekirosir/69-Resources/veten.Xmod
   E2   #70   Video    "Tenadilik bufafo to isebipud pufo. Edisoge with the Meve"  <- 11-Edisoge_with_Apekirosir/70-Tenadilik_bufafo_to_isebipud_pufo._Edisoge_with_the_Meve.mkv
   E3   #71   Video    "Ozufelotimul avid Pomotob of GIR in 3D. Isebipud of T elup to Meve"  <- 11-Edisoge_with_Apekirosir/71-Ozufelotimul_avid_Pomotob_of_GIR_in_3D._Isebipud_of_T_elup_to_Meve.mkv
   E4   #72   Video    "Veten Isebipud"  <- 11-Edisoge_with_Apekirosir/72-Veten_Isebipud.mkv

@@ -56,11 +56,11 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 5. **Udemy export, sectioned, HTML lectures + `_en` subtitles** — `ivateta-konegore-mipunavel-kilulani-kafupap/`
    (lowercase slug course name) `01 - Introduction to Course/003 Introduction.mp4`,
    `003 Introduction_en.srt`/`.vtt`, and HTML lectures interleaved by number
-   (`002 Introduction.html`, `005 First steps….html`). Some HTML lectures are **interactive
+   (`002 Introduction.html`, `005 First uvala….html`). Some HTML lectures are **interactive
    quizzes** (self-contained JS: timer, live score).
 6. **Udemy scene release, mkv, quiz sections, per-lecture resource folders** —
    `UDEMY.Ufibato.Usinavaki.Zimoruk.Ilab.2026.BOOKWARE-UpAbE/`, `UDEMY.Amuzepir.IvatETA.Mastery…2026.BOOKWARE-UpAbE/`
-   `01-Evaluti_Up/2-Erenorugat_UbimubeD_Ukekadi.mkv` (underscore titles); `01-Setting_Up/2-Resources/Download.html`
+   `01-Evaluti_Up/2-Erenorugat_UbimubeD_Ukekadi.mkv` (underscore titles); `01-Evaluti_Up/2-Resources/Umuvamor.html`
    (resources for lecture 2; many are `<meta http-equiv="refresh">` **link stubs**); `69-Resources/*.Kpart|Xmod|pdf|jpg`;
    **quiz-only sections** `02-QUIZ_1_IvatETA_Emememezigif/7-Asakuvupivu_meninebon_-_Quiz.html` (no video);
    release junk at the course root: `*.rar`, `*.r00`–`*.r48`, `*.sfv`, `*.nfo`.
@@ -175,7 +175,7 @@ Jellyfin's own on every progress report and stop, for items in course libraries 
 Baseline — plain 12.2, internet metadata off (`dev/ui-view.py` = what jellyfin-web lists):
 - **Section folders never get a season number** (`S?`), raw names (`01. Course anorebag`).
 - **Episode numbers are guessed from titles**: `4 Arape Of 3D Kozenopi` → E3 *and* the title is
-  cut to "4 Types Of"; `9 Vavel Ogebunobo Pt 2` → E2; `001 X` inside section folders → **S0
+  cut to "4 Arape Of"; `9 Vavel Ogebunobo Pt 2` → E2; `001 X` inside section folders → **S0
   "Specials"**, so episodes show twice (Specials + their folder); `100-Foo.mkv` → S1E0.
 - **Flat course** → "Season Unknown", alphabetical order (1, 10, 12, …, 2, 20 …).
 - **`15-3D_Simarabo…` is not a season**: 12.2's SeasonResolver rejects folder names that parse
@@ -428,10 +428,17 @@ The user imported a large real library (134 courses); findings and decisions:
   - Bad source folders (wrong or missing structure) are fixed by hand in the library, not by
     heuristics.
   - A year in the middle of a scene name (not at the end) isn't detected; acceptable.
-  - Truncated source names (8-character names, e.g. `4___ABC_.MP4`) can't be repaired; the
+  - Truncated source names (names cut to a few characters, e.g. `4___ABCD.MP4`) can't be repaired; the
     numbers set section/lecture order and are not shown in titles.
-- **Open**: `.url` files (only 4 in the library) are ignored; could become link lectures/resources
-  like the HTML meta-refresh stubs.
+- **`.url` shortcuts** (user decision: as resources): `FileKind.Link`, no longer junk. A numbered
+  one next to a lecture with the same number is an attachment, otherwise a section/course
+  resource; `LinkStub.FromShortcut` reads the `URL=` line (http/https only) and the UI shows it
+  as an external link, without the `.url` in its name.
+- **Course words for Jellyfin's headings** (user decision): on course and section pages the
+  injected script renames jellyfin-web's "Seasons" / "Episodes" headings to "Sections" /
+  "Lectures" and "Next Up" to "Next lecture" (`web.headings` in `elearning.js`; a
+  MutationObserver re-applies them, since jellyfin-web writes the heading after loading the
+  children). Lecture pages and the rest of Jellyfin are unchanged.
 - **Generated covers** (replace the first-lecture frame grab, see Phase 3). How they behave:
   - Course: title + studio; section: "SECTION N" + section title + course title; a flat
     course's one section: "LECTURES".
@@ -444,9 +451,12 @@ The user imported a large real library (134 courses); findings and decisions:
     UI is replaced on the next refresh (local images win), so overrides go in the course
     folder; old cache files are never deleted.
 - **Test fixtures must not use the user's real course or file names** (user rule, 2026-11-08):
-  fixtures, test cases and examples in code/docs use invented names with the same shape.
-  Fixtures added before that rule still carry real names and are in git history — see open
-  question in "Open risks".
+  fixtures, test cases, dev scripts and examples in code/docs use invented names with the same
+  shape. The older fixtures were converted word by word (same length and case, parser keywords,
+  providers and extensions kept), so their outlines stayed identical apart from attachment
+  order; the git history was rewritten the same way (user decision). `dev/make-fixtures.sh`
+  writes meta-refresh stubs for HTML in `N-Resources/` and example.com targets for `.url`
+  files, so `dev/test-api.py` no longer needs a real course.
 
 ### Later
 - Quiz score tracking (read results from the HTML quiz via postMessage).
@@ -454,10 +464,6 @@ The user imported a large real library (134 courses); findings and decisions:
 - Course-level "Continue where you left off" button.
 
 ## Open risks
-- **Real course names in the repo**: the fixtures from Phase 2 (listings, snapshots), some test
-  cases, `dev/test-api.py`, `dev/test-progress.py` and examples in this plan use the user's real
-  course and file names, and are in the pushed history. Pending user decision: replace them with
-  invented ones, and whether to rewrite history (force push).
 - ~~File Transformation compatibility with 12.2~~: resolved — 3.0.3.0 has a 12.2.0.0 build and
   loads in the dev instance. (Fallback if it ever lags a server upgrade: serve the bundle from the
   plugin and load it through a generic custom-JS plugin.)

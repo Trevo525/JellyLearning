@@ -1,6 +1,6 @@
 COURSE "3D Kozenopi - A Amuzepir Course with Nebedo Babofap"  studio=-  year=-  artwork=-
-  resource  Document "Lusu Pabi AVUGIM - Nebedo.xlsx"  <- Lusu Pabi AVUGIM - Nebedo.xlsx
   resource  Pdf      "egubak Lusu Pabi.pdf"  <- egubak Lusu Pabi .pdf.pdf
+  resource  Document "Lusu Pabi AVUGIM - Nebedo.xlsx"  <- Lusu Pabi AVUGIM - Nebedo.xlsx
 
 S1  #-  "Lectures"  <- (course folder)
   E1   #1    Video    "Introduction"  <- 1 Introduction.mp4

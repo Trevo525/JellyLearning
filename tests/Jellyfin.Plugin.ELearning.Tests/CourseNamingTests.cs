@@ -37,7 +37,7 @@ public class CourseNamingTests
     [InlineData("12.Solution.-.Edit..zshenv", "Solution - Edit .zshenv")]
     [InlineData("2.Upgrading.to.3.0", "Upgrading to 3.0")]
     [InlineData("3-ASP.NET_Core_basics", "ASP.NET Core basics")]
-    [InlineData("005-ubut-dito_efogo_subaseruza", "Nebedo-Form Okarez Techniques")]
+    [InlineData("005-ubut-dito_efogo_subaseruza", "Ubut-Dito Efogo Subaseruza")]
     [InlineData("7-Arranging_toolbars_-_Quiz", "Arranging toolbars - Quiz")]
     [InlineData("08-OKAREZ", "OKAREZ")]
     [InlineData("001 ATTENTION!  READ FIRST", "ATTENTION! READ FIRST")]
@@ -49,7 +49,8 @@ public class CourseNamingTests
     [Theory]
     [InlineData("egubak Lusu Pabi .pdf.pdf", "egubak Lusu Pabi.pdf")]
     [InlineData("Weekly Practice Planner..pdf", "Weekly Practice Planner.pdf")]
-    [InlineData("Wagu.Kpart", "Wagu.Kpart")]
+    [InlineData("Elup.Kpart", "Elup.Kpart")]
+    [InlineData("004 Paper suppliers.url", "Paper suppliers")]
     [InlineData("000-course_guidebook_recipes.pdf", "Course Guidebook Recipes.pdf")]
     [InlineData("code.zip", "Code.zip")]
     public void DisplayName_cleans_file_names(string fileName, string expected)
@@ -84,14 +85,15 @@ public class CourseNamingTests
     }
 
     [Theory]
-    [InlineData("udemy.course.2026.bookware-upabe.gar", true)]
+    [InlineData("udemy.course.2026.bookware-upabe.rar", true)]
     [InlineData("udemy.course.2026.bookware-upabe.r07", true)]
-    [InlineData("udemy.course.2026.bookware-upabe.vus", true)]
+    [InlineData("udemy.course.2026.bookware-upabe.sfv", true)]
     [InlineData("release.nfo", true)]
     [InlineData(".DS_Store", true)]
     [InlineData("Thumbs.db", true)]
     [InlineData("004 notes4-draft.txt.part", true)]
     [InlineData("code.zip", false)]
+    [InlineData("Paper suppliers.url", false)]
     [InlineData("notes.r", false)]
     public void IsJunk_hides_release_and_os_files(string name, bool junk)
         => Assert.Equal(junk, CourseNaming.IsJunk(name));

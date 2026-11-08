@@ -44,7 +44,10 @@ public sealed class FileFactsCache
                 return cached.Facts;
             }
 
-            var link = kind == FileKind.Html && info.Length <= LinkStub.MaxBytes ? LinkStub.Detect(File.ReadAllText(absolutePath)) : null;
+            var link = info.Length > LinkStub.MaxBytes ? null
+                : kind == FileKind.Html ? LinkStub.Detect(File.ReadAllText(absolutePath))
+                : kind == FileKind.Link ? LinkStub.FromShortcut(File.ReadAllText(absolutePath))
+                : null;
             var facts = new FileFacts(info.Length, link);
             _cache[absolutePath] = (info.LastWriteTimeUtc, facts);
             return facts;

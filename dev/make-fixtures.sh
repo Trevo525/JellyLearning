@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Rebuild every fixture layout (tests/.../Fixtures/Listings/*.txt) as a tiny real course under
 # dev/jellyfin/courses/ (= /data/courses in the dev instance). Videos are one 30 s ffmpeg test
-# clip, hard-linked; documents get placeholder content. Safe to re-run (recreates the folder).
+# clip, hard-linked; documents get placeholder content, HTML in N-Resources/ and .url files link to example.com. Safe to re-run (recreates the folder).
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 listings="$root/tests/Jellyfin.Plugin.ELearning.Tests/Fixtures/Listings"
@@ -32,7 +32,11 @@ for listing in "$listings"/*.txt; do
       *.srt) cp "$work/sub.srt" "$dest" ;;
       *.vtt) cp "$work/sub.vtt" "$dest" ;;
       *.pdf) cp "$work/doc.pdf" "$dest" ;;
+      *-resources/*quiz*.htm*) printf '<!DOCTYPE html><html><body><h1>%s</h1></body></html>\n' "$(basename "$rel")" > "$dest" ;;
+      # Udemy-style link stubs: lecture resources that only redirect to a website.
+      *-resources/*.html|*-resources/*.htm) printf '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=https://example.com/%s"></head><body></body></html>\n' "$(basename "$rel" | tr ' ' '-')" > "$dest" ;;
       *.html|*.htm) printf '<!DOCTYPE html><html><body><h1>%s</h1></body></html>\n' "$(basename "$rel")" > "$dest" ;;
+      *.url) printf '[InternetShortcut]\r\nURL=https://example.com/%s\r\n' "$(basename "$rel" .url | tr ' ' '-')" > "$dest" ;;
       *.md) printf '# %s\n\nFixture document.\n' "$(basename "$rel")" > "$dest" ;;
       *) printf 'fixture: %s\n' "$rel" > "$dest" ;;
     esac

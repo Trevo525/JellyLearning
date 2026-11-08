@@ -42,6 +42,31 @@
         playerHref: function (seriesId, lectureId) {
             return '../ELearning/Web/player.html#' + encodeURIComponent(seriesId) + (lectureId ? '/' + encodeURIComponent(lectureId) : '');
         },
+        // jellyfin-web's own headings on course pages, in course words. It writes "Seasons" /
+        // "Episodes" after loading the children, so they are set again whenever it does.
+        headings: {
+            course: { '#childrenCollapsible .sectionTitle > span': 'Sections', '.nextUpSection .sectionTitle': 'Next lecture' },
+            section: { '#childrenCollapsible .sectionTitle > span': 'Lectures', '.nextUpSection .sectionTitle': 'Next lecture' }
+        },
+        relabel: function (page, kind) {
+            const labels = web.headings[kind];
+            if (!labels) {
+                return null;
+            }
+            const apply = function () {
+                Object.keys(labels).forEach(function (selector) {
+                    page.querySelectorAll(selector).forEach(function (el) {
+                        if (el.textContent.trim() !== labels[selector]) {
+                            el.textContent = labels[selector];
+                        }
+                    });
+                });
+            };
+            apply();
+            const observer = new MutationObserver(apply);
+            observer.observe(page, { childList: true, subtree: true, characterData: true });
+            return observer;
+        },
         detailsHref: function (itemId) {
             const api = web.api();
             return '#/details?id=' + encodeURIComponent(itemId) + (api ? '&serverId=' + encodeURIComponent(api.serverId()) : '');
@@ -171,6 +196,7 @@
             case 'Image': return 'image';
             case 'Archive': return 'folder_zip';
             case 'Document': return 'table_chart';
+            case 'Link': return 'link';
             default: return 'insert_drive_file';
         }
     }
@@ -457,6 +483,14 @@
     // ---- Page hook --------------------------------------------------------------------------------------
 
     let renderToken = 0;
+    let headingObserver = null;
+
+    function stopRelabel() {
+        if (headingObserver) {
+            headingObserver.disconnect();
+            headingObserver = null;
+        }
+    }
 
     async function render(page, itemId) {
         const token = ++renderToken;
@@ -502,10 +536,13 @@
         const panel = h('section', { class: 'el-panel el-panel-' + kind + ' verticalSection detailVerticalSection', 'data-item-id': itemId }, ...content);
         page.querySelectorAll('.el-panel').forEach(function (old) { old.remove(); });
         web.mount(page, panel);
+        stopRelabel();
+        headingObserver = web.relabel(page, kind);
     }
 
     document.addEventListener('viewshow', function (e) {
         try {
+            stopRelabel();
             const page = web.detailPage(e.target);
             const itemId = page && web.itemIdFromUrl();
             if (page) {

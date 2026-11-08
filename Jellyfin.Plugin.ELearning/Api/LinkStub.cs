@@ -7,7 +7,7 @@ namespace Jellyfin.Plugin.ELearning.Api;
 /// <summary>
 /// Detects "link stub" HTML files: pages that only redirect to an external site with a
 /// <c>meta refresh</c> (common in Udemy <c>N-Resources/</c> folders). They are shown as
-/// external links instead of in the viewer.
+/// external links instead of in the viewer. Internet shortcuts (<c>.url</c>) are shown the same way.
 /// </summary>
 public static partial class LinkStub
 {
@@ -42,6 +42,22 @@ public static partial class LinkStub
         return null;
     }
 
+    /// <summary>
+    /// Gets the target of an internet shortcut (<c>[InternetShortcut]</c> with a <c>URL=</c> line).
+    /// </summary>
+    /// <param name="shortcut">The shortcut file's text.</param>
+    /// <returns>The absolute http(s) URL, or null when there is none.</returns>
+    public static Uri? FromShortcut(string shortcut)
+    {
+        ArgumentNullException.ThrowIfNull(shortcut);
+        var url = ShortcutUrl().Match(shortcut);
+        return url.Success
+            && Uri.TryCreate(url.Groups["url"].Value.Trim(), UriKind.Absolute, out var target)
+            && (target.Scheme == Uri.UriSchemeHttps || target.Scheme == Uri.UriSchemeHttp)
+            ? target
+            : null;
+    }
+
     [GeneratedRegex(@"<meta\b[^>]*>", RegexOptions.IgnoreCase)]
     private static partial Regex MetaTag();
 
@@ -53,4 +69,7 @@ public static partial class LinkStub
 
     [GeneratedRegex(@"^\s*\d*(?:\.\d+)?\s*[;,]?\s*url\s*=\s*['""]?(?<url>[^'""]+)", RegexOptions.IgnoreCase)]
     private static partial Regex RefreshUrl();
+
+    [GeneratedRegex(@"^\s*URL\s*=(?<url>.+)$", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex ShortcutUrl();
 }

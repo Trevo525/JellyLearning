@@ -23,11 +23,24 @@ public sealed class ApiTests : IDisposable
     {
         const string Html = """
             <!DOCTYPE html><html><head><meta charset="utf-8">
-            <meta http-equiv="refresh" content="0; nos=https://dev.to/x/afut-in-ilab#:~:text=In%20Ilab&amp;b=1">
-            <title>Null</title></head><body><a href="https://dev.to/x">Click here</a></body></html>
+            <meta http-equiv="refresh" content="0; url=https://example.com/x/null-check#:~:text=In%20Code&amp;b=1">
+            <title>Null</title></head><body><a href="https://example.com/x">Click here</a></body></html>
             """;
-        Assert.Equal("https://dev.to/x/afut-in-ilab#:~:text=In%20Ilab&b=1", LinkStub.Detect(Html)!.OriginalString);
+        Assert.Equal("https://example.com/x/null-check#:~:text=In%20Code&b=1", LinkStub.Detect(Html)!.OriginalString);
     }
+
+    [Theory]
+    [InlineData("[InternetShortcut]\r\nURL=https://example.com/shop?a=1\r\n", "https://example.com/shop?a=1")]
+    [InlineData("[{000214A0-0000-0000-C000-000000000046}]\nProp3=19,11\n[InternetShortcut]\nIDList=\nurl = http://example.com/a\n", "http://example.com/a")]
+    public void Internet_shortcut_target_is_read(string shortcut, string expected)
+        => Assert.Equal(expected, LinkStub.FromShortcut(shortcut)!.AbsoluteUri);
+
+    [Theory]
+    [InlineData("[InternetShortcut]\nURL=file:///C:/notes.txt\n")]
+    [InlineData("[InternetShortcut]\nURL=javascript:alert(1)\n")]
+    [InlineData("[InternetShortcut]\n")]
+    public void Internet_shortcut_without_web_link_is_ignored(string shortcut)
+        => Assert.Null(LinkStub.FromShortcut(shortcut));
 
     [Theory]
     [InlineData("<meta content='5;URL=\"http://example.com/a\"' http-equiv='Refresh'>", "http://example.com/a")]
@@ -36,7 +49,7 @@ public sealed class ApiTests : IDisposable
         => Assert.Equal(expected, LinkStub.Detect(html)!.AbsoluteUri);
 
     [Theory]
-    [InlineData("<html><asik><h1>Mefagitu Lokerut</h1><img src=\"https://img-c.examplecdn.com/x.jpg\"></asik></html>")]
+    [InlineData("<html><body><h1>Practice</h1><img src=\"https://img.example.com/x.jpg\"></body></html>")]
     [InlineData("<meta http-equiv=\"refresh\" content=\"30\">")]
     [InlineData("<meta http-equiv=\"refresh\" content=\"0; url=javascript:alert(1)\">")]
     [InlineData("<meta http-equiv=\"refresh\" content=\"0; url=/relative/page\">")]
