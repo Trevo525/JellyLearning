@@ -5,13 +5,14 @@ Compares the web client's listing (Shows/{id}/Seasons + Episodes) with the plugi
 index (dev/jellyfin/config/data/data/elearning/course-index.json, rebuilt on each library scan):
 course title/studio/year, season numbers + titles, every video lecture as exactly one episode
 with the right S/E number and title, sidecar subtitles exposed, and course artwork present.
-Usage: set -a; . dev/.env; set +a; dev/verify-library.py      (exit code 1 on any mismatch)"""
+Usage: dev/verify-library.py      (exit code 1 on any mismatch)"""
 import json, os, sys, urllib.parse, urllib.request
 from pathlib import Path
+import devenv  # loads dev/.env
 
 BASE = os.environ.get("JELLYFIN_URL", "http://localhost:8096")
 KEY = os.environ["JELLYFIN_API_KEY"]
-INDEX = Path(__file__).resolve().parent / "jellyfin/config/data/data/elearning/course-index.json"
+INDEX = devenv.ELEARNING_DATA / "course-index.json"
 
 def get(path, **q):
     req = urllib.request.Request(f"{BASE}{path}?{urllib.parse.urlencode(q)}", headers={"Authorization": f'MediaBrowser Token="{KEY}"'})

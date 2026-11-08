@@ -5,16 +5,15 @@ Runs as the test user (JELLYFIN_TEST_USER / JELLYFIN_TEST_PASSWORD, created if m
 an "outsider" user without library access (same password, created if missing). Compares
 outlines with the course index, checks file streaming, rendering and its security headers,
 document lecture completion, and that unknown IDs and other users' libraries are refused.
-Usage: set -a; . dev/.env; set +a; dev/test-api.py"""
+Usage: dev/test-api.py"""
 import json, os, pathlib, sys, urllib.error, urllib.parse, urllib.request
+import devenv  # loads dev/.env
 
 BASE = os.environ.get("JELLYFIN_URL", "http://localhost:8096")
 KEY, USER, PASSWORD = os.environ["JELLYFIN_API_KEY"], os.environ["JELLYFIN_TEST_USER"], os.environ["JELLYFIN_TEST_PASSWORD"]
 OUTSIDER = USER + "-outsider"
-DEV = pathlib.Path(__file__).resolve().parent
-INDEX = json.loads((DEV / "jellyfin/config/data/data/elearning/course-index.json").read_text())
-HOST_ROOTS = {"/data/courses": DEV / "jellyfin/courses",
-              "/data/elearning": pathlib.Path(os.environ.get("ELEARNING_SOURCE", "/path/to/courses"))}
+INDEX = json.loads((devenv.ELEARNING_DATA / "course-index.json").read_text())
+HOST_ROOTS = {"/data/courses": devenv.STATE / "courses", "/data/elearning": devenv.REAL_COURSES}
 
 def request(method, path, token=KEY, headers=None, body=None, auth=True, **query):
     url = f"{BASE}{path}" + (f"?{urllib.parse.urlencode(query)}" if query else "")

@@ -1,12 +1,23 @@
 #!/usr/bin/env bash
 # Rebuild every fixture layout (tests/.../Fixtures/Listings/*.txt) as a tiny real course under
-# dev/jellyfin/courses/ (= /data/courses in the dev instance). Videos are one 30 s ffmpeg test
-# clip, hard-linked; documents get placeholder content, HTML in N-Resources/ and .url files link to example.com. Safe to re-run (recreates the folder).
+# dev/jellyfin/courses/ (= /data/courses in the dev instance; FIXTURES_OUT overrides it). Videos
+# are one 30 s ffmpeg test clip, hard-linked; documents get placeholder content, HTML in
+# N-Resources/ and .url files link to example.com. Safe to re-run (recreates the folder).
+#   dev/make-fixtures.sh                 always rebuild
+#   dev/make-fixtures.sh --if-changed    only when the listings or this script changed (compose)
+# Run as root (the compose `fixtures` service), it hands what it writes to PUID:PGID.
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 listings="$root/tests/Jellyfin.Plugin.ELearning.Tests/Fixtures/Listings"
-out="$root/dev/jellyfin/courses"
-work="$root/dev/jellyfin/.fixture-clips"; rm -rf "$work"; mkdir -p "$work"; trap 'rm -rf "$work"' EXIT  # same filesystem, for hard links
+out="${FIXTURES_OUT:-$root/dev/jellyfin/courses}"
+mkdir -p "$out" "$(dirname "$out")/no-real-courses"  # the latter: empty default for /data/elearning
+owner="${PUID:-1000}:${PGID:-1000}"
+[ "$(id -u)" = 0 ] && chown "$owner" "$(dirname "$out")" "$out" "$(dirname "$out")/no-real-courses"
+stamp="$(cat "$0" "$listings"/*.txt | sha256sum | cut -d' ' -f1)"
+if [ "${1:-}" = --if-changed ] && [ "$(cat "$out/.fixtures-stamp" 2>/dev/null)" = "$stamp" ]; then
+  echo "fixtures up to date"; exit 0
+fi
+work="$(dirname "$out")/.fixture-clips"; rm -rf "$work"; mkdir -p "$work"; trap 'rm -rf "$work"' EXIT  # same filesystem, for hard links
 
 for ext in mp4 mkv webm; do
   ffmpeg -loglevel error -f lavfi -i testsrc=size=320x180:rate=15:duration=30 \
@@ -43,4 +54,6 @@ for listing in "$listings"/*.txt; do
   done < "$listing"
   echo "built $(basename "$course")"
 done
+echo "$stamp" > "$out/.fixtures-stamp"
+[ "$(id -u)" = 0 ] && chown -R "$owner" "$out"
 du -sh "$out"

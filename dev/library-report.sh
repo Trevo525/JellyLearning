@@ -4,7 +4,8 @@
 #   dev/library-report.sh [path-substring]
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
-db="$root/dev/jellyfin/config/data/data/jellyfin.db"
+state="${DEV_STATE:-jellyfin}"; [[ $state = /* ]] || state="$root/dev/$state"
+db="$state/config/data/data/jellyfin.db"
 filter="${1:-}"
 
 sqlite3 -readonly -separator $'\t' "$db" <<SQL

@@ -16,14 +16,16 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 - **Repo:** moving to GitHub (user decision, 2026-11-08); CI is GitHub Actions. The history was
   rewritten on 2026-11-08 to remove real course names and personal names/addresses, so it is
   published from this rewritten clone.
-- **Dev loop:** `docker compose -f dev/docker-compose.yml up -d` → http://localhost:8096;
-  `./dev/deploy.sh` (build + install + restart); `dotnet test`; then with
-  `set -a; . dev/.env; set +a`: `dev/verify-library.py`, `dev/test-progress.py` and
-  `dev/test-api.py` (also creates the no-access user `learner-outsider`).
-  `dev/.env` (gitignored) holds `JELLYFIN_API_KEY` and the test user `JELLYFIN_TEST_USER` /
-  `JELLYFIN_TEST_PASSWORD` ("learner"). Libraries: "Courses" (`/data/elearning`, real exports,
-  read-only) and "Course Fixtures" (`/data/courses`, from `dev/make-fixtures.sh`), both ticked
-  in the plugin settings.
+- **Dev loop:** `docker compose -f dev/compose.yaml up -d` → http://localhost:8096, built and set
+  up automatically (plugin, fixtures, wizard, File Transformation, libraries, API key; see
+  dev/README.md); `./dev/deploy.sh` (rebuild + install + restart); `dotnet test`; then
+  `dev/verify-library.py`, `dev/test-progress.py` and `dev/test-api.py` (they read `dev/.env`
+  themselves; test-api also creates the no-access user `learner-outsider`).
+  `dev/.env` (gitignored, written by `dev/setup.py`) holds `JELLYFIN_API_KEY`, the admin login
+  and the test user `JELLYFIN_TEST_USER` / `JELLYFIN_TEST_PASSWORD`; on this machine also
+  `ELEARNING_SOURCE` (the real exports). Libraries: "Courses" (`/data/elearning`, real exports,
+  read-only, only when `ELEARNING_SOURCE` is set) and "Course Fixtures" (`/data/courses`,
+  from `dev/make-fixtures.sh`), both ticked in the plugin settings.
 - **Reference source:** 12.2 server code is at tag `v12.2` of github.com/jellyfin/jellyfin
   (sparse clone of `MediaBrowser.*`, `Emby.*` was enough to answer every extension question).
 
@@ -166,6 +168,15 @@ Jellyfin's own on every progress report and stop, for items in course libraries 
   `net10.0`, `Jellyfin.Controller`/`Jellyfin.Model` **12.2.0**, targetAbi `12.2.0.0`. Loads as Active.
 - [x] `dev/docker-compose.yml`: 12.2 instance (pinned) + File Transformation 3.0.3.0 (verified 12.2
   build), real sources mounted read-only at `/data/elearning`; `dev/deploy.sh` builds + installs.
+  Replaced on 2026-11-08 (user request: a clone should run the dev scripts easily) by
+  `dev/compose.yaml`, which also builds the plugin (`plugin` service, `dev/build-plugin.sh` in
+  the dotnet SDK image, on a copy of the sources), generates the fixtures (`fixtures` service,
+  `make-fixtures.sh --if-changed`, ffmpeg from the Jellyfin image) and sets the server up
+  (`setup` service, `dev/setup.py`: wizard, File Transformation + restart, libraries without
+  internet metadata, plugin settings, API key → `dev/.env`; only adds what is missing). Prep
+  services run as root but hand what they write to PUID:PGID; `dev/devenv.py` loads `dev/.env`
+  for the scripts. Verified from an empty state folder: set up in ~30 s, test-api 34/34,
+  test-progress passes, verify-library OK; a second `up` changes nothing.
 - [x] `dev/make-fixtures.sh`: rebuilds all fixture layouts as tiny courses (30 s ffmpeg clips,
   placeholder docs) in `dev/jellyfin/courses/` = `/data/courses` (done in Phase 2).
 

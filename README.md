@@ -39,22 +39,27 @@ Jellyfin **12.2** only (the plugin is built against 12.2's packages).
 
 ## Development
 
+Needs Docker; the .NET 10 SDK and Python 3 only for the parts you run on the host.
+
 ```bash
-docker compose -f dev/docker-compose.yml up -d   # dev Jellyfin at http://localhost:8096
-./dev/deploy.sh                                  # build, install into dev instance, restart
-dotnet test                                      # unit + snapshot tests
-./dev/make-fixtures.sh                           # tiny test courses -> /data/courses
+dotnet test                                      # unit + snapshot tests (no Jellyfin needed)
+docker compose -f dev/compose.yaml up -d         # dev Jellyfin at http://localhost:8096, set up
+./dev/deploy.sh                                  # rebuild the plugin into it and restart
 build/package.sh 0.1.0                           # release zip -> artifacts/release/
 ```
+
+`docker compose -f dev/compose.yaml up -d` builds the plugin (in a .NET SDK container) into the
+dev Jellyfin 12.2's plugins folder, generates the test courses, starts Jellyfin and sets it up:
+admin account, File Transformation, a "Course Fixtures" library ticked in the plugin settings,
+an API key. The logins and the key end up in `dev/.env`. Details, options (your own courses,
+another port or state folder) and the dev scripts are in [dev/README.md](dev/README.md).
 
 Releases: push a tag `vX.Y.Z`; the GitHub Actions workflow (`.github/workflows/build.yml`) runs
 the tests, builds the zip with `build/package.sh` and attaches it to a GitHub release. Every push runs the
 tests. Bump `version` and `changelog` in `build.yaml` with each release.
 
-First-run setup of the dev instance is in [dev/README.md](dev/README.md).
-
-With `JELLYFIN_API_KEY` in `dev/.env` (`set -a; . dev/.env; set +a`):
-`dev/verify-library.py` checks every course in Jellyfin against the parser and
+Against the running dev instance (they read `dev/.env` themselves):
+`dev/verify-library.py` checks every course in Jellyfin against the parser,
 `dev/test-progress.py` checks the completion rule with simulated playback and
 `dev/test-api.py` checks the `/ELearning` API (run all three after each change and after server
 upgrades); `dev/ui-view.py` prints courses as jellyfin-web lists them;

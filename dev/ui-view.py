@@ -3,6 +3,7 @@
 Shows/{id}/Episodes per season (same endpoints and order the web client uses).
 Usage: dev/ui-view.py [name-substring]   (needs JELLYFIN_API_KEY from dev/.env)"""
 import json, os, sys, urllib.request, urllib.parse
+import devenv  # loads dev/.env
 
 BASE = os.environ.get("JELLYFIN_URL", "http://localhost:8096")
 KEY = os.environ["JELLYFIN_API_KEY"]

@@ -4,8 +4,9 @@
 Plays fixture lectures as a test user through the same session endpoints jellyfin-web uses
 (/Sessions/Playing, /Progress, /Stopped) and checks the stored played state + resume position.
 Creates the test user from JELLYFIN_TEST_USER / JELLYFIN_TEST_PASSWORD in dev/.env if missing.
-Usage: set -a; . dev/.env; set +a; dev/test-progress.py"""
+Usage: dev/test-progress.py"""
 import json, os, sys, urllib.error, urllib.parse, urllib.request, uuid
+import devenv  # loads dev/.env
 
 BASE = os.environ.get("JELLYFIN_URL", "http://localhost:8096")
 KEY, USER, PASSWORD = os.environ["JELLYFIN_API_KEY"], os.environ["JELLYFIN_TEST_USER"], os.environ["JELLYFIN_TEST_PASSWORD"]
