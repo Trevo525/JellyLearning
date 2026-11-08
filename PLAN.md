@@ -4,13 +4,16 @@ Goal: watch exported e-learning courses (Udemy, Skillshare, Dometrain, Craftsy, 
 with a "native course site" feel: ordered sections/lectures, accurate resume tracking, course
 progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 
-## Status (2026-11-02) — resume here
+## Status (2026-11-08) — resume here
 
-- **Done:** Phases 0–5 (scaffold + dev env, mapping spike, parser + index, metadata/subtitles/
-  artwork, completion rule, API). Phase 4 also confirmed manually in the browser by the user.
-- **Next:** first tagged release (`v0.1.0`) once the Forgejo runner is confirmed; then "Later".
-- **Repo:** `ssh://git@<forgejo-host>/trevo525/jellylearning.git` (`origin`, `main`
-  pushed 2026-11-03).
+- **Done:** Phases 0–7, plus the real-library review (merged lectures, naming rules, generated
+  covers, `.url` links, course words for Jellyfin's headings, invented test fixtures).
+- **Waiting on the user:** browser check of the generated covers and the Sections/Lectures
+  headings; Forgejo runner confirmation (label `docker`) before the first tag `v0.1.0`.
+- **Next:** cover design cleanup (see "Real-library review"); then "Later".
+- **Repo:** `ssh://git@<forgejo-host>/trevo525/jellylearning.git` (`origin`). History
+  was rewritten and force-pushed on 2026-11-08 to remove real course names; old clones must be
+  re-cloned (`git fetch && git reset --hard origin/main`).
 - **Dev loop:** `docker compose -f dev/docker-compose.yml up -d` → http://localhost:8096;
   `./dev/deploy.sh` (build + install + restart); `dotnet test`; then with
   `set -a; . dev/.env; set +a`: `dev/verify-library.py`, `dev/test-progress.py` and
