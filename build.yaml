@@ -10,7 +10,7 @@ description: >
   exact resume positions without early "watched" marking, course progress, and
   viewable/downloadable resources (PDF, ZIP, HTML, Markdown, ...).
 category: "General"
-owner: "trevo525"
+owner: "Trevo525"
 artifacts:
 - "Jellyfin.Plugin.ELearning.dll"
 - "Markdig.dll"

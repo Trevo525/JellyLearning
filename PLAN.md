@@ -9,13 +9,13 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 - **Done:** Phases 0–7, plus the real-library review (merged lectures, naming rules, generated
   covers, `.url` links, course words for Jellyfin's headings, invented test fixtures).
 - **Confirmed by the user (2026-11-08):** generated covers, Sections/Lectures headings.
-- **Last step for 1.0:** Phase 8, publish on GitHub (user has no time yet; nothing pushed since
-  the rewrite).
+- **Last step for 1.0:** Phase 8, publish on GitHub: identity, history and `origin` are ready;
+  the first push waits for the user's go.
 - **Next:** "Later". The generated covers were approved as they are (2026-11-08); the rough
   edges listed under "Real-library review" are only to revisit if they become a problem.
-- **Repo:** moving to GitHub (user decision, 2026-11-08); CI is GitHub Actions. The history was
-  rewritten on 2026-11-08 to remove real course names and personal names/addresses, so it is
-  published from this rewritten clone.
+- **Repo:** GitHub `Trevo525/JellyLearning` (user decision, 2026-11-08); CI is GitHub Actions
+  (the workflow only runs on github.com). The history was rewritten twice on 2026-11-08 (real
+  course names; then identity and leftovers), so it is published from this rewritten clone.
 - **Dev loop:** `docker compose -f dev/compose.yaml up -d` → http://localhost:8096, built and set
   up automatically (plugin, fixtures, wizard, File Transformation, libraries, API key; see
   dev/README.md); `./dev/deploy.sh` (rebuild + install + restart); `dotnet test`; then
@@ -477,15 +477,18 @@ The user imported a large real library (134 courses); findings and decisions:
 ### Phase 8 — Publish on GitHub (last step for 1.0) — TODO
 Nothing identifying the user may be in the repo or its history (user rule, 2026-11-08: no real
 name, usernames, email or self-hosted server; course names already removed).
-- [ ] User picks the public identity: commit author name + email (GitHub noreply address
-  `<id>+<username>@users.noreply.github.com` links commits to the account), plugin `owner` in
-  `build.yaml` (still the old username), GitHub username for README links.
-- [ ] Set that identity in this repo's git config (`git config user.name/user.email`), so new
-  commits don't carry the old one.
-- [ ] Rewrite history once more: author/committer on every commit, the commit message that names
-  the old repo, the old repo URL in past PLAN.md versions. Re-run the history checks (every
-  blob, path and commit message) before publishing.
-- [ ] Create the GitHub repo, add it as `origin` (replacing the old remote), push `main`.
+- [x] Public identity (user, 2026-11-08): author and committer `Trevor Vance`, GitHub user
+  `Trevo525` (plugin `owner` in `build.yaml`, README links).
+- [x] Set in this repo's git config (`git config user.name/user.email`).
+- [x] History rewritten once more: author/committer on every commit, the commit message that
+  named the old repo, the old repo URL and the library's path on disk in past versions, and
+  leftovers of real names the first pass kept (a few file extensions, file names and lecture
+  fragments, older test cases). Audit before publishing: every blob, path and commit message of
+  all 25 commits against every file and folder name of the real library. No course names are
+  left; what still matches is generic vocabulary ("Introduction", "About Me", "Course
+  Resources", programming terms). `dotnet test` passes on the rewritten history.
+- [x] GitHub repo created and added as `origin`.
+- [ ] Push `main`.
 - [ ] Check the first GitHub Actions run (`.github/workflows/build.yml`, untested so far).
 - [ ] Tag the release (on the user's go) and check the release zip installs on a clean server.
 - [ ] Afterwards: delete the pre-rewrite backup bundle and the word mapping from the

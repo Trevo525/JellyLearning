@@ -14,7 +14,7 @@ Jellyfin **12.2** only (the plugin is built against 12.2's packages).
 1. Install **File Transformation** (3.0.3.0 or later for 12.2) from its plugin repository
    `https://www.iamparadox.dev/jellyfin/plugins/manifest.json` (Dashboard → Plugins →
    Repositories). It adds the course UI to the web client.
-2. Download `E-Learning_<version>.zip` from a release of this repository, or build it with
+2. Download `E-Learning_<version>.zip` from a [release](https://github.com/Trevo525/JellyLearning/releases), or build it with
    `build/package.sh <version>`, and unzip it into Jellyfin's plugins folder, so you get
    `<config>/data/plugins/E-Learning_<version>/` (linuxserver image: `/config/data/plugins/`;
    Debian packages: `/var/lib/jellyfin/plugins/`).

@@ -10,6 +10,8 @@ on:
 
 jobs:
   test:
+    # GitHub only: a mirror that also reads .github/workflows skips the run (release needs test).
+    if: github.server_url == 'https://github.com'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
