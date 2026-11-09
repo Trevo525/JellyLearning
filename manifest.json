@@ -6,7 +6,16 @@
     "description": "Treats a Shows library as a course library: sections and lectures in course order, exact resume positions without early \"watched\" marking, course progress, and viewable/downloadable resources (PDF, ZIP, HTML, Markdown, ...).",
     "owner": "Trevo525",
     "category": "General",
-    "versions": []
+    "versions": [
+      {
+        "version": "1.1.1.0",
+        "changelog": "1.1.1: plugin repository (manifest.json) with File Transformation, so both install from the catalog; the zip has the plugin files at its root. 1.1.0: a \"JellyLearning courses\" content type in the New Library dialog (creates a course library with the right settings); the zip is now named JellyLearning_<version>.zip. 1.0.x: course libraries (sections, lectures, subtitles, artwork), course completion rule, /ELearning API, course panels in jellyfin-web and the Udemy-style course player.",
+        "targetAbi": "12.2.0.0",
+        "sourceUrl": "https://github.com/Trevo525/JellyLearning/releases/download/v1.1.1/JellyLearning_1.1.1.zip",
+        "checksum": "6305EFDECFF0FCC5AF6A2DD118F3638A",
+        "timestamp": "2026-11-09T04:53:38"
+      }
+    ]
   },
   {
     "guid": "5e87cc92-571a-4d8d-8d98-d2d4147f9f90",
