@@ -85,4 +85,4 @@ Name the lectures of a flat course's single section:
 - If the file is not valid JSON, or a value has the wrong type (`"year": "soon"`), the whole file is
   ignored and a warning naming it is written to the Jellyfin log.
 - Fields you locked in Jellyfin's metadata editor (name, overview) are not overwritten.
-- It does not read Kodi/Jellyfin `.nfo` files; those are ignored for course libraries.
+- JellyLearning does not read `.nfo` files itself. Jellyfin's own NFO reader may still fill fields such as the overview, but the plugin overwrites titles and numbers.
