@@ -488,9 +488,10 @@ name, usernames, email or self-hosted server; course names already removed).
   left; what still matches is generic vocabulary ("Introduction", "About Me", "Course
   Resources", programming terms). `dotnet test` passes on the rewritten history.
 - [x] GitHub repo created and added as `origin`.
-- [ ] Push `main`.
-- [ ] Check the first GitHub Actions run (`.github/workflows/build.yml`, untested so far).
-- [ ] Tag the release (on the user's go) and check the release zip installs on a clean server.
+- [x] Push `main`.
+- [x] Check the first GitHub Actions run (`.github/workflows/build.yml`, untested so far).
+- [x] Tagged `v1.0.0` (2026-11-08); first release job failed on the staging folder in the upload glob, fixed in `9d7ddaa`, tag moved, release published.
+- [ ] Check the release zip installs on a clean server.
 - [ ] Afterwards: delete the pre-rewrite backup bundle and the word mapping from the
   2026-11-08 session scratchpad, if they still exist (they hold what the rewrite removed).
 
