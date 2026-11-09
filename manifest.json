@@ -1,0 +1,30 @@
+[
+  {
+    "guid": "092fc611-a198-4746-b4db-c1d2cca7ddc3",
+    "name": "JellyLearning",
+    "overview": "Watch exported e-learning courses like on the course site",
+    "description": "Treats a Shows library as a course library: sections and lectures in course order, exact resume positions without early \"watched\" marking, course progress, and viewable/downloadable resources (PDF, ZIP, HTML, Markdown, ...).",
+    "owner": "Trevo525",
+    "category": "General",
+    "versions": []
+  },
+  {
+    "guid": "5e87cc92-571a-4d8d-8d98-d2d4147f9f90",
+    "name": "File Transformation",
+    "overview": "Adds support for plugins to change jellyfin-web content without actually modifying the files directly but intercepts the requests for the served data.",
+    "description": "Adds support for plugins to change jellyfin-web content without actually modifying the files directly but intercepts the requests for the served data.",
+    "owner": "IAmParadox27",
+    "category": "General",
+    "imageUrl": "https://raw.githubusercontent.com/IAmParadox27/jellyfin-plugin-file-transformation/main/src/logo.png",
+    "versions": [
+      {
+        "version": "3.0.3.0",
+        "changelog": "Added support for JF Versions 12.3 and 12.4\r\n\r\nNo other changes are contained in this release.",
+        "targetAbi": "12.2.0.0",
+        "sourceUrl": "https://github.com/IAmParadox27/jellyfin-plugin-file-transformation/releases/download/3.0.3.0/Release-12.2.0.zip",
+        "checksum": "B4BDA934F6850A63D2735A5DB048A128",
+        "timestamp": "2026-09-08T09:02:53"
+      }
+    ]
+  }
+]

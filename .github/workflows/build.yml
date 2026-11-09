@@ -1,5 +1,5 @@
-# Tests every push; a tag like v0.1.0 also builds the plugin zip and attaches it to a GitHub release.
-# Install from a release: unzip into Jellyfin's plugins folder (see README, "Install").
+# Tests every push; a tag like v0.1.0 also builds the plugin zip, attaches it to a GitHub release and adds
+# the release to manifest.json on main (the plugin repository URL in the README, "Install").
 name: build
 
 on:
@@ -39,3 +39,14 @@ jobs:
         run: |
           build/release-notes.py > "$RUNNER_TEMP/notes.md"
           gh release create "$GITHUB_REF_NAME" artifacts/release/*.zip artifacts/release/*.sha256 --title "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md"
+      - name: Add the release to manifest.json on main
+        run: |
+          git fetch origin main
+          git show origin/main:manifest.json > "$RUNNER_TEMP/manifest.json"
+          build/update-manifest.py "$GITHUB_REF_NAME" artifacts/release/JellyLearning_*.zip "$RUNNER_TEMP/manifest.json"
+          git checkout -q -B main origin/main
+          cp "$RUNNER_TEMP/manifest.json" manifest.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "manifest.json: add $GITHUB_REF_NAME"
+          git push origin main

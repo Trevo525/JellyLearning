@@ -15,6 +15,8 @@ artifacts:
 - "Jellyfin.Plugin.ELearning.dll"
 - "Markdig.dll"
 changelog: >
+  1.1.1: plugin repository (manifest.json) with File Transformation, so both install from the catalog;
+  the zip has the plugin files at its root.
   1.1.0: a "JellyLearning courses" content type in the New Library dialog (creates a course library
   with the right settings); the zip is now named JellyLearning_<version>.zip.
   1.0.x: course libraries (sections, lectures, subtitles, artwork), course completion rule,

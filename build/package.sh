@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Build the release zip for a manual install:
 #   build/package.sh [version]        e.g. build/package.sh 0.1.0   (default: version in build.yaml)
-# Produces artifacts/release/JellyLearning_<version>.zip containing the folder JellyLearning_<version>.0/
-# (plugin dll, Markdig.dll, meta.json). Install: unzip into Jellyfin's plugins folder, restart.
+# Produces artifacts/release/JellyLearning_<version>.zip with the plugin files at its root (plugin dll,
+# Markdig.dll, meta.json): the layout Jellyfin extracts for a plugin repository install (manifest.json).
+# Manual install: unzip into a new folder <config>/data/plugins/JellyLearning_<version>.0/, restart.
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$root"
@@ -50,7 +51,7 @@ import os, sys, zipfile
 out, name, zipname = sys.argv[1:4]
 with zipfile.ZipFile(os.path.join(out, zipname + ".zip"), "w", zipfile.ZIP_DEFLATED) as z:
     for file in sorted(os.listdir(os.path.join(out, name))):
-        z.write(os.path.join(out, name, file), f"{name}/{file}")
+        z.write(os.path.join(out, name, file), file)
 PY
 (cd "$out" && sha256sum "JellyLearning_$short.zip" > "JellyLearning_$short.zip.sha256")
 rm -rf "$out/publish"

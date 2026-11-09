@@ -6,13 +6,27 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 
 ## Status (2026-11-08) — resume here
 
-- **Done:** Phases 0–7, plus the real-library review (merged lectures, naming rules, generated
-  covers, `.url` links, course words for Jellyfin's headings, invented test fixtures).
-- **Confirmed by the user (2026-11-08):** generated covers, Sections/Lectures headings.
-- **Last step for 1.0:** Phase 8, publish on GitHub: identity, history and `origin` are ready;
-  the first push waits for the user's go.
-- **Next:** "Later". The generated covers were approved as they are (2026-11-08); the rough
-  edges listed under "Real-library review" are only to revisit if they become a problem.
+- **Done:** Phases 0–7, the real-library review, and Phase 8: pushed to GitHub, CI green, released
+  `v1.0.0` (zip packaged with an `E-Learning_` name, upload glob bug fixed in the workflow),
+  `v1.0.1` (everything renamed JellyLearning), `v1.1.0` (library type, see below).
+- **Library type (v1.1.0):** Jellyfin's library type list is a fixed enum and jellyfin-web hard-codes
+  the dialog, so there is no real "E-Learning" type. `elearning.js` adds a second Shows option,
+  "JellyLearning courses", to the New Library dialog (`web.libraryCreator` selectors); saving with it
+  creates the library with the course options and adds it to `CourseLibraryIds`
+  (wraps `ApiClient.addVirtualFolder`). Verified in the dev instance's dialog; the web DOM can break it,
+  the manual route (Shows library + tick in settings) always works.
+- **Plugin repository (after v1.1.0, first release with it: next tag):** `manifest.json` on `main`
+  (`https://raw.githubusercontent.com/Trevo525/JellyLearning/main/manifest.json`) lists JellyLearning
+  and File Transformation 3.0.3.0 (12.2 build, copied from the author's manifest, checksum included).
+  Jellyfin needs the plugin files at the **root** of the zip and an **MD5** checksum, so
+  `build/package.sh` now zips flat, and the release job runs `build/update-manifest.py` and commits the
+  new entry to `main`. Tested on a throwaway Jellyfin 12.2: both plugins installed from a local copy of
+  the manifest through the catalog and loaded Active. Before the first tagged release the JellyLearning
+  `versions` list is empty. Re-copy the File Transformation entry when it updates.
+- **Naming:** the plugin is JellyLearning everywhere visible (zip `JellyLearning_<version>.zip`,
+  plugin folder, plugin list, fetcher labels, console logs). Internal names (assembly
+  `Jellyfin.Plugin.ELearning`, `/ELearning` API route, namespaces) keep the working title on purpose.
+- **Next:** "Later" below. Still to do by hand: delete the pre-rewrite backups (see Phase 8 list).
 - **Repo:** GitHub `Trevo525/JellyLearning` (user decision, 2026-11-08); CI is GitHub Actions
   (the workflow only runs on github.com). The history was rewritten twice on 2026-11-08 (real
   course names; then identity and leftovers), so it is published from this rewritten clone.
@@ -405,10 +419,9 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
   (light) styling; a dark reading mode was offered, not requested.
 
 ### Phase 7 — Packaging & distribution — DONE (workflow untested until the first GitHub run)
-- **No plugin repository** (user decision, 2026-11-03; the original host required sign-in, so
-  Jellyfin couldn't fetch a `manifest.json`). Install is manual: unzip a release zip into
-  `<config>/data/plugins/` and restart (README, "Install"). A plugin repository on GitHub
-  (manifest.json served from the repo or Pages) is possible later.
+- **Plugin repository** (originally none, because the first host required sign-in; added on GitHub
+  later, see Status): `manifest.json` in the repo root, served raw from `main`. Manual install stays
+  available (README, "Install").
 - [x] `build/package.sh [version]`: Release publish with the version stamped into the assembly,
   copies the `build.yaml` artifacts (plugin dll, Markdig.dll), writes `meta.json` from
   `build.yaml`, zips `E-Learning_<version>/` + a `.sha256`. Verified on the dev server: unzipped
@@ -474,7 +487,7 @@ The user imported a large real library (134 courses); findings and decisions:
   writes meta-refresh stubs for HTML in `N-Resources/` and example.com targets for `.url`
   files, so `dev/test-api.py` no longer needs a real course.
 
-### Phase 8 — Publish on GitHub (last step for 1.0) — TODO
+### Phase 8 — Publish on GitHub (last step for 1.0) — DONE
 Nothing identifying the user may be in the repo or its history (user rule, 2026-11-08: no real
 name, usernames, email or self-hosted server; course names already removed).
 - [x] Public identity (user, 2026-11-08): author and committer `Trevor Vance`, GitHub user
@@ -491,7 +504,7 @@ name, usernames, email or self-hosted server; course names already removed).
 - [x] Push `main`.
 - [x] Check the first GitHub Actions run (`.github/workflows/build.yml`, untested so far).
 - [x] Tagged `v1.0.0` (2026-11-08); first release job failed on the staging folder in the upload glob, fixed in `9d7ddaa`, tag moved, release published.
-- [ ] Check the release zip installs on a clean server.
+- [x] Release zip installs on a clean server (checked by the user, 2026-11-08).
 - [ ] Afterwards: delete the pre-rewrite backup bundle and the word mapping from the
   2026-11-08 session scratchpad, if they still exist (they hold what the rewrite removed).
 

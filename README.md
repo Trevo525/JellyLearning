@@ -57,17 +57,35 @@ resources, and the lecture resumes where you left it.
 
 ## Install
 
-Jellyfin **12.2** only (the plugin is built against 12.2's packages).
+Jellyfin **12.2** only (the plugin is built against 12.2's packages). The web UI needs the
+[File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation) plugin; this
+repository's plugin catalog lists it too, so one repository gives you both.
 
-1. Install **File Transformation** (3.0.3.0 or later for 12.2) from its plugin repository
-   `https://www.iamparadox.dev/jellyfin/plugins/manifest.json` (Dashboard → Plugins →
-   Repositories). It adds the course UI to the web client.
-2. Download `JellyLearning_<version>.zip` from a [release](https://github.com/Trevo525/JellyLearning/releases), or build it with
-   `build/package.sh <version>`, and unzip it into Jellyfin's plugins folder, so you get
-   `<config>/data/plugins/JellyLearning_<version>/` (linuxserver image: `/config/data/plugins/`;
-   Debian packages: `/var/lib/jellyfin/plugins/`).
-3. Restart Jellyfin. To update, delete the old `JellyLearning_*` folder, unzip the new one, restart.
-   (The 1.0.0 release was packaged as `E-Learning_1.0.0.0`; delete that folder too when you update.)
+**From the plugin catalog (recommended)**
+
+1. Dashboard → Plugins → Repositories → add
+   `https://raw.githubusercontent.com/Trevo525/JellyLearning/main/manifest.json`.
+2. Catalog: install **File Transformation** (3.0.3.0) and **JellyLearning**.
+3. Restart Jellyfin.
+
+(File Transformation is listed here as a pointer to its author's release, IAmParadox27's; it is not
+rebuilt or changed. The manifest only lists releases that have been published; each tagged release adds
+itself to `manifest.json`.)
+
+**By hand**
+
+1. Install File Transformation (3.0.3.0 or later for 12.2) from its own repository
+   `https://www.iamparadox.dev/jellyfin/plugins/manifest.json`.
+2. Download `JellyLearning_<version>.zip` from a [release](https://github.com/Trevo525/JellyLearning/releases),
+   or build it with `build/package.sh <version>`, and unzip it into a new folder in Jellyfin's plugins
+   folder, e.g. `<config>/data/plugins/JellyLearning_<version>.0/` (linuxserver image:
+   `/config/data/plugins/`; Debian packages: `/var/lib/jellyfin/plugins/`). The zip has the plugin files
+   at its root, so the folder must be created first.
+3. Restart Jellyfin.
+
+To update by hand, delete the old `JellyLearning_*` folder, unzip the new one, restart. (Releases before
+1.1.1 were zipped with a folder inside, and 1.0.0 was packaged as `E-Learning_1.0.0.0`; delete that
+folder too when you update.)
 
 The plugin is called **JellyLearning** everywhere you see it: the zip, its folder, Dashboard → Plugins
 and the library's metadata fetchers. Only internal names keep the old working title (the
@@ -75,7 +93,7 @@ and the library's metadata fetchers. Only internal names keep the old working ti
 
 ## Server setup
 
-1. Install File Transformation and this plugin (see Install), restart.
+1. Install File Transformation and JellyLearning (see Install), restart.
 2. Create the course library: Dashboard → Libraries → Add Media Library, content type
    **JellyLearning courses**, with one folder per course. It creates a normal Shows library with
    internet metadata, image fetchers and NFO files turned off (otherwise Jellyfin matches courses to
@@ -114,8 +132,10 @@ an API key. The logins and the key end up in `dev/.env`. Details, options (your 
 another port or state folder) and the dev scripts are in [dev/README.md](dev/README.md).
 
 Releases: push a tag `vX.Y.Z`; the GitHub Actions workflow (`.github/workflows/build.yml`) runs
-the tests, builds the zip with `build/package.sh` and attaches it to a GitHub release. Every push runs the
-tests. Bump `version` and `changelog` in `build.yaml` with each release.
+the tests, builds the zip with `build/package.sh`, attaches it to a GitHub release and adds the release (URL,
+MD5 checksum, changelog) to `manifest.json` on `main` with `build/update-manifest.py`. Every push runs the
+tests. Bump `version` and `changelog` in `build.yaml` with each release. The manifest commit exists only on
+GitHub; pull before you push.
 
 Against the running dev instance (they read `dev/.env` themselves):
 `dev/verify-library.py` checks every course in Jellyfin against the parser,
