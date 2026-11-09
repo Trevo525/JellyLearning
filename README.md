@@ -1,5 +1,22 @@
 # Jellyfin E-Learning Plugin
 
+> [!WARNING]
+> # ⚠️ Early software: not well tested. Use it carefully.
+>
+> **This plugin has had very little testing.** It has automated tests (unit and snapshot tests)
+> and has been tried by hand on one Jellyfin 12.2 test instance, and that is all. It has not been
+> run by other people, on other setups or Jellyfin versions, or on large libraries.
+>
+> It changes how the items in your course libraries are titled and ordered, and it decides when a
+> lecture counts as watched, so expect bugs, and expect that some of its changes to watched state
+> and resume positions may be wrong.
+>
+> - **Back up** Jellyfin's config and database before installing it.
+> - **Try it on a test Jellyfin first**, not your main server.
+> - Enable it only for a library that holds just your courses.
+> - Don't rely on it for anything you can't redo, and please
+>   [report problems](https://github.com/Trevo525/JellyLearning/issues).
+
 Watch exported e-learning courses (Udemy, Skillshare, Dometrain, Craftsy, …) in Jellyfin like on
 the course site: sections and lectures in course order, exact resume positions, course progress,
 and viewable/downloadable resources. See [PLAN.md](PLAN.md) for the design and roadmap.
