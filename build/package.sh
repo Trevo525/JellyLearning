@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build the release zip for a manual install:
 #   build/package.sh [version]        e.g. build/package.sh 0.1.0   (default: version in build.yaml)
-# Produces artifacts/release/E-Learning_<version>.zip containing the folder E-Learning_<version>/
+# Produces artifacts/release/JellyLearning_<version>.zip containing the folder JellyLearning_<version>/
 # (plugin dll, Markdig.dll, meta.json). Install: unzip into Jellyfin's plugins folder, restart.
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
@@ -13,7 +13,7 @@ version="${version#v}"
 while [ "$(tr -cd . <<<"$version" | wc -c)" -lt 3 ]; do version="$version.0"; done
 
 out="$root/artifacts/release"
-name="E-Learning_$version"
+name="JellyLearning_$version"
 rm -rf "$out" && mkdir -p "$out/$name"
 
 dotnet publish Jellyfin.Plugin.ELearning/Jellyfin.Plugin.ELearning.csproj -c Release -o "$out/publish" --nologo -v quiet \

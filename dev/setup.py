@@ -17,8 +17,8 @@ from pathlib import Path
 
 BASE = os.environ.get("JELLYFIN_URL", "http://localhost:8096").rstrip("/")
 ENV_FILE = Path(os.environ.get("SETUP_ENV_FILE", Path(__file__).resolve().parent / ".env"))
-CLIENT = 'MediaBrowser Client="E-Learning dev setup", Device="compose", DeviceId="elearning-dev-setup", Version="1.0"'
-APP_NAME = "E-Learning dev scripts"
+CLIENT = 'MediaBrowser Client="JellyLearning dev setup", Device="compose", DeviceId="elearning-dev-setup", Version="1.0"'
+APP_NAME = "JellyLearning dev scripts"
 FILE_TRANSFORMATION = {"name": "File Transformation", "guid": "5e87cc92571a4d8d8d98d2d4147f9f90", "version": "3.0.3.0",
                        "repo": "https://www.iamparadox.dev/jellyfin/plugins/manifest.json", "repo_name": "iamparadox"}
 ELEARNING_ID = "092fc611a1984746b4dbc1d2cca7ddc3"

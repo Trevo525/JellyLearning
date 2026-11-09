@@ -1,4 +1,4 @@
-// E-Learning course UI for jellyfin-web, injected into index.html by the File Transformation plugin.
+// JellyLearning course UI for jellyfin-web, injected into index.html by the File Transformation plugin.
 // Adds course progress, the full outline (including non-video lectures), resources and a file viewer
 // to the details pages of courses (series), sections (seasons) and lectures (episodes).
 //
@@ -499,7 +499,7 @@
         try {
             outline = await getOutline(itemId);
         } catch (err) {
-            console.warn('[E-Learning] ' + err.message);
+            console.warn('[JellyLearning] ' + err.message);
             return;
         }
         if (token !== renderToken || !outline || web.itemIdFromUrl() !== itemId) {
@@ -557,7 +557,7 @@
                 render(page, itemId);
             }
         } catch (err) {
-            console.warn('[E-Learning] ' + err.message);
+            console.warn('[JellyLearning] ' + err.message);
         }
     });
 

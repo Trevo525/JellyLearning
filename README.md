@@ -62,11 +62,16 @@ Jellyfin **12.2** only (the plugin is built against 12.2's packages).
 1. Install **File Transformation** (3.0.3.0 or later for 12.2) from its plugin repository
    `https://www.iamparadox.dev/jellyfin/plugins/manifest.json` (Dashboard → Plugins →
    Repositories). It adds the course UI to the web client.
-2. Download `E-Learning_<version>.zip` from a [release](https://github.com/Trevo525/JellyLearning/releases), or build it with
+2. Download `JellyLearning_<version>.zip` from a [release](https://github.com/Trevo525/JellyLearning/releases), or build it with
    `build/package.sh <version>`, and unzip it into Jellyfin's plugins folder, so you get
-   `<config>/data/plugins/E-Learning_<version>/` (linuxserver image: `/config/data/plugins/`;
+   `<config>/data/plugins/JellyLearning_<version>/` (linuxserver image: `/config/data/plugins/`;
    Debian packages: `/var/lib/jellyfin/plugins/`).
-3. Restart Jellyfin. To update, delete the old `E-Learning_*` folder, unzip the new one, restart.
+3. Restart Jellyfin. To update, delete the old `JellyLearning_*` folder, unzip the new one, restart.
+   (The 1.0.0 release was packaged as `E-Learning_1.0.0.0`; delete that folder too when you update.)
+
+The plugin is called **JellyLearning** everywhere you see it: the zip, its folder, Dashboard → Plugins
+and the library's metadata fetchers. Only internal names keep the old working title (the
+`Jellyfin.Plugin.ELearning` assembly and the `/ELearning` API route).
 
 ## Server setup
 
@@ -76,7 +81,7 @@ Jellyfin **12.2** only (the plugin is built against 12.2's packages).
    sections get a generated cover (title on a purple/blue gradient); to use your own, put a
    `poster`, `cover` or `folder` image (jpg/png) in the course folder. Covers follow the folder names:
    after renaming a course or section folder, a normal library scan draws the new one.
-3. Dashboard → Plugins → E-Learning → tick the library under *Course libraries*, save, then
+3. Dashboard → Plugins → JellyLearning → tick the library under *Course libraries*, save, then
    scan the library (Dashboard → Libraries → Scan all libraries).
 4. Reload the web client once (the course UI is injected into it by File Transformation):
    course, section and lecture pages then show progress, the full outline and resources, and

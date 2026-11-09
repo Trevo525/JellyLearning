@@ -27,7 +27,7 @@ public class SectionProvider : ICustomMetadataProvider<Season>, IHasItemChangeMo
     }
 
     /// <inheritdoc />
-    public string Name => "E-Learning";
+    public string Name => "JellyLearning";
 
     /// <inheritdoc />
     public Task<ItemUpdateType> FetchAsync(Season item, MetadataRefreshOptions options, CancellationToken cancellationToken)

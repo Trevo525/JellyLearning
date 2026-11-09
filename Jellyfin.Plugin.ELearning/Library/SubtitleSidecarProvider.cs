@@ -33,7 +33,7 @@ public class SubtitleSidecarProvider : ICustomMetadataProvider<Episode>, IPreRef
     }
 
     /// <inheritdoc />
-    public string Name => "E-Learning subtitles";
+    public string Name => "JellyLearning subtitles";
 
     /// <inheritdoc />
     // Before Jellyfin's probe provider (Order 100), which collects external subtitle streams.

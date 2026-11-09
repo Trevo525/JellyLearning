@@ -15,7 +15,7 @@ start fresh. Logins, the API key and options live in `dev/.env` (gitignored).
 ## What `up` does
 
 1. **plugin**: builds the plugin in the .NET SDK image (from a copy of the sources, so the repo
-   gets no root-owned `bin/`/`obj/`) and installs it as `E-Learning_0.0.0.0` in Jellyfin's
+   gets no root-owned `bin/`/`obj/`) and installs it as `JellyLearning_0.0.0.0` in Jellyfin's
    plugins folder, removing any other installed version (`dev/build-plugin.sh`).
 2. **fixtures**: generates the test courses from the fixture listings into `dev/jellyfin/courses/`
    (= `/data/courses`), only when the listings changed (`dev/make-fixtures.sh --if-changed`).
@@ -77,7 +77,7 @@ Run against the running instance; each reads `dev/.env` itself.
 
 - Course UI script: `Jellyfin.Plugin.ELearning/Web/elearning.js`; after `./dev/deploy.sh` reload the
   browser tab (the script URL carries a content hash, so no cache clearing is needed). Its
-  console messages start with `[E-Learning]`.
+  console messages start with `[JellyLearning]`.
 - Document-lecture progress: `dev/jellyfin/config/data/data/elearning/progress/<user>.json`.
 - Course index written by the plugin after each scan:
   `dev/jellyfin/config/data/data/elearning/course-index.json`.

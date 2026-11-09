@@ -26,7 +26,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     }
 
     /// <inheritdoc />
-    public override string Name => "E-Learning";
+    public override string Name => "JellyLearning";
 
     /// <inheritdoc />
     public override Guid Id => Guid.Parse("092fc611-a198-4746-b4db-c1d2cca7ddc3");

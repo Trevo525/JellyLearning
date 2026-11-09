@@ -28,7 +28,7 @@ public class LectureProvider : ICustomMetadataProvider<Episode>, IHasItemChangeM
     }
 
     /// <inheritdoc />
-    public string Name => "E-Learning";
+    public string Name => "JellyLearning";
 
     /// <inheritdoc />
     public Task<ItemUpdateType> FetchAsync(Episode item, MetadataRefreshOptions options, CancellationToken cancellationToken)

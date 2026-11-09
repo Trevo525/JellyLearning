@@ -13,10 +13,10 @@ dotnet publish "$work/Jellyfin.Plugin.ELearning/Jellyfin.Plugin.ELearning.csproj
   -c Debug -o /tmp/out --nologo -v quiet
 
 plugins=/state/config/data/plugins
-dest="$plugins/E-Learning_0.0.0.0"
+dest="$plugins/JellyLearning_0.0.0.0"
 mkdir -p "$plugins"
 # Remove every installed version (a release zip too): Jellyfin would load the highest one.
-rm -rf "$plugins"/E-Learning_* && mkdir -p "$dest"
+rm -rf "$plugins"/JellyLearning_* && mkdir -p "$dest"
 cp /tmp/out/Jellyfin.Plugin.ELearning.dll /tmp/out/Jellyfin.Plugin.ELearning.pdb /tmp/out/Markdig.dll "$dest/"
 chown "$owner" /state /state/config /state/config/data "$plugins"
 chown -R "$owner" "$dest" /state/.nuget

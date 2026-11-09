@@ -1,4 +1,4 @@
-// E-Learning course player: a Udemy-style course page (video or document on the left, course content
+// JellyLearning course player: a Udemy-style course page (video or document on the left, course content
 // on the right) served by the plugin at <server>/ELearning/Web/player.html#<seriesId>[/<lectureId>].
 //
 // It signs in with the session jellyfin-web stored in this browser (same origin), plays videos with
@@ -857,7 +857,7 @@
     }
 
     start().catch(function (err) {
-        console.error('[E-Learning player]', err);
+        console.error('[JellyLearning player]', err);
         $('stage').replaceChildren(message('Something went wrong', err.message));
     });
 })();

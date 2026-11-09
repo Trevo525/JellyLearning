@@ -42,7 +42,7 @@ public class CourseCoverProvider : ILocalImageProvider, IHasOrder
     }
 
     /// <inheritdoc />
-    public string Name => "E-Learning cover";
+    public string Name => "JellyLearning cover";
 
     /// <inheritdoc />
     public int Order => 1;
