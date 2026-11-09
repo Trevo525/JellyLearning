@@ -76,8 +76,11 @@ and the library's metadata fetchers. Only internal names keep the old working ti
 ## Server setup
 
 1. Install File Transformation and this plugin (see Install), restart.
-2. Create a **Shows** library for the courses (one folder per course). In its settings turn off
-   all internet metadata/image fetchers (TheMovieDb, OMDb) and the NFO saver. Courses and
+2. Create the course library: Dashboard → Libraries → Add Media Library, content type **Shows**
+   (JellyLearning has no content type of its own; Jellyfin's list of library types is fixed and
+   plugins can't add to it), with one folder per course. In the library's settings turn off all
+   internet metadata/image fetchers (TheMovieDb, OMDb) and the NFO saver, or Jellyfin matches
+   courses to random TV shows. Courses and
    sections get a generated cover (title on a purple/blue gradient); to use your own, put a
    `poster`, `cover` or `folder` image (jpg/png) in the course folder. Covers follow the folder names:
    after renaming a course or section folder, a normal library scan draws the new one.
