@@ -144,6 +144,12 @@ Against the running dev instance (they read `dev/.env` themselves):
 upgrades); `dev/ui-view.py` prints courses as jellyfin-web lists them;
 `dev/library-report.sh` dumps the raw database view.
 
+## License
+
+Copyright (C) 2026 Trevor Vance. JellyLearning is free software under the
+[GNU General Public License v3.0](LICENSE) (the same family of license as Jellyfin): you may use, change
+and share it, and changes you distribute must stay under the GPL.
+
 ## Third-party
 
 The course player bundles [hls.js](https://github.com/video-dev/hls.js) 1.7.4 (light build,
