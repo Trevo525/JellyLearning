@@ -27,7 +27,12 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 - **Naming:** the plugin is JellyLearning everywhere visible (zip `JellyLearning_<version>.zip`,
   plugin folder, plugin list, fetcher labels, console logs). Internal names (assembly
   `Jellyfin.Plugin.ELearning`, `/ELearning` API route, namespaces) keep the working title on purpose.
-- **Next:** "Later" below. Still to do by hand: delete the pre-rewrite backups (see Phase 8 list).
+- **Listing:** a JellyLearning entry (Plugins → Library Management, `🔹 Beta` `✅ JF12`) is committed on the branch
+  `feat/add-jellylearning` of a local awesome-jellyfin clone; not pushed or submitted yet (the push to the
+  user's fork needs an ssh key from the user's terminal). Their CONTRIBUTING asks for projects at least
+  4 weeks old (a guideline), so a maintainer may ask to wait.
+- **Next:** "Later" below. The pre-rewrite backups, the audit repos and the old dev state are deleted
+  (2026-11-09); `dev/jellyfin/` is rebuilt by `docker compose -f dev/compose.yaml up -d`.
 - **Repo:** GitHub `Trevo525/JellyLearning` (user decision, 2026-11-08); CI is GitHub Actions
   (the workflow only runs on github.com). The history was rewritten twice on 2026-11-08 (real
   course names; then identity and leftovers), so it is published from this rewritten clone.
@@ -419,18 +424,18 @@ because providers run before the post-scan index rebuild. The Phase 1 spike is r
   sidebar, deliberately **not** tracked as done (user decision). Exported HTML keeps its own
   (light) styling; a dark reading mode was offered, not requested.
 
-### Phase 7 — Packaging & distribution — DONE (workflow untested until the first GitHub run)
+### Phase 7 — Packaging & distribution — DONE (first GitHub run: v1.0.0, see Phase 8)
 - **Plugin repository** (originally none, because the first host required sign-in; added on GitHub
   later, see Status): `manifest.json` in the repo root, served raw from `main`. Manual install stays
   available (README, "Install").
 - [x] `build/package.sh [version]`: Release publish with the version stamped into the assembly,
   copies the `build.yaml` artifacts (plugin dll, Markdig.dll), writes `meta.json` from
-  `build.yaml`, zips `E-Learning_<version>/` + a `.sha256`. Verified on the dev server: unzipped
+  `build.yaml`, zips the plugin files (flat, since v1.1.1; named `JellyLearning_<version>.zip`) + a `.sha256`. Verified on the dev server: unzipped
   0.1.0.0 loads as Active and `dev/test-api.py` passes 33/33.
 - [x] `.github/workflows/build.yml` (GitHub Actions since 2026-11-08, user decision):
   tests on every push/PR; on `v*` tags also packages and `gh release create` publishes the zip +
   `.sha256`, with notes from `build/release-notes.py` (build.yaml changelog + install steps).
-- `dev/deploy.sh` now removes every installed `E-Learning_*` folder first (Jellyfin loads the
+- `dev/deploy.sh` now removes every installed `JellyLearning_*` folder first (Jellyfin loads the
   highest version, so a leftover release would shadow dev builds).
 
 ### Real-library review (2026-11-08, after Phase 7)
@@ -506,8 +511,7 @@ name, usernames, email or self-hosted server; course names already removed).
 - [x] Check the first GitHub Actions run (`.github/workflows/build.yml`, untested so far).
 - [x] Tagged `v1.0.0` (2026-11-08); first release job failed on the staging folder in the upload glob, fixed in `9d7ddaa`, tag moved, release published.
 - [x] Release zip installs on a clean server (checked by the user, 2026-11-08).
-- [ ] Afterwards: delete the pre-rewrite backup bundle and the word mapping from the
-  2026-11-08 session scratchpad, if they still exist (they hold what the rewrite removed).
+- [x] Deleted the pre-rewrite backup bundles, the word mappings and the audit repos (2026-11-09).
 
 ### Later
 - Quiz score tracking (read results from the HTML quiz via postMessage).
