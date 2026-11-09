@@ -1,4 +1,4 @@
-# Jellyfin E-Learning Plugin — Plan
+# JellyLearning — Plan
 
 Goal: watch exported e-learning courses (Udemy, Skillshare, Dometrain, Craftsy, …) in Jellyfin
 with a "native course site" feel: ordered sections/lectures, accurate resume tracking, course

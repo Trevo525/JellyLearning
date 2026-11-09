@@ -10,7 +10,7 @@ using MediaBrowser.Model.Serialization;
 namespace Jellyfin.Plugin.ELearning;
 
 /// <summary>
-/// The E-Learning plugin.
+/// JellyLearning, the e-learning plugin.
 /// </summary>
 public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
 {

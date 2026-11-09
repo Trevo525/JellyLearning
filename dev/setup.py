@@ -181,7 +181,7 @@ def libraries():
 
 def tick_course_libraries(ids):
     if not any(p["Id"].replace("-", "") == ELEARNING_ID for p in call("GET", "/Plugins")):
-        raise SystemExit("The E-Learning plugin is not loaded; check `docker compose -f dev/compose.yaml logs plugin jellyfin`.")
+        raise SystemExit("JellyLearning is not loaded; check `docker compose -f dev/compose.yaml logs plugin jellyfin`.")
     config = call("GET", f"/Plugins/{ELEARNING_ID}/Configuration")
     current = {i.replace("-", "") for i in config.get("CourseLibraryIds", [])}
     missing = [i for i in ids if i.replace("-", "") not in current]

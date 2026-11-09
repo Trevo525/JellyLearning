@@ -1,5 +1,5 @@
 ---
-# Dev Jellyfin for the E-Learning plugin, set up end to end:
+# Dev Jellyfin for JellyLearning, set up end to end:
 #   docker compose -f dev/compose.yaml up -d      then http://localhost:8096 (logins in dev/.env)
 # 1. plugin   builds the plugin (dotnet SDK image) into Jellyfin's plugins folder
 # 2. fixtures generates the tiny test courses from tests/.../Fixtures/Listings (if they changed)

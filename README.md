@@ -1,4 +1,4 @@
-# Jellyfin E-Learning Plugin
+# JellyLearning
 
 > [!WARNING]
 > # ⚠️ Early software: not well tested. Use it carefully.
@@ -17,12 +17,43 @@
 > - Don't rely on it for anything you can't redo, and please
 >   [report problems](https://github.com/Trevo525/JellyLearning/issues).
 
-Watch exported e-learning courses (Udemy, Skillshare, Dometrain, Craftsy, …) in Jellyfin like on
-the course site: sections and lectures in course order, exact resume positions, course progress,
-and viewable/downloadable resources. See [PLAN.md](PLAN.md) for the design and roadmap.
+JellyLearning is a Jellyfin plugin for watching exported e-learning courses (Udemy, Skillshare,
+Dometrain, Craftsy, …) like on the course site: sections and lectures in course order, exact
+resume positions, course progress, and viewable/downloadable resources. See [PLAN.md](PLAN.md) for the design and roadmap.
 
 Targets **Jellyfin 12.2** (.NET 10). Requires the
 [File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation) plugin.
+
+## Screenshots
+
+All screenshots show a made-up demo library: invented courses with generated placeholder videos.
+
+**Courses in Jellyfin**: generated covers, and Continue Watching resumes each course at the exact
+position you stopped.
+
+![The Jellyfin home page with three demo courses and a Continue Watching row](docs/screenshots/home.png)
+
+**Course page**: progress, course resources (view or download), and the outline of all sections
+and lectures, with completion marks and resume positions.
+
+![A course page with a progress bar, resources and the lecture outline](docs/screenshots/course.png)
+
+**Course player**: the course outline beside the video like on the course site, per-lecture
+resources, and the lecture resumes where you left it.
+
+![The course player with the outline on the right and a half-watched lecture](docs/screenshots/player.png)
+
+**Readings and quizzes** open inline and count towards the course progress.
+
+![An HTML quiz lecture shown inside the course player](docs/screenshots/quiz.png)
+
+**Resources** open in a viewer (PDF, HTML, Markdown, text, images) or download.
+
+![A PDF resource open in the viewer](docs/screenshots/resource.png)
+
+**Settings**: which libraries are course libraries, and when a lecture counts as complete.
+
+![The plugin settings page](docs/screenshots/settings.png)
 
 ## Install
 
