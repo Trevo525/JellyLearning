@@ -8,21 +8,22 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
 
 - **Done:** Phases 0–7, the real-library review, and Phase 8: pushed to GitHub, CI green, released
   `v1.0.0` (zip packaged with an `E-Learning_` name, upload glob bug fixed in the workflow),
-  `v1.0.1` (everything renamed JellyLearning), `v1.1.0` (library type, see below).
+  `v1.0.1` (everything renamed JellyLearning), `v1.1.0` (library type, see below), `v1.1.1` (plugin repository, see below). The repo is public and
+  licensed GPLv3 (`LICENSE`, README "License").
 - **Library type (v1.1.0):** Jellyfin's library type list is a fixed enum and jellyfin-web hard-codes
   the dialog, so there is no real "E-Learning" type. `elearning.js` adds a second Shows option,
   "JellyLearning courses", to the New Library dialog (`web.libraryCreator` selectors); saving with it
   creates the library with the course options and adds it to `CourseLibraryIds`
   (wraps `ApiClient.addVirtualFolder`). Verified in the dev instance's dialog; the web DOM can break it,
   the manual route (Shows library + tick in settings) always works.
-- **Plugin repository (after v1.1.0, first release with it: next tag):** `manifest.json` on `main`
+- **Plugin repository (v1.1.1):** `manifest.json` on `main`
   (`https://raw.githubusercontent.com/Trevo525/JellyLearning/main/manifest.json`) lists JellyLearning
   and File Transformation 3.0.3.0 (12.2 build, copied from the author's manifest, checksum included).
   Jellyfin needs the plugin files at the **root** of the zip and an **MD5** checksum, so
-  `build/package.sh` now zips flat, and the release job runs `build/update-manifest.py` and commits the
-  new entry to `main`. Tested on a throwaway Jellyfin 12.2: both plugins installed from a local copy of
-  the manifest through the catalog and loaded Active. Before the first tagged release the JellyLearning
-  `versions` list is empty. Re-copy the File Transformation entry when it updates.
+  `build/package.sh` zips flat, and the release job runs `build/update-manifest.py` and commits the
+  new entry to `main` (that commit exists only on GitHub: pull before pushing). Verified from the real
+  public URL on a brand-new Jellyfin 12.2: both plugins installed through the catalog and loaded
+  Active. Re-copy the File Transformation entry into `manifest.json` when it updates.
 - **Naming:** the plugin is JellyLearning everywhere visible (zip `JellyLearning_<version>.zip`,
   plugin folder, plugin list, fetcher labels, console logs). Internal names (assembly
   `Jellyfin.Plugin.ELearning`, `/ELearning` API route, namespaces) keep the working title on purpose.
