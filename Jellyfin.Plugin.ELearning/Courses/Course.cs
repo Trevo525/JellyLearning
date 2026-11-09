@@ -12,6 +12,7 @@ namespace Jellyfin.Plugin.ELearning.Courses;
 /// <param name="ArtworkPath">Cover image relative to the course folder, if any.</param>
 /// <param name="Sections">Sections in course order.</param>
 /// <param name="Resources">Course-level files.</param>
+/// <param name="Description">Description from <c>course.json</c>, if any.</param>
 public sealed record Course(
     string FolderName,
     string Title,
@@ -19,4 +20,5 @@ public sealed record Course(
     int? Year,
     string? ArtworkPath,
     IReadOnlyList<CourseSection> Sections,
-    IReadOnlyList<CourseFile> Resources);
+    IReadOnlyList<CourseFile> Resources,
+    string? Description = null);

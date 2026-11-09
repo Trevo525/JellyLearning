@@ -54,6 +54,21 @@ for listing in "$listings"/*.txt; do
   done < "$listing"
   echo "built $(basename "$course")"
 done
+
+# A course.json override: renamed course, described lecture, sections in reverse order.
+cat > "$out/Sample - Markdown Notes/course.json" <<'JSON'
+{
+  "title": "Markdown Notes (course.json)",
+  "description": "Title, description and section order come from course.json.",
+  "sections": {
+    "01 Getting started": { "title": "Basics", "order": 2 },
+    "02 Next steps": { "title": "Further", "order": 1, "description": "Shown first." }
+  },
+  "lectures": {
+    "01 Getting started/01 Welcome.mp4": { "title": "Hello!", "description": "Overridden description." }
+  }
+}
+JSON
 echo "$stamp" > "$out/.fixtures-stamp"
 [ "$(id -u)" = 0 ] && chown -R "$owner" "$out"
 du -sh "$out"

@@ -14,6 +14,7 @@ namespace Jellyfin.Plugin.ELearning.Courses;
 /// <param name="EpisodeNumber">Jellyfin episode number (position among the section's videos); null for documents.</param>
 /// <param name="Attachments">Files that belong to this lecture.</param>
 /// <param name="Subtitles">Sidecar subtitles (videos only).</param>
+/// <param name="Description">Description from <c>course.json</c>, if any.</param>
 public sealed record CourseLecture(
     string Id,
     FileKind Kind,
@@ -22,7 +23,8 @@ public sealed record CourseLecture(
     string RelativePath,
     int? EpisodeNumber,
     IReadOnlyList<CourseFile> Attachments,
-    IReadOnlyList<SubtitleTrack> Subtitles)
+    IReadOnlyList<SubtitleTrack> Subtitles,
+    string? Description = null)
 {
     /// <summary>
     /// Gets the lecture's main file as a <see cref="CourseFile"/>.

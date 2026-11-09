@@ -53,7 +53,7 @@ public sealed class CourseCatalog
         {
             if (Directory.Exists(coursePath))
             {
-                lookup = new CourseLookup(CourseScanner.Scan(coursePath));
+                lookup = new CourseLookup(CourseScanner.Scan(coursePath, _logger));
             }
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)

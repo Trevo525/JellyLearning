@@ -513,9 +513,17 @@ name, usernames, email or self-hosted server; course names already removed).
 - [x] Release zip installs on a clean server (checked by the user, 2026-11-08).
 - [x] Deleted the pre-rewrite backup bundles, the word mappings and the audit repos (2026-11-09).
 
+### `course.json` override — done, awaiting manual test
+Optional file in the course folder root (`CourseOverrides`): course title/description/studio/year,
+and per section (keyed by folder) and per lecture (keyed by main file) `title`, `description`,
+`order`. Applied inside `CourseParser.Parse` (so index, providers and outline agree); `order`
+replaces the file-name number as the sort key (double, so 0.5 works) and therefore also changes
+season/episode numbers. Descriptions go to Series/Season/Episode `Overview` (the player's Overview
+tab shows them). `CourseScanner` hides the file from resources and warns on invalid JSON. Fixture:
+`Sample - Markdown Notes` gets one from `dev/make-fixtures.sh`. Not done: `.nfo` is not read.
+
 ### Later
 - Quiz score tracking (read results from the HTML quiz via postMessage).
-- Optional per-course `course.json` override (titles/order/description).
 - Course-level "Continue where you left off" button.
 
 ## Open risks

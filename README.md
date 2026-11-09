@@ -114,6 +114,35 @@ and the library's metadata fetchers. Only internal names keep the old working ti
    its own completion rule for course lectures regardless (settings page: "Lecture completion");
    this only avoids a brief "watched" flicker while a lecture plays.
 
+## Overriding titles and order (`course.json`)
+
+The parser works from folder and file names. When those are wrong, put a `course.json` in the
+course folder (all keys optional; comments and trailing commas are allowed):
+
+```json
+{
+  "title": "Course title",
+  "description": "Shown as the overview.",
+  "studio": "Udemy",
+  "year": 2024,
+  "sections": {
+    "02 Advanced": { "title": "Harder Things", "description": "…", "order": 1 }
+  },
+  "lectures": {
+    "01 Basics/02 Setup.mp4": { "title": "Getting set up", "description": "…", "order": 0.5 }
+  }
+}
+```
+
+- Sections are keyed by their folder, lectures by their main file, both relative to the course
+  folder with `/`. Use `"."` for the implicit section of loose lectures.
+- `order` replaces the number from the name when sorting (fractions slot in between). It also
+  changes season and episode numbers, which are part of Jellyfin's watch-data keys, so set it
+  before anyone has progress in the course.
+- Titles are used as written. Blank values are ignored. Fields you locked in Jellyfin's metadata
+  editor are left alone. A file that is not valid is ignored with a warning in the server log.
+- Changes show after the next library scan.
+
 ## Development
 
 Needs Docker; the .NET 10 SDK and Python 3 only for the parts you run on the host.

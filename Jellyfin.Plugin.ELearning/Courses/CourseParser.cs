@@ -21,8 +21,9 @@ public static class CourseParser
     /// <param name="relativeFilePaths">All files below the course folder, relative to it ('/' or '\' separators).</param>
     /// <param name="idScope">What file IDs are unique within (default: the folder name). The scanner passes the
     /// absolute course path, so the same course in two libraries gets distinct IDs.</param>
+    /// <param name="overrides">The course's <c>course.json</c>, if it has one.</param>
     /// <returns>The course.</returns>
-    public static Course Parse(string folderName, IEnumerable<string> relativeFilePaths, string? idScope = null)
+    public static Course Parse(string folderName, IEnumerable<string> relativeFilePaths, string? idScope = null, CourseOverrides? overrides = null)
     {
         ArgumentNullException.ThrowIfNull(folderName);
         ArgumentNullException.ThrowIfNull(relativeFilePaths);
@@ -39,7 +40,7 @@ public static class CourseParser
             .GroupBy(p => p[..p.IndexOf('/', StringComparison.Ordinal)], StringComparer.Ordinal)
             .ToDictionary(g => g.Key, g => g.Select(p => p[(g.Key.Length + 1)..]).ToList(), StringComparer.Ordinal);
 
-        var ctx = new Context(idScope ?? folderName);
+        var ctx = new Context(idScope ?? folderName, overrides);
         var artwork = rootFiles.Where(CourseNaming.IsArtwork).Order(NaturalComparer.Instance).FirstOrDefault();
         if (artwork is not null)
         {
@@ -62,7 +63,7 @@ public static class CourseParser
         }
 
         drafts = drafts
-            .OrderBy(d => d.Number ?? int.MaxValue)
+            .OrderBy(d => d.SortKey)
             .ThenBy(d => d.FolderName, NaturalComparer.Instance)
             .ToList();
 
@@ -84,8 +85,18 @@ public static class CourseParser
             .ToList();
 
         var (title, studio, year) = CourseNaming.ParseCourseName(folderName);
-        return new Course(folderName, title, studio, year, artwork, sections, courseResources);
+        return new Course(
+            folderName,
+            Text(overrides?.Title) ?? title,
+            Text(overrides?.Studio) ?? studio,
+            overrides?.Year ?? year,
+            artwork,
+            sections,
+            courseResources,
+            Text(overrides?.Description));
     }
+
+    private static string? Text(string? value) => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
 
     // A folder directly under the course is a section when it holds videos, or when it is numbered
     // and holds numbered lecture documents (e.g. Udemy quiz-only sections). Otherwise it is a
@@ -119,7 +130,7 @@ public static class CourseParser
 
         var videos = direct
             .Where(c => CourseNaming.GetKind(c) == FileKind.Video)
-            .Select(c => new LectureDraft(ctx.Id(Rel(c)), FileKind.Video, Path.GetFileNameWithoutExtension(c), Rel(c)))
+            .Select(c => ctx.Lecture(Rel(c), FileKind.Video, Path.GetFileNameWithoutExtension(c)))
             .ToList();
 
         foreach (var file in direct.Where(c => CourseNaming.GetKind(c) == FileKind.Subtitle))
@@ -154,7 +165,7 @@ public static class CourseParser
             }
             else if (number is not null && CourseNaming.IsLectureKind(kind))
             {
-                lectures.Add(new LectureDraft(ctx.Id(Rel(file)), kind, stem, Rel(file)));
+                lectures.Add(ctx.Lecture(Rel(file), kind, stem));
             }
             else
             {
@@ -173,18 +184,22 @@ public static class CourseParser
         }
 
         var ordered = lectures
-            .OrderBy(l => l.Number ?? int.MaxValue)
+            .OrderBy(l => l.SortKey)
             .ThenBy(l => l.Kind == FileKind.Video ? 0 : 1)
             .ThenBy(l => l.Stem, NaturalComparer.Instance)
             .ToList();
 
+        var sectionNumber = isImplicit ? null : CourseNaming.SplitNumber(folderName).Number;
+        var over = ctx.Overrides?.ForSection(folder);
         return new SectionDraft(
-            isImplicit ? null : CourseNaming.SplitNumber(folderName).Number,
-            isImplicit ? ImplicitSectionTitle : CourseNaming.CleanTitle(folderName),
+            sectionNumber,
+            Text(over?.Title) ?? (isImplicit ? ImplicitSectionTitle : CourseNaming.CleanTitle(folderName)),
             folder,
             folderName,
             ordered,
-            isImplicit ? [] : resources);
+            isImplicit ? [] : resources,
+            over?.Order ?? sectionNumber ?? double.MaxValue,
+            Text(over?.Description));
     }
 
     // A numbered non-video file belongs to the video with the same number when it is not a readable
@@ -210,16 +225,27 @@ public static class CourseParser
     private static string Normalize(string title)
         => new string(title.Where(char.IsLetterOrDigit).Select(char.ToUpperInvariant).ToArray());
 
-    private sealed class Context(string idScope)
+    private sealed class Context(string idScope, CourseOverrides? overrides)
     {
+        public CourseOverrides? Overrides { get; } = overrides;
+
+        public LectureDraft Lecture(string relativePath, FileKind kind, string stem)
+            => new(Id(relativePath), kind, stem, relativePath, Overrides?.ForLecture(relativePath));
+
         public string Id(string relativePath) => CourseNaming.FileId(idScope, relativePath);
 
         public CourseFile File(string relativePath)
             => new(Id(relativePath), relativePath, CourseNaming.DisplayName(Path.GetFileName(relativePath)), CourseNaming.GetKind(relativePath));
     }
 
-    private sealed class LectureDraft(string id, FileKind kind, string stem, string relativePath)
+    private sealed class LectureDraft(string id, FileKind kind, string stem, string relativePath, ItemOverride? over)
     {
+        public double SortKey { get; } = over?.Order ?? CourseNaming.SplitNumber(stem).Number ?? double.MaxValue;
+
+        public string? Title { get; } = Text(over?.Title);
+
+        public string? Description { get; } = Text(over?.Description);
+
         public string Id { get; } = id;
 
         public FileKind Kind { get; } = kind;
@@ -235,7 +261,7 @@ public static class CourseParser
         public List<SubtitleTrack> Subtitles { get; } = [];
     }
 
-    private sealed record SectionDraft(int? Number, string Title, string RelativePath, string FolderName, List<LectureDraft> Lectures, List<CourseFile> Resources)
+    private sealed record SectionDraft(int? Number, string Title, string RelativePath, string FolderName, List<LectureDraft> Lectures, List<CourseFile> Resources, double SortKey, string? Description)
     {
         public CourseSection ToSection(int? seasonNumber)
         {
@@ -245,13 +271,14 @@ public static class CourseParser
                     l.Id,
                     l.Kind,
                     l.Number,
-                    CourseNaming.CleanTitle(l.Stem),
+                    l.Title ?? CourseNaming.CleanTitle(l.Stem),
                     l.RelativePath,
                     l.Kind == FileKind.Video ? ++episode : null,
                     l.Attachments,
-                    l.Subtitles))
+                    l.Subtitles,
+                    l.Description))
                 .ToList();
-            return new CourseSection(Number, Title, RelativePath, seasonNumber, lectures, Resources);
+            return new CourseSection(Number, Title, RelativePath, seasonNumber, lectures, Resources, Description);
         }
     }
 }

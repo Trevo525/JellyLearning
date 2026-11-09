@@ -78,6 +78,15 @@ public class SectionProvider : ICustomMetadataProvider<Season>, IHasItemChangeMo
             }
         }
 
+        if (section.Description is not null && !item.IsFieldLocked(MetadataField.Overview) && item.Overview != section.Description)
+        {
+            changed = true;
+            if (write)
+            {
+                item.Overview = section.Description;
+            }
+        }
+
         return changed;
     }
 }

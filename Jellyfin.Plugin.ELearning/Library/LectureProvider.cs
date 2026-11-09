@@ -83,6 +83,15 @@ public class LectureProvider : ICustomMetadataProvider<Episode>, IHasItemChangeM
             }
         }
 
+        if (lecture.Description is not null && !item.IsFieldLocked(MetadataField.Overview) && item.Overview != lecture.Description)
+        {
+            changed = true;
+            if (write)
+            {
+                item.Overview = lecture.Description;
+            }
+        }
+
         return changed;
     }
 }

@@ -11,10 +11,12 @@ namespace Jellyfin.Plugin.ELearning.Courses;
 /// <param name="SeasonNumber">Jellyfin season number (position among sections with videos); null for document-only sections.</param>
 /// <param name="Lectures">Lectures in course order.</param>
 /// <param name="Resources">Section-level files.</param>
+/// <param name="Description">Description from <c>course.json</c>, if any.</param>
 public sealed record CourseSection(
     int? Number,
     string Title,
     string RelativePath,
     int? SeasonNumber,
     IReadOnlyList<CourseLecture> Lectures,
-    IReadOnlyList<CourseFile> Resources);
+    IReadOnlyList<CourseFile> Resources,
+    string? Description = null);

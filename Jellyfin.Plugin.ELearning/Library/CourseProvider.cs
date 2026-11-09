@@ -80,6 +80,15 @@ public class CourseProvider : ICustomMetadataProvider<Series>, IHasItemChangeMon
             }
         }
 
+        if (course.Description is not null && !item.IsFieldLocked(MetadataField.Overview) && item.Overview != course.Description)
+        {
+            changed = true;
+            if (write)
+            {
+                item.Overview = course.Description;
+            }
+        }
+
         return changed;
     }
 }
