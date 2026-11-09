@@ -1,4 +1,7 @@
+using Jellyfin.Plugin.ELearning.Api;
 using Jellyfin.Plugin.ELearning.Courses;
+using Jellyfin.Plugin.ELearning.Progress;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Jellyfin.Plugin.ELearning.Tests;
 
@@ -123,6 +126,59 @@ public sealed class CourseOverridesTests : IDisposable
             """);
 
         Assert.Equal("Loose", overrides!.Title);
+    }
+
+    [Fact]
+    public void Overrides_never_change_file_ids()
+    {
+        var listing = File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Listings", "Dometrain - Getting Started - Onabaru in .MOM.txt")).Where(l => l.Length > 0).ToList();
+        var first = listing.First(l => l.EndsWith(".mp4", StringComparison.Ordinal));
+        var overrides = CourseOverrides.TryParse($$"""{ "title": "X", "lectures": { "{{first}}": { "title": "Y", "order": 99 } } }""");
+
+        var plain = CourseParser.Parse("C", listing, "scope");
+        var changed = CourseParser.Parse("C", listing, "scope", overrides);
+
+        Assert.Equal(
+            plain.Sections.SelectMany(s => s.Lectures).Select(l => (l.RelativePath, l.Id)).Order().ToList(),
+            changed.Sections.SelectMany(s => s.Lectures).Select(l => (l.RelativePath, l.Id)).Order().ToList());
+    }
+
+    [Fact]
+    public void Index_keeps_overridden_values_after_reload()
+    {
+        var course = Path.Combine(_dir, "library", "Some Course");
+        Directory.CreateDirectory(Path.Combine(course, "01 A"));
+        File.WriteAllText(Path.Combine(course, "01 A", "1 a.mp4"), string.Empty);
+        File.WriteAllText(Path.Combine(course, "course.json"), """
+            { "title": "Renamed", "description": "Course text.",
+              "sections": { "01 A": { "title": "First", "description": "Section text." } },
+              "lectures": { "01 A/1 a.mp4": { "title": "Hello", "description": "Lecture text." } } }
+            """);
+        var file = Path.Combine(_dir, "data", "course-index.json");
+        new CourseIndex(file, NullLogger<CourseIndex>.Instance).Replace([CourseScanner.Scan(course)]);
+
+        var loaded = Assert.Single(new CourseIndex(file, NullLogger<CourseIndex>.Instance).Courses).Course;
+
+        Assert.Equal(("Renamed", "Course text."), (loaded.Title, loaded.Description));
+        Assert.Equal(("First", "Section text."), (loaded.Sections[0].Title, loaded.Sections[0].Description));
+        Assert.Equal(("Hello", "Lecture text."), (loaded.Sections[0].Lectures[0].Title, loaded.Sections[0].Lectures[0].Description));
+    }
+
+    [Fact]
+    public void Outline_shows_overridden_titles_and_order()
+    {
+        var overrides = CourseOverrides.TryParse("""
+            { "title": "My Course",
+              "sections": { "02 Advanced": { "order": 0 } },
+              "lectures": { "01 Basics/01 Intro.mp4": { "title": "Welcome" } } }
+            """);
+        var course = CourseParser.Parse("C", _files, null, overrides);
+
+        var outline = OutlineBuilder.Build(Guid.Empty, course, new Dictionary<string, EpisodeState>(), new Dictionary<int, Guid>(), new HashSet<string>(), (_, _) => new FileFacts(1, null));
+
+        Assert.Equal("My Course", outline.Title);
+        Assert.Equal(["02 Advanced", "01 Basics"], outline.Sections.Select(s => s.Title is "Advanced" ? "02 Advanced" : "01 Basics"));
+        Assert.Equal(["Setup", "Welcome"], outline.Sections[1].Lectures.Select(l => l.Title).Order());
     }
 
     [Fact]

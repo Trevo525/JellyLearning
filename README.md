@@ -116,7 +116,7 @@ and the library's metadata fetchers. Only internal names keep the old working ti
 
 ## Overriding titles and order (`course.json`)
 
-The parser works from folder and file names. When those are wrong, put a `course.json` in the
+Full reference and examples: [docs/course-json.md](docs/course-json.md). The parser works from folder and file names. When those are wrong, put a `course.json` in the
 course folder (all keys optional; comments and trailing commas are allowed):
 
 ```json

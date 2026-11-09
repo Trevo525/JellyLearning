@@ -71,7 +71,7 @@ Run against the running instance; each reads `dev/.env` itself.
   access to check access control.
 - `dev/ui-view.py [name]`: courses as the web client lists them.
 - `dev/library-report.sh [path]`: raw Series/Season/Episode rows from the database (needs `sqlite3`).
-- `dev/make-fixtures.sh`: rebuild the test courses by hand (needs `ffmpeg`).
+- `dev/make-fixtures.sh`: rebuild the test courses by hand (needs `ffmpeg`). The fixture `Sample - Markdown Notes` gets a `course.json` (see `docs/course-json.md`): after a scan it shows as "Markdown Notes (course.json)" with sections "Further" then "Basics" and a first lecture "Hello!".
 
 ## Inspecting
 
