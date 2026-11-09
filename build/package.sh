@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Build the release zip for a manual install:
 #   build/package.sh [version]        e.g. build/package.sh 0.1.0   (default: version in build.yaml)
-# Produces artifacts/release/JellyLearning_<version>.zip containing the folder JellyLearning_<version>/
+# Produces artifacts/release/JellyLearning_<version>.zip containing the folder JellyLearning_<version>.0/
 # (plugin dll, Markdig.dll, meta.json). Install: unzip into Jellyfin's plugins folder, restart.
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
@@ -9,7 +9,9 @@ cd "$root"
 
 version="${1:-$(sed -n 's/^version: *"\(.*\)"/\1/p' build.yaml)}"
 version="${version#v}"
-# Jellyfin plugin versions have four parts.
+short="${version%.0}"   # the zip is named with the release version (1.0.1), the folder inside with four parts
+[ "$(tr -cd . <<<"$short" | wc -c)" -ge 2 ] || short="$version"
+# Jellyfin plugin versions have four parts (assembly, meta.json, folder name inside the zip).
 while [ "$(tr -cd . <<<"$version" | wc -c)" -lt 3 ]; do version="$version.0"; done
 
 out="$root/artifacts/release"
@@ -43,13 +45,13 @@ meta = {
 json.dump(meta, open(sys.argv[2], "w", encoding="utf-8"), indent=2)
 PY
 
-python3 - "$out" "$name" <<'PY'
+python3 - "$out" "$name" "JellyLearning_$short" <<'PY'
 import os, sys, zipfile
-out, name = sys.argv[1], sys.argv[2]
-with zipfile.ZipFile(os.path.join(out, name + ".zip"), "w", zipfile.ZIP_DEFLATED) as z:
+out, name, zipname = sys.argv[1:4]
+with zipfile.ZipFile(os.path.join(out, zipname + ".zip"), "w", zipfile.ZIP_DEFLATED) as z:
     for file in sorted(os.listdir(os.path.join(out, name))):
         z.write(os.path.join(out, name, file), f"{name}/{file}")
 PY
-(cd "$out" && sha256sum "$name.zip" > "$name.zip.sha256")
+(cd "$out" && sha256sum "JellyLearning_$short.zip" > "JellyLearning_$short.zip.sha256")
 rm -rf "$out/publish"
-echo "$out/$name.zip"
+echo "$out/JellyLearning_$short.zip"
