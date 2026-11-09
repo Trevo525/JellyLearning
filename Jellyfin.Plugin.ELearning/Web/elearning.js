@@ -68,6 +68,14 @@
             observer.observe(page, { childList: true, subtree: true, characterData: true });
             return observer;
         },
+        // The "New Media Library" dialog (library creator); its content type list is hard-coded in
+        // jellyfin-web, so the JellyLearning entry is added to the <select> from here.
+        libraryCreator: {
+            dialog: '.dlg-librarycreator',
+            type: '#selectCollectionType',
+            name: '#txtValue',
+            description: '.collectionTypeFieldDescription'
+        },
         detailsHref: function (itemId) {
             const api = web.api();
             return '#/details?id=' + encodeURIComponent(itemId) + (api ? '&serverId=' + encodeURIComponent(api.serverId()) : '');
@@ -560,6 +568,128 @@
             console.warn('[JellyLearning] ' + err.message);
         }
     });
+
+    // ---- "New library" dialog: JellyLearning content type ---------------------------------------------
+    // jellyfin-web's list of library types is fixed, so the entry is a second "Shows" option labelled
+    // JellyLearning. When the dialog is saved with it selected, the library is created with the course
+    // settings (no internet metadata or NFO files) and added to the plugin's course libraries.
+
+    const PLUGIN_ID = '092fc611-a198-4746-b4db-c1d2cca7ddc3';
+    const LIBRARY_LABEL = 'JellyLearning courses';
+    const LIBRARY_NAME = 'Courses';
+    const LIBRARY_HELP = 'Folders of exported courses (Udemy, Skillshare, ...), one folder per course: sections and lectures in ' +
+        'course order, with progress. Internet metadata and NFO files are turned off. Same as a Shows library that is ticked ' +
+        'under Dashboard > Plugins > JellyLearning.';
+
+    function courseLibraryOptions(options) {
+        const fetchers = function (type, images) {
+            return { Type: type, MetadataFetchers: [], MetadataFetcherOrder: [], ImageFetchers: images, ImageFetcherOrder: images };
+        };
+        return Object.assign({}, options, {
+            EnableInternetProviders: false,
+            SaveLocalMetadata: false,
+            MetadataSavers: [],
+            EnableChapterImageExtraction: false,
+            ExtractChapterImagesDuringLibraryScan: false,
+            TypeOptions: [fetchers('Series', []), fetchers('Season', []), fetchers('Episode', ['Embedded Image Extractor', 'Screen Grabber'])]
+        });
+    }
+
+    function chosenCourseType() {
+        const dialog = document.querySelector(web.libraryCreator.dialog);
+        const select = dialog && dialog.querySelector(web.libraryCreator.type);
+        const option = select && select.selectedOptions[0];
+        return !!(option && option.hasAttribute('data-jellylearning'));
+    }
+
+    async function addToCourseLibraries(api, name) {
+        const folders = await api.getVirtualFolders();
+        const folder = folders.find(function (f) { return f.Name === name; });
+        if (!folder) {
+            throw new Error('the new library "' + name + '" was not found');
+        }
+        const config = await api.getPluginConfiguration(PLUGIN_ID);
+        const ids = config.CourseLibraryIds || [];
+        if (!ids.some(function (id) { return id.replace(/-/g, '') === folder.ItemId.replace(/-/g, ''); })) {
+            config.CourseLibraryIds = ids.concat(folder.ItemId);
+            await api.updatePluginConfiguration(PLUGIN_ID, config);
+        }
+    }
+
+    function patchAddVirtualFolder(api) {
+        if (api.__elearningPatched || typeof api.addVirtualFolder !== 'function') {
+            return;
+        }
+        api.__elearningPatched = true;
+        const original = api.addVirtualFolder;
+        api.addVirtualFolder = function (name, type, refresh, options) {
+            if (!chosenCourseType()) {
+                return original.apply(this, arguments);
+            }
+            const created = original.call(this, name, type, refresh, courseLibraryOptions(options));
+            return created.then(function (result) {
+                return addToCourseLibraries(api, name).then(function () { return result; }, function (err) {
+                    console.warn('[JellyLearning] ' + err.message);
+                    if (window.Dashboard && window.Dashboard.alert) {
+                        window.Dashboard.alert({ message: 'The library was created, but could not be added to the JellyLearning course libraries (' +
+                            err.message + '). Tick it under Dashboard > Plugins > JellyLearning.' });
+                    }
+                    return result;
+                });
+            });
+        };
+    }
+
+    function addCourseType(dialog) {
+        const select = dialog.querySelector(web.libraryCreator.type);
+        if (!select || select.querySelector('option[data-jellylearning]')) {
+            return;
+        }
+        const shows = Array.from(select.options).find(function (o) { return o.value === 'tvshows'; });
+        if (!shows) {
+            return;
+        }
+        const option = document.createElement('option');
+        option.value = 'tvshows';
+        option.setAttribute('data-jellylearning', '');
+        option.textContent = LIBRARY_LABEL;
+        shows.after(option);
+        // Runs after jellyfin-web's own change handler, which sets the name and help text for Shows.
+        select.addEventListener('change', function () {
+            if (!option.selected) {
+                return;
+            }
+            const name = dialog.querySelector(web.libraryCreator.name);
+            const help = dialog.querySelector(web.libraryCreator.description);
+            if (name) {
+                name.value = LIBRARY_NAME;
+            }
+            if (help) {
+                help.textContent = LIBRARY_HELP;
+            }
+        });
+        if (web.api()) {
+            patchAddVirtualFolder(web.api());
+        }
+    }
+
+    new MutationObserver(function (mutations) {
+        try {
+            for (const mutation of mutations) {
+                for (const node of mutation.addedNodes) {
+                    if (node.nodeType !== 1) {
+                        continue;
+                    }
+                    const dialog = node.matches(web.libraryCreator.dialog) ? node : node.querySelector(web.libraryCreator.dialog);
+                    if (dialog) {
+                        addCourseType(dialog);
+                    }
+                }
+            }
+        } catch (err) {
+            console.warn('[JellyLearning] ' + err.message);
+        }
+    }).observe(document.documentElement, { childList: true, subtree: true });
 
     // ---- Styles -----------------------------------------------------------------------------------------
 

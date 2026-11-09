@@ -76,16 +76,19 @@ and the library's metadata fetchers. Only internal names keep the old working ti
 ## Server setup
 
 1. Install File Transformation and this plugin (see Install), restart.
-2. Create the course library: Dashboard → Libraries → Add Media Library, content type **Shows**
-   (JellyLearning has no content type of its own; Jellyfin's list of library types is fixed and
-   plugins can't add to it), with one folder per course. In the library's settings turn off all
-   internet metadata/image fetchers (TheMovieDb, OMDb) and the NFO saver, or Jellyfin matches
-   courses to random TV shows. Courses and
+2. Create the course library: Dashboard → Libraries → Add Media Library, content type
+   **JellyLearning courses**, with one folder per course. It creates a normal Shows library with
+   internet metadata, image fetchers and NFO files turned off (otherwise Jellyfin matches courses to
+   random TV shows) and adds it to the plugin's course libraries, so you can skip step 3. (Jellyfin's
+   list of library types is fixed and plugins can't add to it: the entry is added to the dialog by the
+   web UI script, and is a second "Shows" option underneath. If it's missing, create a **Shows**
+   library yourself, turn off TheMovieDb/OMDb and the NFO saver, and do step 3.)
+   Courses and
    sections get a generated cover (title on a purple/blue gradient); to use your own, put a
    `poster`, `cover` or `folder` image (jpg/png) in the course folder. Covers follow the folder names:
    after renaming a course or section folder, a normal library scan draws the new one.
-3. Dashboard → Plugins → JellyLearning → tick the library under *Course libraries*, save, then
-   scan the library (Dashboard → Libraries → Scan all libraries).
+3. Only for a library you made as plain Shows: Dashboard → Plugins → JellyLearning → tick the
+   library under *Course libraries*, save. Then scan the library (Dashboard → Libraries → Scan all libraries).
 4. Reload the web client once (the course UI is injected into it by File Transformation):
    course, section and lecture pages then show progress, the full outline and resources, and
    **Start/Continue course** opens the Udemy-style course player.
