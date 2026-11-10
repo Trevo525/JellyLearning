@@ -33,8 +33,8 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
   4 weeks old (a guideline), so a maintainer may ask to wait.
 - **`course.json` (2026-11-09, unreleased):** optional per-course override of titles, descriptions and
   order; committed on `main`, 187 unit tests, and `dev/test-course-json.py` passes 22/22 on a fresh 12.2
-  instance (see its section below and `docs/course-json.md`). Still to do by hand: look at it in the
-  web UI, then release as v1.2.0.
+  instance (see its section below and `docs/course-json.md`). Still to do by hand: the checklist in
+  its section below, then release as v1.2.0.
 - **Next:** "Later" below. The pre-rewrite backups, the audit repos and the old dev state are deleted
   (2026-11-09); `dev/jellyfin/` is rebuilt by `docker compose -f dev/compose.yaml up -d`.
 - **Repo:** GitHub `Trevo525/JellyLearning` (user decision, 2026-11-08); CI is GitHub Actions
@@ -526,6 +526,17 @@ season/episode numbers. Descriptions go to Series/Season/Episode `Overview` (the
 tab shows them). Reference: `docs/course-json.md`. `CourseScanner` hides the file from resources and warns on invalid JSON. Fixture:
 `Sample - Markdown Notes` gets one from `dev/make-fixtures.sh`. Not done: `.nfo` is not read. Found by the live test: descriptions, studio and year are written
 but never cleared when removed from the file (documented).
+
+Manual checks before v1.2.0 (the live script reads Jellyfin's API, not the UI; user will test later):
+- [ ] Course page: title, description, studio, year; sections renamed and reordered.
+- [ ] Course player, Overview tab: a lecture with a `description` shows it (least certain).
+- [ ] Covers: a renamed course or section gets a new generated cover after a scan (keyed by title).
+- [ ] A real course: a title or order change shows after a scan. Changing `order` renumbers episodes,
+  which can lose resume points if someone already has progress.
+- [ ] Metadata editor lock: lock the name, then override the title; the lock should win (not in the
+  live script; the README claim stays unverified until this is checked).
+- [ ] Clearing a leftover description via Refresh metadata → Replace all (untested; the docs say so).
+- [ ] Not in the docs yet: a scan within 30 s of editing the file can see the old content (catalog cache).
 
 ### Later
 - Quiz score tracking (read results from the HTML quiz via postMessage).
