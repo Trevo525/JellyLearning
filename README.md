@@ -163,8 +163,19 @@ another port or state folder) and the dev scripts are in [dev/README.md](dev/REA
 Releases: push a tag `vX.Y.Z`; the GitHub Actions workflow (`.github/workflows/build.yml`) runs
 the tests, builds the zip with `build/package.sh`, attaches it to a GitHub release and adds the release (URL,
 MD5 checksum, changelog) to `manifest.json` on `main` with `build/update-manifest.py`. Every push runs the
-tests. Bump `version` and `changelog` in `build.yaml` with each release. The manifest commit exists only on
-GitHub; pull before you push.
+tests. The manifest commit exists only on GitHub; pull before you push.
+
+Release checklist:
+
+1. Add the version to the `changelog` in `build.yaml` (it becomes the release notes and the catalog entry);
+   `dotnet test`; `build/package.sh X.Y.Z` and check the zip has the plugin files at its root.
+2. Tag and push (`git tag -a vX.Y.Z -m "JellyLearning X.Y.Z"`, `git push origin vX.Y.Z`); watch the `test`
+   and `release` jobs on GitHub.
+3. `git pull`, then check that `manifest.json` on `main` has the new version, and install both plugins from
+   `https://raw.githubusercontent.com/Trevo525/JellyLearning/main/manifest.json` on a throwaway Jellyfin 12.2
+   with no plugins (see [dev/README.md](dev/README.md), "Testing the plugin catalog").
+4. If the release job fails after the tag exists: delete any draft release on GitHub, fix the workflow, move
+   the tag (`git tag -f -a …`, `git push -f origin vX.Y.Z`) or tag the next patch version.
 
 Against the running dev instance (they read `dev/.env` themselves):
 `dev/verify-library.py` checks every course in Jellyfin against the parser,

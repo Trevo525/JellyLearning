@@ -82,3 +82,17 @@ Run against the running instance; each reads `dev/.env` itself.
 - Course index written by the plugin after each scan:
   `dev/jellyfin/config/data/data/elearning/course-index.json`.
 - Generated covers: `dev/jellyfin/config/data/data/elearning/covers/`.
+
+## Testing the plugin catalog
+
+To check that both plugins install from `manifest.json` (the real URL, or a local copy): start a Jellyfin
+12.2 container with no plugins, finish its wizard, add the manifest under Dashboard → Plugins →
+Repositories (API: `POST /Repositories`), install File Transformation and JellyLearning from the catalog
+(`POST /Packages/Installed/<name>?assemblyGuid=…&version=…&repositoryUrl=…`), restart, and check
+`GET /Plugins` shows both as Active. Jellyfin needs an MD5 checksum and the plugin files at the zip root.
+
+For a local copy, serve it from a **second container on a shared docker network**
+(`python:3.13-slim` running `python -m http.server`, `http://<name>:8099/manifest.json`): a container here
+could not reach a server on the host (`host.docker.internal` timed out), and Jellyfin then hangs on
+`GET /Packages` until its 100 s timeout.
+
