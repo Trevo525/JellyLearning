@@ -31,6 +31,9 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
   `feat/add-jellylearning` of a local awesome-jellyfin clone; not pushed or submitted yet (the push to the
   user's fork needs an ssh key from the user's terminal). Their CONTRIBUTING asks for projects at least
   4 weeks old (a guideline), so a maintainer may ask to wait.
+- **`course.json` (2026-11-09, unreleased):** optional per-course override of titles, descriptions and
+  order; committed on `main`, 187 unit tests, **not yet checked on the dev instance** (see its section
+  below and `docs/course-json.md`). Check it, then release as v1.2.0.
 - **Next:** "Later" below. The pre-rewrite backups, the audit repos and the old dev state are deleted
   (2026-11-09); `dev/jellyfin/` is rebuilt by `docker compose -f dev/compose.yaml up -d`.
 - **Repo:** GitHub `Trevo525/JellyLearning` (user decision, 2026-11-08); CI is GitHub Actions
@@ -519,7 +522,7 @@ and per section (keyed by folder) and per lecture (keyed by main file) `title`, 
 `order`. Applied inside `CourseParser.Parse` (so index, providers and outline agree); `order`
 replaces the file-name number as the sort key (double, so 0.5 works) and therefore also changes
 season/episode numbers. Descriptions go to Series/Season/Episode `Overview` (the player's Overview
-tab shows them). `CourseScanner` hides the file from resources and warns on invalid JSON. Fixture:
+tab shows them). Reference: `docs/course-json.md`. `CourseScanner` hides the file from resources and warns on invalid JSON. Fixture:
 `Sample - Markdown Notes` gets one from `dev/make-fixtures.sh`. Not done: `.nfo` is not read.
 
 ### Later
