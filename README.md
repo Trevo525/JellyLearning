@@ -141,7 +141,8 @@ course folder (all keys optional; comments and trailing commas are allowed):
   before anyone has progress in the course.
 - Titles are used as written. Blank values are ignored. Fields you locked in Jellyfin's metadata
   editor are left alone. A file that is not valid is ignored with a warning in the server log.
-- Changes show after the next library scan.
+- Titles and order follow the file on every scan. Descriptions, `studio` and `year` are only
+  written, never cleared: removing one from the file leaves the last value in Jellyfin.
 
 ## Development
 

@@ -32,8 +32,9 @@ progress, and downloadable/viewable resources (PDF, ZIP, XLSX, HTML, MD, …).
   user's fork needs an ssh key from the user's terminal). Their CONTRIBUTING asks for projects at least
   4 weeks old (a guideline), so a maintainer may ask to wait.
 - **`course.json` (2026-11-09, unreleased):** optional per-course override of titles, descriptions and
-  order; committed on `main`, 187 unit tests, **not yet checked on the dev instance** (see its section
-  below and `docs/course-json.md`). Check it, then release as v1.2.0.
+  order; committed on `main`, 187 unit tests, and `dev/test-course-json.py` passes 22/22 on a fresh 12.2
+  instance (see its section below and `docs/course-json.md`). Still to do by hand: look at it in the
+  web UI, then release as v1.2.0.
 - **Next:** "Later" below. The pre-rewrite backups, the audit repos and the old dev state are deleted
   (2026-11-09); `dev/jellyfin/` is rebuilt by `docker compose -f dev/compose.yaml up -d`.
 - **Repo:** GitHub `Trevo525/JellyLearning` (user decision, 2026-11-08); CI is GitHub Actions
@@ -516,18 +517,28 @@ name, usernames, email or self-hosted server; course names already removed).
 - [x] Release zip installs on a clean server (checked by the user, 2026-11-08).
 - [x] Deleted the pre-rewrite backup bundles, the word mappings and the audit repos (2026-11-09).
 
-### `course.json` override — done, awaiting manual test
+### `course.json` override — done, live-tested
 Optional file in the course folder root (`CourseOverrides`): course title/description/studio/year,
 and per section (keyed by folder) and per lecture (keyed by main file) `title`, `description`,
 `order`. Applied inside `CourseParser.Parse` (so index, providers and outline agree); `order`
 replaces the file-name number as the sort key (double, so 0.5 works) and therefore also changes
 season/episode numbers. Descriptions go to Series/Season/Episode `Overview` (the player's Overview
 tab shows them). Reference: `docs/course-json.md`. `CourseScanner` hides the file from resources and warns on invalid JSON. Fixture:
-`Sample - Markdown Notes` gets one from `dev/make-fixtures.sh`. Not done: `.nfo` is not read.
+`Sample - Markdown Notes` gets one from `dev/make-fixtures.sh`. Not done: `.nfo` is not read. Found by the live test: descriptions, studio and year are written
+but never cleared when removed from the file (documented).
 
 ### Later
 - Quiz score tracking (read results from the HTML quiz via postMessage).
 - Course-level "Continue where you left off" button.
+- **Renaming a course library drops the plugin's tick** (found 2026-11-08, not fixed). Jellyfin
+  derives a library's ID from its name, so after a rename `CourseLibraryIds` (GUIDs in
+  `PluginConfiguration`) points at a library that no longer exists: the settings page shows it
+  unticked and the course UI (Continue course, outline, resources) disappears. Seen on the dev
+  Jellyfin 12.2 after `POST /Library/VirtualFolders/Name`; re-ticking the new ID only worked once
+  the items were reparented (deleting and recreating the library worked). Options: match course
+  libraries by path instead of ID (or store the path next to the ID), re-resolve the tick when
+  a library with the same path appears under a new ID, or at least warn on the settings page and
+  say so in the README. Check first what exactly the plugin reads (`CourseLibraryIds` users).
 
 ## Open risks
 - ~~File Transformation compatibility with 12.2~~: resolved — 3.0.3.0 has a 12.2.0.0 build and

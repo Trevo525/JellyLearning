@@ -69,6 +69,12 @@ Run against the running instance; each reads `dev/.env` itself.
 - `dev/test-api.py`: the `/ELearning` API end to end (outlines vs. index, files, rendering,
   security headers, completion, refusals); also creates `<test user>-outsider` without library
   access to check access control.
+- `dev/test-course-json.py`: `course.json` end to end. Checks the fixture that ships one, then walks
+  a mock course through no file → overrides → edit → invalid file → removed, scanning the library
+  after each step (about 3 minutes; it waits out the plugin's 30 s course cache). Removes the mock
+  course unless `--keep`. To run it without touching your main dev instance, start a second one:
+  `DEV_STATE=/abs/path JELLYFIN_PORT=8197 SETUP_ENV_FILE=/state/.env ELEARNING_SOURCE= docker compose -p jl-cj -f dev/compose.yaml up -d`,
+  then `DEV_ENV_FILE=/abs/path/.env DEV_STATE=/abs/path JELLYFIN_URL=http://localhost:8197 dev/test-course-json.py`.
 - `dev/ui-view.py [name]`: courses as the web client lists them.
 - `dev/library-report.sh [path]`: raw Series/Season/Episode rows from the database (needs `sqlite3`).
 - `dev/make-fixtures.sh`: rebuild the test courses by hand (needs `ffmpeg`). The fixture `Sample - Markdown Notes` gets a `course.json` (see `docs/course-json.md`): after a scan it shows as "Markdown Notes (course.json)" with sections "Further" then "Basics" and a first lecture "Hello!".

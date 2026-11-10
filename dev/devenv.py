@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 
 DEV = Path(__file__).resolve().parent
-env_file = DEV / ".env"
+env_file = Path(os.environ["DEV_ENV_FILE"]) if os.environ.get("DEV_ENV_FILE") else DEV / ".env"  # DEV_ENV_FILE: a second instance
 if env_file.exists():
     for line in env_file.read_text().splitlines():
         key, sep, value = line.partition("=")

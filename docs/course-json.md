@@ -79,6 +79,11 @@ Name the lectures of a flat course's single section:
 
 ## Behaviour
 
+- Titles, order and numbers follow the file on every scan: edit it, remove it, or break it and the
+  next scan puts the parsed or edited values back.
+- **Descriptions, `studio` and `year` are only written, never cleared.** If you remove one from the
+  file (or the whole file), Jellyfin keeps the last value. Overwrite it with a new value, or clear
+  it in Jellyfin's metadata editor (clearing through *Refresh metadata → Replace all* is untested).
 - The file is read on library scans and when the index is rebuilt; **scan the library** after
   editing it. Read-only course folders are fine; the plugin never writes there.
 - `course.json` is hidden from the course resources.

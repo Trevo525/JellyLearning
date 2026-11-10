@@ -7,3 +7,6 @@ obj/
 .idea/
 artifacts
 __pycache__/
+
+# Local-only helper scripts (not part of the project)
+dev/local/
